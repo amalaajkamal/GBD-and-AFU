@@ -1,0 +1,393 @@
+population_group_id,population_group_name,measure_id,measure_name,location_id,location_name,sex_id,sex_name,age_id,age_name,cause_id,cause_name,metric_id,metric_name,year,val,upper,lower
+1,All Population,1,Deaths,101,Canada,3,Both,17,60-64 years,542,Neurological disorders,1,Number,1995,326.9739871533823,587.9990878850961,226.5190283714619
+1,All Population,1,Deaths,101,Canada,3,Both,17,60-64 years,542,Neurological disorders,3,Rate,1995,27.17086000555762,48.861504364342665,18.82326133053749
+1,All Population,1,Deaths,101,Canada,3,Both,18,65-69 years,542,Neurological disorders,1,Number,1995,555.9049865054938,1050.027162340082,353.3191327357419
+1,All Population,1,Deaths,101,Canada,3,Both,18,65-69 years,542,Neurological disorders,3,Rate,1995,49.9472429821668,94.34339156581184,31.74520286989031
+1,All Population,1,Deaths,101,Canada,3,Both,19,70-74 years,542,Neurological disorders,1,Number,1995,927.2714202024567,1753.0414710621565,566.4725257777702
+1,All Population,1,Deaths,101,Canada,3,Both,19,70-74 years,542,Neurological disorders,3,Rate,1995,96.65586707349003,182.73154947911996,59.047320945582186
+1,All Population,1,Deaths,101,Canada,3,Both,20,75-79 years,542,Neurological disorders,1,Number,1995,1400.0118962419508,2674.7326814177222,786.0677185928505
+1,All Population,1,Deaths,101,Canada,3,Both,20,75-79 years,542,Neurological disorders,3,Rate,1995,212.23464002403423,405.47578868794466,119.1638440629619
+1,All Population,1,Deaths,101,Canada,3,Both,21,80+ years,542,Neurological disorders,1,Number,1995,7736.029031241115,17296.759663753153,3025.070667309665
+1,All Population,1,Deaths,101,Canada,3,Both,21,80+ years,542,Neurological disorders,3,Rate,1995,997.8454811985358,2231.053347932459,390.19412717960194
+1,All Population,1,Deaths,101,Canada,3,Both,26,70+ years,542,Neurological disorders,1,Number,1995,10063.312347685533,21531.647602551424,4404.339113493282
+1,All Population,1,Deaths,101,Canada,3,Both,26,70+ years,542,Neurological disorders,3,Rate,1995,420.30648330277893,899.2954576854108,183.952581427227
+1,All Population,1,Deaths,101,Canada,3,Both,30,80-84 years,542,Neurological disorders,1,Number,1995,2464.7925331966667,5098.451506073354,1139.9731935567604
+1,All Population,1,Deaths,101,Canada,3,Both,30,80-84 years,542,Neurological disorders,3,Rate,1995,553.0809398496683,1144.0542409871089,255.80142620688991
+1,All Population,1,Deaths,101,Canada,3,Both,31,85-89 years,542,Neurological disorders,1,Number,1995,2488.852164292731,5782.853230359594,980.0965890752097
+1,All Population,1,Deaths,101,Canada,3,Both,31,85-89 years,542,Neurological disorders,3,Rate,1995,1128.6791168130749,2622.4882981576,444.4677624567842
+1,All Population,1,Deaths,101,Canada,3,Both,160,85+ years,542,Neurological disorders,1,Number,1995,5271.236498044442,12292.130740303317,1887.2058881345458
+1,All Population,1,Deaths,101,Canada,3,Both,160,85+ years,542,Neurological disorders,3,Rate,1995,1599.1590237535167,3729.119686017985,572.530245381846
+1,All Population,1,Deaths,101,Canada,3,Both,231,60+ years,542,Neurological disorders,1,Number,1995,10946.191321344395,22855.297226718412,4991.377862163304
+1,All Population,1,Deaths,101,Canada,3,Both,231,60+ years,542,Neurological disorders,3,Rate,1995,232.37048379880463,485.1821348656784,105.95912812083746
+1,All Population,1,Deaths,101,Canada,3,Both,232,65-74 years,542,Neurological disorders,1,Number,1995,1483.176406707951,2819.4127471636443,921.5813181233445
+1,All Population,1,Deaths,101,Canada,3,Both,232,65-74 years,542,Neurological disorders,3,Rate,1995,71.57020464070175,136.0498632317027,44.47061268830106
+1,All Population,1,Deaths,101,Canada,3,Both,234,75+ years,542,Neurological disorders,1,Number,1995,9136.040927483065,20068.19984844073,3830.234975363079
+1,All Population,1,Deaths,101,Canada,3,Both,234,75+ years,542,Neurological disorders,3,Rate,1995,636.6906861884806,1398.5528341532258,266.92907289754044
+1,All Population,1,Deaths,101,Canada,3,Both,243,75-84 years,542,Neurological disorders,1,Number,1995,3864.804429438619,7820.992860820633,1947.4662791302133
+1,All Population,1,Deaths,101,Canada,3,Both,243,75-84 years,542,Neurological disorders,3,Rate,1995,349.6609430855254,707.5896826109081,176.19336455967607
+1,All Population,1,Deaths,101,Canada,3,Both,420,<70 years,542,Neurological disorders,1,Number,1995,1579.2129251142044,2528.8281559975417,1191.5866098604363
+1,All Population,1,Deaths,101,Canada,3,Both,420,<70 years,542,Neurological disorders,3,Rate,1995,5.874867915099388,9.407554333052028,4.432849953925545
+1,All Population,1,Deaths,101,Canada,3,Both,17,60-64 years,542,Neurological disorders,1,Number,2000,359.1415265282601,621.7564608772518,253.5927501252557
+1,All Population,1,Deaths,101,Canada,3,Both,17,60-64 years,542,Neurological disorders,3,Rate,2000,28.566050257448808,49.454393316768076,20.17072020334213
+1,All Population,1,Deaths,101,Canada,3,Both,18,65-69 years,542,Neurological disorders,1,Number,2000,592.8169522159658,1095.163881352485,382.7975389410241
+1,All Population,1,Deaths,101,Canada,3,Both,18,65-69 years,542,Neurological disorders,3,Rate,2000,51.65235795272431,95.42202969240587,33.3532896299506
+1,All Population,1,Deaths,101,Canada,3,Both,19,70-74 years,542,Neurological disorders,1,Number,2000,1025.579008238131,1873.257852042936,638.4856951433213
+1,All Population,1,Deaths,101,Canada,3,Both,19,70-74 years,542,Neurological disorders,3,Rate,2000,101.48032609520173,185.35755525290045,63.17771330126641
+1,All Population,1,Deaths,101,Canada,3,Both,20,75-79 years,542,Neurological disorders,1,Number,2000,1799.0548728004196,3318.5067548847637,1031.3067958106087
+1,All Population,1,Deaths,101,Canada,3,Both,20,75-79 years,542,Neurological disorders,3,Rate,2000,222.17808149891937,409.8260010790096,127.36341108558189
+1,All Population,1,Deaths,101,Canada,3,Both,21,80+ years,542,Neurological disorders,1,Number,2000,9407.111261304157,20489.400198326064,3816.8428962417497
+1,All Population,1,Deaths,101,Canada,3,Both,21,80+ years,542,Neurological disorders,3,Rate,2000,1039.274237316087,2263.6179346333456,421.67530283861424
+1,All Population,1,Deaths,101,Canada,3,Both,26,70+ years,542,Neurological disorders,1,Number,2000,12231.745142342706,25477.812238787814,5521.705376726404
+1,All Population,1,Deaths,101,Canada,3,Both,26,70+ years,542,Neurological disorders,3,Rate,2000,448.78645186758666,934.7886849287497,202.5930507414581
+1,All Population,1,Deaths,101,Canada,3,Both,30,80-84 years,542,Neurological disorders,1,Number,2000,2816.1276544187067,5638.443529518491,1384.8157319331215
+1,All Population,1,Deaths,101,Canada,3,Both,30,80-84 years,542,Neurological disorders,3,Rate,2000,567.8155628867561,1136.8788561467368,279.22027010680733
+1,All Population,1,Deaths,101,Canada,3,Both,31,85-89 years,542,Neurological disorders,1,Number,2000,3124.9161717164056,6970.108097475141,1285.2747885464603
+1,All Population,1,Deaths,101,Canada,3,Both,31,85-89 years,542,Neurological disorders,3,Rate,2000,1138.751946030105,2539.979866301623,468.36749730691355
+1,All Population,1,Deaths,101,Canada,3,Both,160,85+ years,542,Neurological disorders,1,Number,2000,6590.983606885452,14911.778033985527,2412.202117438567
+1,All Population,1,Deaths,101,Canada,3,Both,160,85+ years,542,Neurological disorders,3,Rate,2000,1610.6863113230538,3644.0989978699163,589.4872696457481
+1,All Population,1,Deaths,101,Canada,3,Both,231,60+ years,542,Neurological disorders,1,Number,2000,13183.703621086932,26882.003490834435,6165.087399275598
+1,All Population,1,Deaths,101,Canada,3,Both,231,60+ years,542,Neurological disorders,3,Rate,2000,256.9695723460697,523.9693745690986,120.16652664536926
+1,All Population,1,Deaths,101,Canada,3,Both,232,65-74 years,542,Neurological disorders,1,Number,2000,1618.3959604540964,3003.525209637533,1017.8826068975671
+1,All Population,1,Deaths,101,Canada,3,Both,232,65-74 years,542,Neurological disorders,3,Rate,2000,74.98391892275991,139.16006731673633,47.16078681207231
+1,All Population,1,Deaths,101,Canada,3,Both,234,75+ years,542,Neurological disorders,1,Number,2000,11206.166134104578,23882.6282535772,4880.389605998585
+1,All Population,1,Deaths,101,Canada,3,Both,234,75+ years,542,Neurological disorders,3,Rate,2000,653.4599627623062,1392.6566126618982,284.58789313283796
+1,All Population,1,Deaths,101,Canada,3,Both,243,75-84 years,542,Neurological disorders,1,Number,2000,4615.1825272191245,8987.254630225128,2423.5272851124014
+1,All Population,1,Deaths,101,Canada,3,Both,243,75-84 years,542,Neurological disorders,3,Rate,2000,353.4659414101757,688.3126289870918,185.61223707043
+1,All Population,1,Deaths,101,Canada,3,Both,420,<70 years,542,Neurological disorders,1,Number,2000,1750.8215518916488,2738.6311976846746,1341.4762462668352
+1,All Population,1,Deaths,101,Canada,3,Both,420,<70 years,542,Neurological disorders,3,Rate,2000,6.2872123850811255,9.834443701957706,4.817250542014655
+1,All Population,1,Deaths,101,Canada,3,Both,17,60-64 years,542,Neurological disorders,1,Number,2010,567.0606913830877,973.5975716930157,401.3230575815084
+1,All Population,1,Deaths,101,Canada,3,Both,17,60-64 years,542,Neurological disorders,3,Rate,2010,28.37915801325468,48.724730435831454,20.084641094922873
+1,All Population,1,Deaths,101,Canada,3,Both,18,65-69 years,542,Neurological disorders,1,Number,2010,765.8158846321263,1386.5138704873561,501.0200983654078
+1,All Population,1,Deaths,101,Canada,3,Both,18,65-69 years,542,Neurological disorders,3,Rate,2010,51.714552180415005,93.62948111037336,33.83323660464537
+1,All Population,1,Deaths,101,Canada,3,Both,19,70-74 years,542,Neurological disorders,1,Number,2010,1145.4946656867883,2046.8197370560565,722.418354341783
+1,All Population,1,Deaths,101,Canada,3,Both,19,70-74 years,542,Neurological disorders,3,Rate,2010,101.22159224480835,180.86714764288894,63.83647020259786
+1,All Population,1,Deaths,101,Canada,3,Both,20,75-79 years,542,Neurological disorders,1,Number,2010,2079.5891286307788,3818.844399406312,1232.1147316433048
+1,All Population,1,Deaths,101,Canada,3,Both,20,75-79 years,542,Neurological disorders,3,Rate,2010,224.28984104323587,411.87366846625105,132.8872196448046
+1,All Population,1,Deaths,101,Canada,3,Both,21,80+ years,542,Neurological disorders,1,Number,2010,14068.000325208071,30277.82425016046,5798.974404296667
+1,All Population,1,Deaths,101,Canada,3,Both,21,80+ years,542,Neurological disorders,3,Rate,2010,1065.837224676748,2293.9459356007696,439.3490646976965
+1,All Population,1,Deaths,101,Canada,3,Both,26,70+ years,542,Neurological disorders,1,Number,2010,17293.08411952564,35837.465404737966,7772.203971211531
+1,All Population,1,Deaths,101,Canada,3,Both,26,70+ years,542,Neurological disorders,3,Rate,2010,511.81748384738574,1060.669181052007,230.0312571776968
+1,All Population,1,Deaths,101,Canada,3,Both,30,80-84 years,542,Neurological disorders,1,Number,2010,3940.300779645084,7697.378546894038,2003.0371868162388
+1,All Population,1,Deaths,101,Canada,3,Both,30,80-84 years,542,Neurological disorders,3,Rate,2010,567.811392590341,1109.21969576155,288.64480100902654
+1,All Population,1,Deaths,101,Canada,3,Both,31,85-89 years,542,Neurological disorders,1,Number,2010,4727.4678854264,10400.408037089868,1967.6597806460804
+1,All Population,1,Deaths,101,Canada,3,Both,31,85-89 years,542,Neurological disorders,3,Rate,2010,1126.4014238439368,2478.0780547765257,468.8291559616346
+1,All Population,1,Deaths,101,Canada,3,Both,160,85+ years,542,Neurological disorders,1,Number,2010,10127.699545562984,22746.228540814514,3818.008184233561
+1,All Population,1,Deaths,101,Canada,3,Both,160,85+ years,542,Neurological disorders,3,Rate,2010,1617.957012112584,3633.838049910316,609.9482993342024
+1,All Population,1,Deaths,101,Canada,3,Both,231,60+ years,542,Neurological disorders,1,Number,2010,18625.960695540856,37752.952185244314,8666.069316580231
+1,All Population,1,Deaths,101,Canada,3,Both,231,60+ years,542,Neurological disorders,3,Rate,2010,271.6037242695927,550.5134786491324,126.36860667944657
+1,All Population,1,Deaths,101,Canada,3,Both,232,65-74 years,542,Neurological disorders,1,Number,2010,1911.3105503189142,3392.7411804538137,1223.4384527071907
+1,All Population,1,Deaths,101,Canada,3,Both,232,65-74 years,542,Neurological disorders,3,Rate,2010,73.1595940043471,129.86459331918326,46.829784136560086
+1,All Population,1,Deaths,101,Canada,3,Both,234,75+ years,542,Neurological disorders,1,Number,2010,16147.589453838858,34100.775364249756,7034.354397604385
+1,All Population,1,Deaths,101,Canada,3,Both,234,75+ years,542,Neurological disorders,3,Rate,2010,718.6001365331612,1517.5529389503329,313.04288760818304
+1,All Population,1,Deaths,101,Canada,3,Both,243,75-84 years,542,Neurological disorders,1,Number,2010,6019.8899082758635,11527.611882782903,3248.8901909618544
+1,All Population,1,Deaths,101,Canada,3,Both,243,75-84 years,542,Neurological disorders,3,Rate,2010,371.33828858230356,711.0833807955196,200.4085359841972
+1,All Population,1,Deaths,101,Canada,3,Both,420,<70 years,542,Neurological disorders,1,Number,2010,2319.9820460498477,3581.867846984012,1765.7813863084496
+1,All Population,1,Deaths,101,Canada,3,Both,420,<70 years,542,Neurological disorders,3,Rate,2010,7.608939376873593,11.747597508385407,5.791304956048833
+1,All Population,1,Deaths,101,Canada,3,Both,17,60-64 years,542,Neurological disorders,1,Number,2005,433.53055767215545,735.9395188251575,305.8396000722042
+1,All Population,1,Deaths,101,Canada,3,Both,17,60-64 years,542,Neurological disorders,3,Rate,2005,28.217898367483972,47.90127519114242,19.906672318392136
+1,All Population,1,Deaths,101,Canada,3,Both,18,65-69 years,542,Neurological disorders,1,Number,2005,620.0410819606117,1138.4445854826702,400.8282590766503
+1,All Population,1,Deaths,101,Canada,3,Both,18,65-69 years,542,Neurological disorders,3,Rate,2005,51.1711906149368,93.95436299812332,33.07983913615502
+1,All Population,1,Deaths,101,Canada,3,Both,19,70-74 years,542,Neurological disorders,1,Number,2005,1071.6665805378975,1937.9285570360805,679.6011540940287
+1,All Population,1,Deaths,101,Canada,3,Both,19,70-74 years,542,Neurological disorders,3,Rate,2005,101.09122505884976,182.80645815135438,64.1073580780043
+1,All Population,1,Deaths,101,Canada,3,Both,20,75-79 years,542,Neurological disorders,1,Number,2005,1952.1555759098553,3607.724052214744,1156.0229993688856
+1,All Population,1,Deaths,101,Canada,3,Both,20,75-79 years,542,Neurological disorders,3,Rate,2005,223.92685085764734,413.83294228448466,132.60448755321957
+1,All Population,1,Deaths,101,Canada,3,Both,21,80+ years,542,Neurological disorders,1,Number,2005,11614.0785125894,25424.26519749687,4744.508486889185
+1,All Population,1,Deaths,101,Canada,3,Both,21,80+ years,542,Neurological disorders,3,Rate,2005,1032.9581243084494,2261.238484125911,421.9773942521684
+1,All Population,1,Deaths,101,Canada,3,Both,26,70+ years,542,Neurological disorders,1,Number,2005,14637.900669037155,30765.59467233776,6578.318211812979
+1,All Population,1,Deaths,101,Canada,3,Both,26,70+ years,542,Neurological disorders,3,Rate,2005,478.9524461651363,1006.6509644521652,215.24272301321295
+1,All Population,1,Deaths,101,Canada,3,Both,30,80-84 years,542,Neurological disorders,1,Number,2005,3577.1691732049285,7138.981620868018,1759.504434499492
+1,All Population,1,Deaths,101,Canada,3,Both,30,80-84 years,542,Neurological disorders,3,Rate,2005,566.7905959936849,1131.1479697378973,278.7876443064627
+1,All Population,1,Deaths,101,Canada,3,Both,31,85-89 years,542,Neurological disorders,1,Number,2005,3599.0545289695006,8090.7013503509,1477.3624120402767
+1,All Population,1,Deaths,101,Canada,3,Both,31,85-89 years,542,Neurological disorders,3,Rate,2005,1126.086187247423,2531.4501245922706,462.2429008413584
+1,All Population,1,Deaths,101,Canada,3,Both,160,85+ years,542,Neurological disorders,1,Number,2005,8036.909339384471,18270.97244345662,3001.6009167185953
+1,All Population,1,Deaths,101,Canada,3,Both,160,85+ years,542,Neurological disorders,3,Rate,2005,1629.463646925346,3704.3948280829413,608.5672202873618
+1,All Population,1,Deaths,101,Canada,3,Both,231,60+ years,542,Neurological disorders,1,Number,2005,15691.472308669927,32293.104772790557,7320.768083587902
+1,All Population,1,Deaths,101,Canada,3,Both,231,60+ years,542,Neurological disorders,3,Rate,2005,270.34222809901576,556.365248893026,126.12664485408474
+1,All Population,1,Deaths,101,Canada,3,Both,232,65-74 years,542,Neurological disorders,1,Number,2005,1691.7076624985095,3036.058474555795,1078.1170459923255
+1,All Population,1,Deaths,101,Canada,3,Both,232,65-74 years,542,Neurological disorders,3,Rate,2005,74.46558263398187,133.64121250401595,47.45655278221964
+1,All Population,1,Deaths,101,Canada,3,Both,234,75+ years,542,Neurological disorders,1,Number,2005,13566.234088499254,29122.025137175104,5874.272091685468
+1,All Population,1,Deaths,101,Canada,3,Both,234,75+ years,542,Neurological disorders,3,Rate,2005,679.6254022521699,1458.921312955164,294.2824447231749
+1,All Population,1,Deaths,101,Canada,3,Both,243,75-84 years,542,Neurological disorders,1,Number,2005,5529.324749114792,10834.521057280937,2943.3457157642124
+1,All Population,1,Deaths,101,Canada,3,Both,243,75-84 years,542,Neurological disorders,3,Rate,2005,367.90794908165185,720.9029316110169,195.84313363009494
+1,All Population,1,Deaths,101,Canada,3,Both,420,<70 years,542,Neurological disorders,1,Number,2005,1971.131655372497,3078.315190089961,1517.3881511063282
+1,All Population,1,Deaths,101,Canada,3,Both,420,<70 years,542,Neurological disorders,3,Rate,2005,6.801747891852866,10.622285831382632,5.2360234943107296
+1,All Population,1,Deaths,101,Canada,3,Both,17,60-64 years,542,Neurological disorders,1,Number,2015,674.3995859140852,1134.2593572871172,491.7468737169152
+1,All Population,1,Deaths,101,Canada,3,Both,17,60-64 years,542,Neurological disorders,3,Rate,2015,29.852845419912445,50.20891169926552,21.767574763408028
+1,All Population,1,Deaths,101,Canada,3,Both,18,65-69 years,542,Neurological disorders,1,Number,2015,1010.177095312089,1780.0148948363228,670.1029543981477
+1,All Population,1,Deaths,101,Canada,3,Both,18,65-69 years,542,Neurological disorders,3,Rate,2015,52.46992914340903,92.45631863927775,34.806030248782555
+1,All Population,1,Deaths,101,Canada,3,Both,19,70-74 years,542,Neurological disorders,1,Number,2015,1413.0983770542555,2517.676576341521,906.4841906472225
+1,All Population,1,Deaths,101,Canada,3,Both,19,70-74 years,542,Neurological disorders,3,Rate,2015,102.12202452071584,181.94786239890294,65.50994767815986
+1,All Population,1,Deaths,101,Canada,3,Both,20,75-79 years,542,Neurological disorders,1,Number,2015,2220.827092298826,3959.82608604301,1305.4718092405303
+1,All Population,1,Deaths,101,Canada,3,Both,20,75-79 years,542,Neurological disorders,3,Rate,2015,221.71520728030112,395.32733750657775,130.33115175335206
+1,All Population,1,Deaths,101,Canada,3,Both,21,80+ years,542,Neurological disorders,1,Number,2015,16683.249293429926,36772.643689705845,6922.36549734858
+1,All Population,1,Deaths,101,Canada,3,Both,21,80+ years,542,Neurological disorders,3,Rate,2015,1112.9410599989644,2453.1063659824677,461.7916245700046
+1,All Population,1,Deaths,101,Canada,3,Both,26,70+ years,542,Neurological disorders,1,Number,2015,20317.174762782986,42945.202625716876,9196.907382351283
+1,All Population,1,Deaths,101,Canada,3,Both,26,70+ years,542,Neurological disorders,3,Rate,2015,523.0431815180698,1105.5767189363041,236.76420336766955
+1,All Population,1,Deaths,101,Canada,3,Both,30,80-84 years,542,Neurological disorders,1,Number,2015,4235.62294790035,8332.744439651802,2145.497512072418
+1,All Population,1,Deaths,101,Canada,3,Both,30,80-84 years,542,Neurological disorders,3,Rate,2015,564.4273616091442,1110.3984034668108,285.9030454253051
+1,All Population,1,Deaths,101,Canada,3,Both,31,85-89 years,542,Neurological disorders,1,Number,2015,5314.8107586354145,11489.859146270373,2294.507470334828
+1,All Population,1,Deaths,101,Canada,3,Both,31,85-89 years,542,Neurological disorders,3,Rate,2015,1119.7151828995768,2420.6637488556057,483.402884596789
+1,All Population,1,Deaths,101,Canada,3,Both,160,85+ years,542,Neurological disorders,1,Number,2015,12447.626345529576,28237.15197104631,4726.92318181105
+1,All Population,1,Deaths,101,Canada,3,Both,160,85+ years,542,Neurological disorders,3,Rate,2015,1662.7979077567315,3772.0185290850395,631.439100006806
+1,All Population,1,Deaths,101,Canada,3,Both,231,60+ years,542,Neurological disorders,1,Number,2015,22001.751444009187,45400.07048448871,10357.188881498916
+1,All Population,1,Deaths,101,Canada,3,Both,231,60+ years,542,Neurological disorders,3,Rate,2015,272.6787079447338,562.6657764866737,128.3618210729164
+1,All Population,1,Deaths,101,Canada,3,Both,232,65-74 years,542,Neurological disorders,1,Number,2015,2423.275472366344,4315.521932253866,1567.9802186388135
+1,All Population,1,Deaths,101,Canada,3,Both,232,65-74 years,542,Neurological disorders,3,Rate,2015,73.23320121843746,130.4183076300083,47.38553753691706
+1,All Population,1,Deaths,101,Canada,3,Both,234,75+ years,542,Neurological disorders,1,Number,2015,18904.076385728746,40821.479174240565,8269.089441945109
+1,All Population,1,Deaths,101,Canada,3,Both,234,75+ years,542,Neurological disorders,3,Rate,2015,755.9570861406957,1632.4143967069767,330.67348184694924
+1,All Population,1,Deaths,101,Canada,3,Both,243,75-84 years,542,Neurological disorders,1,Number,2015,6456.450040199171,12356.706560364304,3465.513936765254
+1,All Population,1,Deaths,101,Canada,3,Both,243,75-84 years,542,Neurological disorders,3,Rate,2015,368.50077200224973,705.2568948181686,197.79360997628916
+1,All Population,1,Deaths,101,Canada,3,Both,420,<70 years,542,Neurological disorders,1,Number,2015,2763.0980524645865,4342.637925525939,2112.1290255384433
+1,All Population,1,Deaths,101,Canada,3,Both,420,<70 years,542,Neurological disorders,3,Rate,2015,8.687412628832602,13.653618814942496,6.640711267491923
+1,All Population,1,Deaths,101,Canada,3,Both,17,60-64 years,542,Neurological disorders,1,Number,2019,761.6199258799401,1253.9008332364128,563.0080366531142
+1,All Population,1,Deaths,101,Canada,3,Both,17,60-64 years,542,Neurological disorders,3,Rate,2019,30.300588988117358,49.88568771471942,22.3989348702021
+1,All Population,1,Deaths,101,Canada,3,Both,18,65-69 years,542,Neurological disorders,1,Number,2019,1147.6144864997048,2002.0207419069204,775.7267572543697
+1,All Population,1,Deaths,101,Canada,3,Both,18,65-69 years,542,Neurological disorders,3,Rate,2019,54.37908840279971,94.86466421354571,36.75739057443782
+1,All Population,1,Deaths,101,Canada,3,Both,19,70-74 years,542,Neurological disorders,1,Number,2019,1780.1982446188642,3112.4069377185338,1158.1824943387487
+1,All Population,1,Deaths,101,Canada,3,Both,19,70-74 years,542,Neurological disorders,3,Rate,2019,103.22256036669957,180.46900899128173,67.15575796061499
+1,All Population,1,Deaths,101,Canada,3,Both,20,75-79 years,542,Neurological disorders,1,Number,2019,2633.6628868786897,4637.861889216503,1573.9288351983505
+1,All Population,1,Deaths,101,Canada,3,Both,20,75-79 years,542,Neurological disorders,3,Rate,2019,223.8508467209058,394.1997725100473,133.77767678351628
+1,All Population,1,Deaths,101,Canada,3,Both,21,80+ years,542,Neurological disorders,1,Number,2019,18936.158239147484,40630.701596116465,7912.388445505071
+1,All Population,1,Deaths,101,Canada,3,Both,21,80+ years,542,Neurological disorders,3,Rate,2019,1158.8138841236048,2486.429429699493,484.2051630237775
+1,All Population,1,Deaths,101,Canada,3,Both,26,70+ years,542,Neurological disorders,1,Number,2019,23350.019370645034,47924.59003597138,10669.261322188344
+1,All Population,1,Deaths,101,Canada,3,Both,26,70+ years,542,Neurological disorders,3,Rate,2019,514.8568041111284,1056.7143809429149,235.25212974658933
+1,All Population,1,Deaths,101,Canada,3,Both,30,80-84 years,542,Neurological disorders,1,Number,2019,4505.526722081238,8879.549783017075,2319.0081631897165
+1,All Population,1,Deaths,101,Canada,3,Both,30,80-84 years,542,Neurological disorders,3,Rate,2019,563.6220357033482,1110.7935283805127,290.09795799100414
+1,All Population,1,Deaths,101,Canada,3,Both,31,85-89 years,542,Neurological disorders,1,Number,2019,5849.58057047207,12792.753511926685,2559.207333978478
+1,All Population,1,Deaths,101,Canada,3,Both,31,85-89 years,542,Neurological disorders,3,Rate,2019,1131.13001702601,2473.7273593254213,494.87244433707286
+1,All Population,1,Deaths,101,Canada,3,Both,160,85+ years,542,Neurological disorders,1,Number,2019,14430.631517066266,31950.980025868324,5584.730202864499
+1,All Population,1,Deaths,101,Canada,3,Both,160,85+ years,542,Neurological disorders,3,Rate,2019,1728.8190319537944,3827.7924492057455,669.0620470504657
+1,All Population,1,Deaths,101,Canada,3,Both,231,60+ years,542,Neurological disorders,1,Number,2019,25259.2537830247,50629.90072892925,12013.05591129371
+1,All Population,1,Deaths,101,Canada,3,Both,231,60+ years,542,Neurological disorders,3,Rate,2019,275.7804226020372,552.777035270411,131.15849202896632
+1,All Population,1,Deaths,101,Canada,3,Both,232,65-74 years,542,Neurological disorders,1,Number,2019,2927.812731118569,5145.211711131671,1922.6289737519703
+1,All Population,1,Deaths,101,Canada,3,Both,232,65-74 years,542,Neurological disorders,3,Rate,2019,76.34417218481387,134.16395271014673,50.13350610151718
+1,All Population,1,Deaths,101,Canada,3,Both,234,75+ years,542,Neurological disorders,1,Number,2019,21569.82112602619,45291.29480911548,9508.189342769798
+1,All Population,1,Deaths,101,Canada,3,Both,234,75+ years,542,Neurological disorders,3,Rate,2019,767.4388483076237,1611.4319596618818,338.2945939176824
+1,All Population,1,Deaths,101,Canada,3,Both,243,75-84 years,542,Neurological disorders,1,Number,2019,7139.189608959929,13593.980946763777,3896.0677117813602
+1,All Population,1,Deaths,101,Canada,3,Both,243,75-84 years,542,Neurological disorders,3,Rate,2019,361.3107951088862,687.9845379657627,197.1780271776339
+1,All Population,1,Deaths,101,Canada,3,Both,420,<70 years,542,Neurological disorders,1,Number,2019,3085.6479777614754,4763.817982930076,2390.1799786538645
+1,All Population,1,Deaths,101,Canada,3,Both,420,<70 years,542,Neurological disorders,3,Rate,2019,9.45881789782114,14.603119708940564,7.326913933165633
+1,All Population,1,Deaths,101,Canada,3,Both,17,60-64 years,542,Neurological disorders,1,Number,2023,889.0169540066254,1421.9023702564343,666.3945317737788
+1,All Population,1,Deaths,101,Canada,3,Both,17,60-64 years,542,Neurological disorders,3,Rate,2023,33.49988179693507,53.58003704619712,25.111037471147135
+1,All Population,1,Deaths,101,Canada,3,Both,18,65-69 years,542,Neurological disorders,1,Number,2023,1367.902418512303,2372.6260614887624,940.7641960151565
+1,All Population,1,Deaths,101,Canada,3,Both,18,65-69 years,542,Neurological disorders,3,Rate,2023,57.70695690465922,100.09268792002801,39.68750854021887
+1,All Population,1,Deaths,101,Canada,3,Both,19,70-74 years,542,Neurological disorders,1,Number,2023,2076.5361119266013,3466.906640286529,1384.6623933898543
+1,All Population,1,Deaths,101,Canada,3,Both,19,70-74 years,542,Neurological disorders,3,Rate,2023,107.99785928146451,180.30916646677315,72.01443473810346
+1,All Population,1,Deaths,101,Canada,3,Both,20,75-79 years,542,Neurological disorders,1,Number,2023,3366.3116349380916,5806.290593452015,2058.248167001955
+1,All Population,1,Deaths,101,Canada,3,Both,20,75-79 years,542,Neurological disorders,3,Rate,2023,230.58538705085226,397.71890098507714,140.9857439546239
+1,All Population,1,Deaths,101,Canada,3,Both,21,80+ years,542,Neurological disorders,1,Number,2023,21039.72944018992,45591.522183105524,8922.958244130403
+1,All Population,1,Deaths,101,Canada,3,Both,21,80+ years,542,Neurological disorders,3,Rate,2023,1164.1681026199647,2522.6653235414824,493.72418967440336
+1,All Population,1,Deaths,101,Canada,3,Both,26,70+ years,542,Neurological disorders,1,Number,2023,26482.577187054627,54773.6089785056,12508.602237920497
+1,All Population,1,Deaths,101,Canada,3,Both,26,70+ years,542,Neurological disorders,3,Rate,2023,510.2684159724764,1055.3822799474437,241.01674866800798
+1,All Population,1,Deaths,101,Canada,3,Both,30,80-84 years,542,Neurological disorders,1,Number,2023,5298.030933249133,10385.125788768491,2762.1657675571773
+1,All Population,1,Deaths,101,Canada,3,Both,30,80-84 years,542,Neurological disorders,3,Rate,2023,575.4779060886325,1128.0437050454104,300.0294623060398
+1,All Population,1,Deaths,101,Canada,3,Both,31,85-89 years,542,Neurological disorders,1,Number,2023,6366.383268244834,13385.566423909802,2788.5818361946535
+1,All Population,1,Deaths,101,Canada,3,Both,31,85-89 years,542,Neurological disorders,3,Rate,2023,1173.0214410956073,2466.3228327414945,513.8029154515382
+1,All Population,1,Deaths,101,Canada,3,Both,160,85+ years,542,Neurological disorders,1,Number,2023,15741.69850694079,35095.98473292072,6186.137787283313
+1,All Population,1,Deaths,101,Canada,3,Both,160,85+ years,542,Neurological disorders,3,Rate,2023,1775.4241551750895,3958.293256411303,697.7022492167264
+1,All Population,1,Deaths,101,Canada,3,Both,231,60+ years,542,Neurological disorders,1,Number,2023,28739.496559573552,57883.38069754111,14074.720690453132
+1,All Population,1,Deaths,101,Canada,3,Both,231,60+ years,542,Neurological disorders,3,Rate,2023,281.3694120903207,566.697915633531,137.79628595091282
+1,All Population,1,Deaths,101,Canada,3,Both,232,65-74 years,542,Neurological disorders,1,Number,2023,3444.4385304389025,5908.036507851277,2347.6896178179272
+1,All Population,1,Deaths,101,Canada,3,Both,232,65-74 years,542,Neurological disorders,3,Rate,2023,80.23036448407646,137.61427826953812,54.68409207146263
+1,All Population,1,Deaths,101,Canada,3,Both,234,75+ years,542,Neurological disorders,1,Number,2023,24406.04107512802,51791.77708728224,11138.949843255292
+1,All Population,1,Deaths,101,Canada,3,Both,234,75+ years,542,Neurological disorders,3,Rate,2023,747.0076986591206,1585.216385252435,340.93531442792033
+1,All Population,1,Deaths,101,Canada,3,Both,243,75-84 years,542,Neurological disorders,1,Number,2023,8664.342568187232,16526.113323367088,4877.16017895458
+1,All Population,1,Deaths,101,Canada,3,Both,243,75-84 years,542,Neurological disorders,3,Rate,2023,363.96701859943954,694.2200343540729,204.87710817018203
+1,All Population,1,Deaths,101,Canada,3,Both,420,<70 years,542,Neurological disorders,1,Number,2023,3561.7785439975546,5433.911574465847,2781.1317461216854
+1,All Population,1,Deaths,101,Canada,3,Both,420,<70 years,542,Neurological disorders,3,Rate,2023,10.724225730660358,16.36106613737291,8.373761665328013
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,17,60-64 years,542,Neurological disorders,1,Number,1995,24254.266310566876,33198.85737456431,18363.970732198824
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,17,60-64 years,542,Neurological disorders,3,Rate,1995,2015.4792134971483,2758.7561748317803,1526.007870701558
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,18,65-69 years,542,Neurological disorders,1,Number,1995,28465.151621812307,41098.197546899595,21160.2072513735
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,18,65-69 years,542,Neurological disorders,3,Rate,1995,2557.5518822312742,3692.6124226874476,1901.2134065951839
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,19,70-74 years,542,Neurological disorders,1,Number,1995,34590.63906827495,50890.19964157622,24879.247601279218
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,19,70-74 years,542,Neurological disorders,3,Rate,1995,3605.6198206133304,5304.634937228624,2593.3348064503584
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,20,75-79 years,542,Neurological disorders,1,Number,1995,39194.772069785984,60459.44006199141,26819.790988761146
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,20,75-79 years,542,Neurological disorders,3,Rate,1995,5941.726897738791,9165.341760348767,4065.74308496865
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,21,80+ years,542,Neurological disorders,1,Number,1995,120453.91679307357,222569.52656484774,69717.15366825559
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,21,80+ years,542,Neurological disorders,3,Rate,1995,15536.962966302339,28708.526743933406,8992.591220761216
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,26,70+ years,542,Neurological disorders,1,Number,1995,194239.32793113452,334368.62895651854,121666.68566292536
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,26,70+ years,542,Neurological disorders,3,Rate,1995,8112.641844075014,13965.312583764566,5081.557147319383
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,30,80-84 years,542,Neurological disorders,1,Number,1995,49685.72018488027,86080.05848225004,31060.095844333482
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,30,80-84 years,542,Neurological disorders,3,Rate,1995,11149.10259052157,19315.71887145054,6969.652321660142
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,31,85-89 years,542,Neurological disorders,1,Number,1995,37930.301602320105,70724.9340882286,22010.41533340126
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,31,85-89 years,542,Neurological disorders,3,Rate,1995,17201.157998520983,32073.32170573067,9981.587695568072
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,160,85+ years,542,Neurological disorders,1,Number,1995,70768.19660819336,135502.34329056472,38394.61281082743
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,160,85+ years,542,Neurological disorders,3,Rate,1995,21469.270112001203,41107.963016503294,11647.948553007489
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,231,60+ years,542,Neurological disorders,1,Number,1995,246958.74586351364,403107.1471030753,161188.21211290802
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,231,60+ years,542,Neurological disorders,3,Rate,1995,5242.547071395663,8557.332869967877,3421.773083602613
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,232,65-74 years,542,Neurological disorders,1,Number,1995,63055.79069008727,91487.27873829695,46198.219661910174
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,232,65-74 years,542,Neurological disorders,3,Rate,1995,3042.7370763587287,4414.68946762321,2229.2803609099337
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,234,75+ years,542,Neurological disorders,1,Number,1995,159648.6888628597,285260.89307793713,96601.8965606541
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,234,75+ years,542,Neurological disorders,3,Rate,1995,11125.917021169544,19879.8314497664,6732.186107364127
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,243,75-84 years,542,Neurological disorders,1,Number,1995,88880.49225466629,144118.47769554064,57769.562430281076
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,243,75-84 years,542,Neurological disorders,3,Rate,1995,8041.296089123603,13038.849377015638,5226.59297509249
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,420,<70 years,542,Neurological disorders,1,Number,1995,295418.69760945824,380981.3864883628,216427.74973324916
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,420,<70 years,542,Neurological disorders,3,Rate,1995,1098.9941891342762,1417.2980021479366,805.138067593434
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,17,60-64 years,542,Neurological disorders,1,Number,2000,26195.024817732505,35387.19470502824,20021.12535805448
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,17,60-64 years,542,Neurological disorders,3,Rate,2000,2083.547404478673,2814.6908885358857,1592.4765891528373
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,18,65-69 years,542,Neurological disorders,1,Number,2000,29871.96589178819,41831.50006740392,22314.99304265148
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,18,65-69 years,542,Neurological disorders,3,Rate,2000,2602.755318022873,3644.793906625341,1944.313508652299
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,19,70-74 years,542,Neurological disorders,1,Number,2000,37243.38638966605,54852.385113120836,26747.708693675675
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,19,70-74 years,542,Neurological disorders,3,Rate,2000,3685.207054116441,5427.605170996838,2646.667081453578
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,20,75-79 years,542,Neurological disorders,1,Number,2000,49383.634118230206,74718.95275778293,34581.934814371176
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,20,75-79 years,542,Neurological disorders,3,Rate,2000,6098.736204056939,9227.574892972298,4270.769084223507
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,21,80+ years,542,Neurological disorders,1,Number,2000,143676.6478822328,262545.74407107965,83974.75073565549
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,21,80+ years,542,Neurological disorders,3,Rate,2000,15873.038438713913,29005.400313743958,9277.321443363877
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,26,70+ years,542,Neurological disorders,1,Number,2000,230303.66839012905,392378.33472612686,145163.04638383724
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,26,70+ years,542,Neurological disorders,3,Rate,2000,8449.911683583328,14396.48051706578,5326.076350575008
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,30,80-84 years,542,Neurological disorders,1,Number,2000,56107.27362533127,95280.96160118959,35723.63640404932
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,30,80-84 years,542,Neurological disorders,3,Rate,2000,11312.90447917739,19211.491623641756,7202.953559757616
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,31,85-89 years,542,Neurological disorders,1,Number,2000,47015.15067213646,87478.301983659,27192.193174808686
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,31,85-89 years,542,Neurological disorders,3,Rate,2000,17132.809771145694,31878.002847220494,9909.117938876383
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,160,85+ years,542,Neurological disorders,1,Number,2000,87569.37425690156,166641.15837439068,47367.41404849655
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,160,85+ years,542,Neurological disorders,3,Rate,2000,21399.961040620485,40723.304548390945,11575.517397886128
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,231,60+ years,542,Neurological disorders,1,Number,2000,286370.6590996498,468091.63064538524,187930.884724278
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,231,60+ years,542,Neurological disorders,3,Rate,2000,5581.78095596722,9123.787184757886,3663.0464751174964
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,232,65-74 years,542,Neurological disorders,1,Number,2000,67115.35228145431,96911.83527588652,49373.07565109551
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,232,65-74 years,542,Neurological disorders,3,Rate,2000,3109.6049773461946,4490.142941869418,2287.5654611435516
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,234,75+ years,542,Neurological disorders,1,Number,2000,193060.28200046305,338635.23348907544,117823.11713956547
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,234,75+ years,542,Neurological disorders,3,Rate,2000,11257.834586528154,19746.679142327182,6870.5647245619175
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,243,75-84 years,542,Neurological disorders,1,Number,2000,105490.90774356139,167768.9824915856,70304.13466724694
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,243,75-84 years,542,Neurological disorders,3,Rate,2000,8079.299745108773,12849.030560779825,5384.427809436961
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,420,<70 years,542,Neurological disorders,1,Number,2000,317919.5812088055,403316.2426614228,239328.86938109767
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,420,<70 years,542,Neurological disorders,3,Rate,2000,1141.6514300250665,1448.3114359802034,859.4316365677344
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,17,60-64 years,542,Neurological disorders,1,Number,2005,31688.39085724679,43545.401512096105,24070.256562621984
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,17,60-64 years,542,Neurological disorders,3,Rate,2005,2062.5530930050254,2834.3093525804557,1566.6993741118595
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,18,65-69 years,542,Neurological disorders,1,Number,2005,31403.176505185344,44832.96171873832,23386.095168339343
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,18,65-69 years,542,Neurological disorders,3,Rate,2005,2591.6636455444186,3700.006494226879,1930.0242651891988
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,19,70-74 years,542,Neurological disorders,1,Number,2005,38737.454656115246,56250.36650130502,28299.003584018315
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,19,70-74 years,542,Neurological disorders,3,Rate,2005,3654.1372269748135,5306.145178822356,2669.469210113176
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,20,75-79 years,542,Neurological disorders,1,Number,2005,52949.57158193895,79405.16898465707,37461.06422029055
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,20,75-79 years,542,Neurological disorders,3,Rate,2005,6073.712036541435,9108.367003109519,4297.064354984129
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,21,80+ years,542,Neurological disorders,1,Number,2005,176368.1353761801,318989.5415908757,103780.72698079434
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,21,80+ years,542,Neurological disorders,3,Rate,2005,15686.21204932254,28370.984249723264,9230.275562994088
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,26,70+ years,542,Neurological disorders,1,Number,2005,268055.1616142343,454178.1788834665,168538.86734432398
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,26,70+ years,542,Neurological disorders,3,Rate,2005,8770.771046007734,14860.720446832462,5514.595611323753
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,30,80-84 years,542,Neurological disorders,1,Number,2005,70759.93300139443,120996.50124417835,45369.7260562293
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,30,80-84 years,542,Neurological disorders,3,Rate,2005,11211.676791456015,19171.494478662084,7188.682677940337
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,31,85-89 years,542,Neurological disorders,1,Number,2005,53961.64229722038,99739.64804637086,31510.831749194323
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,31,85-89 years,542,Neurological disorders,3,Rate,2005,16883.728641223115,31206.929231521346,9859.231666491365
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,160,85+ years,542,Neurological disorders,1,Number,2005,105608.2023747857,202162.868322068,58255.16714667805
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,160,85+ years,542,Neurological disorders,3,Rate,2005,21411.80388131987,40988.025468282154,11811.092187627151
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,231,60+ years,542,Neurological disorders,1,Number,2005,331146.72897666664,536442.926759722,216414.7185138513
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,231,60+ years,542,Neurological disorders,3,Rate,2005,5705.197242057992,9242.164993532928,3728.524388634322
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,232,65-74 years,542,Neurological disorders,1,Number,2005,70140.6311613006,99914.86384914964,51642.547453105144
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,232,65-74 years,542,Neurological disorders,3,Rate,2005,3087.450084624817,4398.0521666097575,2273.2014934063222
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,234,75+ years,542,Neurological disorders,1,Number,2005,229317.70695811918,402028.1735239966,140709.73923062428
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,234,75+ years,542,Neurological disorders,3,Rate,2005,11488.091523282696,20140.339416638868,7049.112708919054
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,243,75-84 years,542,Neurological disorders,1,Number,2005,123709.50458333342,195827.17093415622,83258.34964741132
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,243,75-84 years,542,Neurological disorders,3,Rate,2005,8231.332428150097,13029.868221138884,5539.810022481694
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,420,<70 years,542,Neurological disorders,1,Number,2005,340229.1548223186,453536.5215948025,261529.62196933833
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,420,<70 years,542,Neurological disorders,3,Rate,2005,1174.0225115111693,1565.0101662300026,902.4554752791811
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,17,60-64 years,542,Neurological disorders,1,Number,2010,41504.99692766966,56067.92542187925,31962.19844672097
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,17,60-64 years,542,Neurological disorders,3,Rate,2010,2077.1619053281397,2805.979217395541,1599.5823620892065
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,18,65-69 years,542,Neurological disorders,1,Number,2010,38577.88187235265,54775.211925571275,28996.218555752093
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,18,65-69 years,542,Neurological disorders,3,Rate,2010,2605.114264580732,3698.8989287927516,1958.076983812479
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,19,70-74 years,542,Neurological disorders,1,Number,2010,41322.98799299895,59440.06800399278,30045.132392433025
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,19,70-74 years,542,Neurological disorders,3,Rate,2010,3651.5042507479825,5252.4193317797235,2654.936972704941
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,20,75-79 years,542,Neurological disorders,1,Number,2010,56005.45635458705,82920.87682491976,39618.52530558554
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,20,75-79 years,542,Neurological disorders,3,Rate,2010,6040.35418842317,8943.261929087072,4272.975185731927
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,21,80+ years,542,Neurological disorders,1,Number,2010,209719.44961167668,376713.14810420945,123848.95391491932
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,21,80+ years,542,Neurological disorders,3,Rate,2010,15889.024094939286,28541.007036740513,9383.197488506148
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,26,70+ years,542,Neurological disorders,1,Number,2010,307047.8939592626,516081.29317100823,194393.6311002649
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,26,70+ years,542,Neurological disorders,3,Rate,2010,9087.591283351694,15274.28115805268,5753.4016753758615
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,30,80-84 years,542,Neurological disorders,1,Number,2010,77274.9026608416,129650.0032280727,50100.712481723865
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,30,80-84 years,542,Neurological disorders,3,Rate,2010,11135.589018685958,18683.027768480424,7219.691316706612
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,31,85-89 years,542,Neurological disorders,1,Number,2010,70332.46003298428,129088.15443461436,41581.96169534592
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,31,85-89 years,542,Neurological disorders,3,Rate,2010,16757.93152774738,30757.49734964526,9907.625391650241
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,160,85+ years,542,Neurological disorders,1,Number,2010,132444.5469508352,253619.59858779347,73074.65511109748
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,160,85+ years,542,Neurological disorders,3,Rate,2010,21158.761917365475,40517.15852136174,11674.087497639759
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,231,60+ years,542,Neurological disorders,1,Number,2010,387130.7727592851,627687.7556201114,255785.83442879218
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,231,60+ years,542,Neurological disorders,3,Rate,2010,5645.140209383116,9152.941686688859,3729.8685625862695
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,232,65-74 years,542,Neurological disorders,1,Number,2010,79900.86986535159,111119.02999926564,58866.48361313326
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,232,65-74 years,542,Neurological disorders,3,Rate,2010,3058.380648277135,4253.324044879409,2253.2434830550096
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,234,75+ years,542,Neurological disorders,1,Number,2010,265724.9059662638,459962.3145151765,163247.48243350734
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,234,75+ years,542,Neurological disorders,3,Rate,2010,11825.291586306908,20469.246072647486,7264.840581980775
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,243,75-84 years,542,Neurological disorders,1,Number,2010,133280.3590154287,212258.8224761471,90653.80465257514
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,243,75-84 years,542,Neurological disorders,3,Rate,2010,8221.4294899953,13093.23410822342,5592.000715309278
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,420,<70 years,542,Neurological disorders,1,Number,2010,370191.8234333861,474730.9689629255,277978.70909662003
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,420,<70 years,542,Neurological disorders,3,Rate,2010,1214.1331641401866,1556.9944471396757,911.6980664480169
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,17,60-64 years,542,Neurological disorders,1,Number,2015,48683.4874528838,65672.82217884847,37801.10891057452
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,17,60-64 years,542,Neurological disorders,3,Rate,2015,2155.01411298069,2907.0608134156228,1673.2967881039242
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,18,65-69 years,542,Neurological disorders,1,Number,2015,51289.60553670503,71667.08270889739,38899.66392377466
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,18,65-69 years,542,Neurological disorders,3,Rate,2015,2664.049680786803,3722.482690511742,2020.4997908335124
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,19,70-74 years,542,Neurological disorders,1,Number,2015,51915.124950630976,73121.3427983056,38699.657081867044
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,19,70-74 years,542,Neurological disorders,3,Rate,2015,3751.8107368124247,5284.34515493717,2796.7531444599363
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,20,75-79 years,542,Neurological disorders,1,Number,2015,61274.399710022655,88853.113957387,43811.74594407208
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,20,75-79 years,542,Neurological disorders,3,Rate,2015,6117.300297620686,8870.608003151787,4373.924636900454
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,21,80+ years,542,Neurological disorders,1,Number,2015,243197.95138456582,446184.375519546,143771.64418012928
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,21,80+ years,542,Neurological disorders,3,Rate,2015,16223.75719759259,29764.999797806642,9591.019306691098
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,26,70+ years,542,Neurological disorders,1,Number,2015,356387.4760452195,604788.9844718783,227763.1467834195
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,26,70+ years,542,Neurological disorders,3,Rate,2015,9174.801196539645,15569.62315275785,5863.510173884466
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,30,80-84 years,542,Neurological disorders,1,Number,2015,82782.24122986697,139657.7739378428,53893.73449929384
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,30,80-84 years,542,Neurological disorders,3,Rate,2015,11031.331773435473,18610.40745164021,7181.729522402192
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,31,85-89 years,542,Neurological disorders,1,Number,2015,78734.34732387267,144629.02186852568,46687.73729383689
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,31,85-89 years,542,Neurological disorders,3,Rate,2015,16587.616778450298,30470.19339512332,9836.092135208624
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,160,85+ years,542,Neurological disorders,1,Number,2015,160415.71015469878,306254.2341297036,87314.35235341493
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,160,85+ years,542,Neurological disorders,3,Rate,2015,21428.897350565152,40910.52266646793,11663.759690419554
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,231,60+ years,542,Neurological disorders,1,Number,2015,456360.56903480826,729081.3013921824,303475.899664631
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,231,60+ years,542,Neurological disorders,3,Rate,2015,5655.904741857199,9035.869155972016,3761.1285821270144
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,232,65-74 years,542,Neurological disorders,1,Number,2015,103204.73048733597,144679.15642096955,77143.70091666142
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,232,65-74 years,542,Neurological disorders,3,Rate,2015,3118.924315729257,4372.312555924258,2331.340467226399
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,234,75+ years,542,Neurological disorders,1,Number,2015,304472.35109458864,536673.9965452773,188316.82490246365
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,234,75+ years,542,Neurological disorders,3,Rate,2015,12175.57666650315,21461.112532433828,7530.621190887983
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,243,75-84 years,542,Neurological disorders,1,Number,2015,144056.64093988962,225876.84301300743,98075.37951528966
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,243,75-84 years,542,Neurological disorders,3,Rate,2015,8222.007925079924,12891.881840559627,5597.635363206956
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,420,<70 years,542,Neurological disorders,1,Number,2015,399730.78040067264,508753.28680605505,306855.1727534454
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,420,<70 years,542,Neurological disorders,3,Rate,2015,1256.7871873705149,1599.5631153287359,964.7784669179986
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,17,60-64 years,542,Neurological disorders,1,Number,2019,53833.43760518937,73058.04730194708,42046.55591561649
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,17,60-64 years,542,Neurological disorders,3,Rate,2019,2141.73081777989,2906.5703093483644,1672.7968450838903
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,18,65-69 years,542,Neurological disorders,1,Number,2019,56668.036437732044,78480.00694061915,43239.186065461945
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,18,65-69 years,542,Neurological disorders,3,Rate,2019,2685.1840921418184,3718.732453694383,2048.865319477184
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,19,70-74 years,542,Neurological disorders,1,Number,2019,64643.91310059254,91223.06758874946,48634.24855421511
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,19,70-74 years,542,Neurological disorders,3,Rate,2019,3748.2961476541636,5289.455053378733,2819.995847345271
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,20,75-79 years,542,Neurological disorders,1,Number,2019,71580.54733386051,103001.01807611599,51272.569205848406
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,20,75-79 years,542,Neurological disorders,3,Rate,2019,6084.0611793033195,8754.675939858022,4357.963992835833
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,21,80+ years,542,Neurological disorders,1,Number,2019,270004.64094857784,491451.1425773187,157155.72397105725
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,21,80+ years,542,Neurological disorders,3,Rate,2019,16523.157588648617,30074.759631531524,9617.274666128726
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,26,70+ years,542,Neurological disorders,1,Number,2019,406229.10138303105,688577.3725744379,257751.85186951063
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,26,70+ years,542,Neurological disorders,3,Rate,2019,8957.1581742643,15182.803054656275,5683.3055510906515
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,30,80-84 years,542,Neurological disorders,1,Number,2019,87314.88484257627,148219.5232699325,56657.80176749169
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,30,80-84 years,542,Neurological disorders,3,Rate,2019,10922.716960258862,18541.625561104112,7087.647580507375
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,31,85-89 years,542,Neurological disorders,1,Number,2019,85767.01304397525,155535.21954635018,50913.76899098579
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,31,85-89 years,542,Neurological disorders,3,Rate,2019,16584.7177854792,30075.755588645436,9845.166109231728
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,160,85+ years,542,Neurological disorders,1,Number,2019,182689.75610600167,345561.38644555997,98586.56091696824
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,160,85+ years,542,Neurological disorders,3,Rate,2019,21886.604680157652,41398.9575500489,11810.870688961837
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,231,60+ years,542,Neurological disorders,1,Number,2019,516730.5754259526,832075.2046062268,342019.13057464146
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,231,60+ years,542,Neurological disorders,3,Rate,2019,5641.662168109339,9084.5934537146,3734.163375453497
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,232,65-74 years,542,Neurological disorders,1,Number,2019,121311.94953832467,169136.4346011934,91851.53850257891
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,232,65-74 years,542,Neurological disorders,3,Rate,2019,3163.269380310047,4410.316598693723,2395.074519742898
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,234,75+ years,542,Neurological disorders,1,Number,2019,341585.1882824387,601653.9951087404,209638.6017181225
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,234,75+ years,542,Neurological disorders,3,Rate,2019,12153.357320989184,21406.419941461867,7458.791898336728
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,243,75-84 years,542,Neurological disorders,1,Number,2019,158895.43217643676,248588.0390202247,108313.50938407968
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,243,75-84 years,542,Neurological disorders,3,Rate,2019,8041.617898309652,12580.915615440736,5481.69222841204
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,420,<70 years,542,Neurological disorders,1,Number,2019,415674.737888299,535660.7610032088,319611.4621202191
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,420,<70 years,542,Neurological disorders,3,Rate,2019,1274.2191198564137,1642.0270976643812,979.7444945241915
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,17,60-64 years,542,Neurological disorders,1,Number,2023,58273.66848743307,78492.58667159863,45958.20848425904
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,17,60-64 years,542,Neurological disorders,3,Rate,2023,2195.864766588286,2957.7527892844187,1731.7943655437887
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,18,65-69 years,542,Neurological disorders,1,Number,2023,64597.12384956076,92134.82147913997,48932.89732119214
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,18,65-69 years,542,Neurological disorders,3,Rate,2023,2725.123803937492,3886.841707830044,2064.305581099281
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,19,70-74 years,542,Neurological disorders,1,Number,2023,72997.94415400327,102462.34457628713,54262.85186738312
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,19,70-74 years,542,Neurological disorders,3,Rate,2023,3796.525211047671,5328.929175680006,2822.1381783471425
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,20,75-79 years,542,Neurological disorders,1,Number,2023,88654.63864514079,131073.90035163576,62556.825262027065
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,20,75-79 years,542,Neurological disorders,3,Rate,2023,6072.6594512748425,8978.291175172975,4285.013192482496
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,21,80+ years,542,Neurological disorders,1,Number,2023,297655.52395531227,545442.1211689746,173741.57036469603
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,21,80+ years,542,Neurological disorders,3,Rate,2023,16469.844231717405,30180.346239498114,9613.450348430686
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,26,70+ years,542,Neurological disorders,1,Number,2023,459308.1067544562,771047.2012884145,292584.4324419917
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,26,70+ years,542,Neurological disorders,3,Rate,2023,8849.985347781032,14856.599161873672,5637.540252440433
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,30,80-84 years,542,Neurological disorders,1,Number,2023,100404.65648710723,168867.31638733437,65829.17801566045
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,30,80-84 years,542,Neurological disorders,3,Rate,2023,10906.063442199213,18342.55233043578,7150.437209840028
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,31,85-89 years,542,Neurological disorders,1,Number,2023,91974.31390095061,166275.99415404367,54355.75266942669
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,31,85-89 years,542,Neurological disorders,3,Rate,2023,16946.48871895781,30636.752150166063,10015.178263954194
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,160,85+ years,542,Neurological disorders,1,Number,2023,197250.86746820476,371321.2433703971,106015.86647218463
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,160,85+ years,542,Neurological disorders,3,Rate,2023,22246.89759989241,41879.388334033654,11956.977201891059
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,231,60+ years,542,Neurological disorders,1,Number,2023,582178.8990914503,929149.0470171205,390976.13657655555
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,231,60+ years,542,Neurological disorders,3,Rate,2023,5699.728741914408,9096.68408984017,3827.7888919124052
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,232,65-74 years,542,Neurological disorders,1,Number,2023,137595.068003564,193084.48927341902,103806.72912278706
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,232,65-74 years,542,Neurological disorders,3,Rate,2023,3204.964280703993,4497.464191545379,2417.941745750869
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,234,75+ years,542,Neurological disorders,1,Number,2023,386310.16260045307,671483.7285892515,237302.2162248526
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,234,75+ years,542,Neurological disorders,3,Rate,2023,11823.98507994322,20552.43262258057,7263.225603987326
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,243,75-84 years,542,Neurological disorders,1,Number,2023,189059.2951322483,292730.4677963152,128357.37953507081
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,243,75-84 years,542,Neurological disorders,3,Rate,2023,7941.900663121254,12296.863239023049,5391.967408600609
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,420,<70 years,542,Neurological disorders,1,Number,2023,435780.86108205485,558440.0835166302,338379.5387125915
+1,All Population,2,DALYs (Disability-Adjusted Life Years),101,Canada,3,Both,420,<70 years,542,Neurological disorders,3,Rate,2023,1312.1007568596071,1681.4177071097763,1018.8332909989724
