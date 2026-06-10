@@ -29,7 +29,7 @@ st.set_page_config(
 st.markdown("""
 <style>
     .main-title {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
         font-weight: 600;
         color: #4D9FE8;
         margin-bottom: 0.2rem;
@@ -37,11 +37,6 @@ st.markdown("""
     .sub-title {
         font-size: 1rem;
         margin-bottom: 1.5rem;
-    }
-    .metric-card {
-        border-radius: 8px;
-        padding: 1rem;
-        text-align: center;
     }
     .section-header {
         font-size: 1.2rem;
@@ -71,6 +66,19 @@ st.markdown("""
         padding: 0.75rem 1rem;
         border-radius: 0 8px 8px 0;
         margin: 1rem 0;
+    }
+    [data-testid="stMetricValue"] {
+        font-size: 1.1rem !important;
+        white-space: nowrap !important;
+        overflow: visible !important;
+    }
+    [data-testid="stMetricLabel"] {
+        font-size: 0.72rem !important;
+    }
+    [data-testid="stMetricDelta"] {
+        font-size: 0.68rem !important;
+        white-space: nowrap !important;
+        overflow: visible !important;
     }
 </style>
 """, unsafe_allow_html=True)
