@@ -715,12 +715,7 @@ def page_integrated_analysis():
         """, unsafe_allow_html=True)
 
 
-elif page == "👥 Population Projections":
-    page_population_projections()
-elif page == "🏥 Hospitalization Burden":
-    page_hospitalization_burden()
-elif page == "🔗 Integrated Analysis":
-    page_integrated_analysis()
+
 # ============================================================
 # PAGE: OVERVIEW
 # ============================================================
@@ -1183,7 +1178,14 @@ elif page == "📋 Data Explorer":
             file_name='GBD_2023_Canada_Rates.csv',
             mime='text/csv'
         )
+elif page == "👥 Population Projections":
+    page_population_projections()
+elif page == "🏥 Hospitalization Burden":
+    page_hospitalization_burden()
+elif page == "🔗 Integrated Analysis":
+    page_integrated_analysis()
 
+# ── FOOTER ──
 # ── FOOTER ──
 st.markdown("---")
 st.markdown("""
