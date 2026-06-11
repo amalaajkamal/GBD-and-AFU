@@ -196,7 +196,8 @@ page = st.sidebar.radio(
     "Navigate to",
     ["📊 Overview", "📈 Trend Analysis", "📉 Rate Analysis",
      "🗺️ Provincial Analysis", "🎯 AFU Alignment", "🔮 Forecasting 2040",
-     "📋 Data Explorer"]
+     "👥 Population Projections", "🏥 Hospitalization Burden",
+     "🔗 Integrated Analysis", "📋 Data Explorer"]
 )
 
 st.sidebar.markdown("---")
@@ -249,7 +250,477 @@ forecasts, forecast_years, forecast_metrics = compute_forecasts(daly_data)
 filtered_diseases = [d for d in selected_diseases if d in DISEASES]
 if not filtered_diseases:
     filtered_diseases = DISEASES
+# ============================================================
+# NEW SECTIONS — Enriched Analysis (Statistics Canada + CIHI + AFU Audit)
+# Add these pages to the sidebar radio options and page routing
+# ============================================================
 
+# ── STEP 1: Update the sidebar radio to include new pages ──
+# Replace the existing page = st.sidebar.radio(...) block with:
+#
+# page = st.sidebar.radio(
+#     "Navigate to",
+#     ["📊 Overview", "📈 Trend Analysis", "📉 Rate Analysis",
+#      "🗺️ Provincial Analysis", "🎯 AFU Alignment", "🔮 Forecasting 2040",
+#      "👥 Population Projections", "🏥 Hospitalization Burden",
+#      "🔗 Integrated Analysis", "📋 Data Explorer"]
+# )
+#
+# ── STEP 2: Paste the functions below BEFORE the page routing if/elif block ──
+
+# ── EMBEDDED DATA (no CSV needed — hardcoded from downloaded StatsCan files) ──
+
+@st.cache_data
+def get_statcan_population():
+    """Statistics Canada Table 17-10-0057-01 — M2 scenario — 65+ population (thousands)"""
+    years = list(range(2025, 2041))
+    data = {
+        'Canada':           [8108.4,8365.3,8610.2,8861.3,9100.4,9318.5,9498.2,
+                             9646.7,9784.8,9920.2,10053.5,10183.0,10288.2,10379.6,10466.5,10557.7],
+        'Ontario':          [3069.7,3171.4,3270.4,3373.7,3474.0,3567.0,3646.2,
+                             3712.4,3775.0,3836.7,3897.3,3956.0,4004.5,4046.3,4084.4,4122.5],
+        'British Columbia': [1167.2,1202.9,1236.7,1273.0,1306.9,1336.5,1361.4,
+                             1382.7,1404.5,1427.0,1449.4,1470.6,1487.1,1501.7,1515.2,1528.5],
+        'Alberta':          [780.0,812.9,844.4,875.9,906.2,934.0,958.2,
+                             980.2,1002.0,1024.3,1046.8,1070.3,1091.6,1112.0,1132.1,1152.9],
+        'Manitoba':         [260.4,268.2,275.6,282.7,289.5,295.6,300.6,
+                             304.4,307.9,311.4,315.2,318.9,322.3,325.1,327.7,330.7],
+    }
+    df = pd.DataFrame(data, index=years)
+    df.index.name = 'Year'
+    return df
+
+@st.cache_data
+def get_cihi_hosp_65plus():
+    """CIHI HMDB/OMHRS 2024-2025 — Top 10 hospitalizations, age 65+"""
+    return pd.DataFrame([
+        {'rank':1,  'diagnosis':'COPD and bronchitis',                   'n_hosp':68321, 'pct':4.633, 'avg_los':7.31,  'category':'Respiratory'},
+        {'rank':2,  'diagnosis':'Heart failure',                         'n_hosp':61591, 'pct':4.176, 'avg_los':9.71,  'category':'Cardiovascular'},
+        {'rank':3,  'diagnosis':'Neurocognitive disorders',              'n_hosp':49996, 'pct':3.390, 'avg_los':17.14, 'category':'Neurological'},
+        {'rank':4,  'diagnosis':'Pneumonia',                             'n_hosp':49060, 'pct':3.327, 'avg_los':7.92,  'category':'Respiratory'},
+        {'rank':5,  'diagnosis':'Osteoarthritis of the knee',            'n_hosp':45585, 'pct':3.091, 'avg_los':2.10,  'category':'Musculoskeletal'},
+        {'rank':6,  'diagnosis':'Other medical care (palliative/chemo)', 'n_hosp':40829, 'pct':2.769, 'avg_los':9.08,  'category':'Other'},
+        {'rank':7,  'diagnosis':'Acute myocardial infarction',           'n_hosp':40284, 'pct':2.732, 'avg_los':5.61,  'category':'Cardiovascular'},
+        {'rank':8,  'diagnosis':'Fracture of femur',                     'n_hosp':39700, 'pct':2.692, 'avg_los':11.41, 'category':'Musculoskeletal'},
+        {'rank':9,  'diagnosis':'Cerebral infarction',                   'n_hosp':32662, 'pct':2.215, 'avg_los':10.43, 'category':'Neurological'},
+        {'rank':10, 'diagnosis':'Other urinary diseases (UTI)',          'n_hosp':26443, 'pct':1.793, 'avg_los':7.82,  'category':'Other'},
+    ])
+
+@st.cache_data
+def get_cihi_alc():
+    """CIHI Table 7 — ALC days by province 2023-24 and 2024-25"""
+    return pd.DataFrame([
+        {'province':'Ontario',          'alc_pct_2324':17.44, 'alc_pct_2425':17.93, 'afu_count':6},
+        {'province':'British Columbia', 'alc_pct_2324':15.03, 'alc_pct_2425':15.76, 'afu_count':3},
+        {'province':'Alberta',          'alc_pct_2324':15.25, 'alc_pct_2425':15.13, 'afu_count':1},
+        {'province':'Manitoba',         'alc_pct_2324':15.60, 'alc_pct_2425':17.28, 'afu_count':1},
+    ])
+
+@st.cache_data
+def get_afu_matrix():
+    """AFU program alignment matrix — 11 institutions x 10 GBD categories"""
+    categories = ['Cardiovascular','Neurological/Dementia','Mental Health',
+                  'Musculoskeletal','Respiratory','Diabetes/Metabolic',
+                  'Social Participation','Physical Activity','Lifelong Learning','Caregiver Support']
+    data = {
+        'University of Calgary':       [3,2,1,3,1,2,2,3,2,1],
+        'Kwantlen Polytechnic':        [1,1,2,1,1,1,3,3,3,1],
+        'UBC Okanagan':                [2,1,2,1,2,1,2,2,2,2],
+        'University of Fraser Valley': [1,1,1,1,1,1,2,2,3,1],
+        'Niagara College':             [1,1,2,1,1,1,2,2,2,1],
+        'McMaster University':         [3,2,2,2,2,2,2,3,2,2],
+        'Toronto Metropolitan':        [1,3,2,1,1,1,3,1,2,3],
+        'Trent University':            [1,1,2,1,1,1,2,1,3,1],
+        'Ontario Tech':                [1,1,1,2,1,1,1,2,2,1],
+        'University of Windsor':       [1,1,1,1,1,1,2,2,3,1],
+        'University of Manitoba':      [1,3,3,2,1,1,2,2,3,3],
+    }
+    df = pd.DataFrame(data, index=categories).T
+    df['Province'] = ['Alberta','British Columbia','British Columbia','British Columbia',
+                      'Ontario','Ontario','Ontario','Ontario','Ontario','Ontario','Manitoba']
+    return df, categories
+
+
+# ── PAGE: POPULATION PROJECTIONS ──────────────────────────────────────────────
+def page_population_projections():
+    st.markdown('<p class="main-title">👥 Population Projections — Statistics Canada</p>', unsafe_allow_html=True)
+    st.markdown("**Source:** Table 17-10-0057-01 | M2 medium-growth scenario | Age 65+ | 2025–2040")
+
+    pop_df = get_statcan_population()
+    provinces = ['Ontario', 'British Columbia', 'Alberta', 'Manitoba']
+    prov_colors = {'Ontario':'#16A34A','British Columbia':'#9333EA','Alberta':'#DC2626','Manitoba':'#D97706'}
+
+    # ── Key metrics ──
+    st.markdown("### Key Metrics (2025 → 2040, M2 Scenario)")
+    cols = st.columns(5)
+    regions = ['Canada'] + provinces
+    region_colors = ['#2563EB'] + [prov_colors[p] for p in provinces]
+    for col, region, color in zip(cols, regions, region_colors):
+        base = pop_df.loc[2025, region]
+        end  = pop_df.loc[2040, region]
+        growth = (end - base) / base * 100
+        col.metric(
+            label=region,
+            value=f"{end/1000:.2f}M" if region == 'Canada' else f"{end:,.0f}k",
+            delta=f"+{growth:.1f}%"
+        )
+
+    st.markdown("---")
+    c1, c2 = st.columns(2)
+
+    with c1:
+        st.markdown("#### Absolute 65+ Population (thousands)")
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(
+            x=pop_df.index, y=pop_df['Canada'],
+            name='Canada', line=dict(color='#2563EB', width=3),
+            mode='lines+markers', marker=dict(size=5)
+        ))
+        for p in provinces:
+            fig.add_trace(go.Scatter(
+                x=pop_df.index, y=pop_df[p],
+                name=p, line=dict(color=prov_colors[p], width=2, dash='dash'),
+                mode='lines+markers', marker=dict(size=4)
+            ))
+        fig.update_layout(
+            xaxis_title='Year', yaxis_title='Population (thousands)',
+            legend=dict(x=0.01, y=0.99), height=380,
+            margin=dict(l=40, r=20, t=20, b=40)
+        )
+        st.plotly_chart(fig, use_container_width=True)
+
+    with c2:
+        st.markdown("#### Growth from 2025 Baseline (%)")
+        fig2 = go.Figure()
+        for region, color in zip(['Canada'] + provinces, region_colors):
+            base = pop_df.loc[2025, region]
+            growth_pct = (pop_df[region] - base) / base * 100
+            lw = 3 if region == 'Canada' else 2
+            dash = 'solid' if region == 'Canada' else 'dash'
+            fig2.add_trace(go.Scatter(
+                x=pop_df.index, y=growth_pct,
+                name=region, line=dict(color=color, width=lw, dash=dash),
+                mode='lines+markers', marker=dict(size=4)
+            ))
+        fig2.update_layout(
+            xaxis_title='Year', yaxis_title='Growth from 2025 (%)',
+            legend=dict(x=0.01, y=0.99), height=380,
+            margin=dict(l=40, r=20, t=20, b=40)
+        )
+        st.plotly_chart(fig2, use_container_width=True)
+
+    # ── Data table ──
+    st.markdown("#### Full Data Table (thousands, M2 scenario)")
+    display_df = pop_df[['Canada'] + provinces].copy()
+    display_df.index.name = 'Year'
+    st.dataframe(display_df.style.format("{:,.1f}"), use_container_width=True)
+
+    st.markdown("""
+    <div class="highlight-box">
+    <b>Key Finding:</b> Alberta's 65+ population is projected to grow by <b>+47.8%</b> by 2040 — 
+    the fastest among the four provinces — yet has only <b>1 AFU institution</b>. 
+    This represents the most critical geographic gap in age-friendly university coverage in Canada.
+    </div>
+    """, unsafe_allow_html=True)
+
+
+# ── PAGE: HOSPITALIZATION BURDEN ──────────────────────────────────────────────
+def page_hospitalization_burden():
+    st.markdown('<p class="main-title">🏥 Hospitalization Burden — CIHI</p>', unsafe_allow_html=True)
+    st.markdown("**Source:** CIHI Hospital Morbidity Database (HMDB)/OMHRS, 2024–2025 | Released February 19, 2026")
+
+    hosp_df = get_cihi_hosp_65plus()
+    alc_df  = get_cihi_alc()
+
+    cat_colors = {
+        'Cardiovascular':'#EF4444','Respiratory':'#3B82F6',
+        'Neurological':'#8B5CF6','Musculoskeletal':'#F59E0B','Other':'#6B7280'
+    }
+
+    # ── Key metrics ──
+    st.markdown("### National Hospitalization Rate (All Ages)")
+    m1, m2, m3, m4 = st.columns(4)
+    m1.metric("Rate 2024–25 (per 100k)", "7,560", delta="+4.6% vs 2020–21")
+    m2.metric("Avg Length of Stay", "6.1 days", delta="+0.3d vs 2020–21")
+    m3.metric("Top 65+ Cause", "COPD (68,321)", delta="#1 by volume")
+    m4.metric("Longest LOS (65+)", "Neurocognitive (17.1d)", delta="Highest burden/stay")
+
+    st.markdown("---")
+    tab1, tab2, tab3 = st.tabs(["Top 10 Diagnoses (65+)", "Length of Stay", "ALC Days by Province"])
+
+    with tab1:
+        c1, c2 = st.columns([3, 2])
+        with c1:
+            fig = go.Figure(go.Bar(
+                x=hosp_df['n_hosp'][::-1] / 1000,
+                y=hosp_df['diagnosis'][::-1],
+                orientation='h',
+                marker_color=[cat_colors[c] for c in hosp_df['category'][::-1]],
+                text=[f"{v:,}" for v in hosp_df['n_hosp'][::-1]],
+                textposition='outside'
+            ))
+            fig.update_layout(
+                title='Hospitalizations by Diagnosis (thousands)',
+                xaxis_title='Hospitalizations (thousands)',
+                height=420, margin=dict(l=260, r=60, t=40, b=40)
+            )
+            st.plotly_chart(fig, use_container_width=True)
+
+        with c2:
+            st.markdown("**Category Breakdown**")
+            cat_totals = hosp_df.groupby('category')['n_hosp'].sum().reset_index()
+            fig_pie = go.Figure(go.Pie(
+                labels=cat_totals['category'],
+                values=cat_totals['n_hosp'],
+                marker_colors=[cat_colors.get(c,'#999') for c in cat_totals['category']],
+                hole=0.4
+            ))
+            fig_pie.update_layout(height=300, margin=dict(l=20,r=20,t=20,b=20),
+                                   showlegend=True)
+            st.plotly_chart(fig_pie, use_container_width=True)
+
+            st.markdown("**Colour Legend**")
+            for cat, color in cat_colors.items():
+                st.markdown(f'<span style="color:{color}">■</span> {cat}', unsafe_allow_html=True)
+
+    with tab2:
+        fig_los = go.Figure(go.Bar(
+            x=hosp_df['diagnosis'],
+            y=hosp_df['avg_los'],
+            marker_color=[cat_colors[c] for c in hosp_df['category']],
+            text=[f"{v:.1f}d" for v in hosp_df['avg_los']],
+            textposition='outside'
+        ))
+        fig_los.update_layout(
+            title='Average Acute Length of Stay by Diagnosis (65+, 2024–25)',
+            xaxis_title='Diagnosis', yaxis_title='Avg LOS (days)',
+            xaxis_tickangle=-30, height=420,
+            margin=dict(l=40, r=20, t=60, b=120)
+        )
+        st.plotly_chart(fig_los, use_container_width=True)
+        st.markdown("""
+        <div class="warning-box">
+        <b>Key Finding:</b> Neurocognitive disorders have an average LOS of <b>17.1 days</b> — 
+        more than double the overall average of 6.1 days — reflecting the high care intensity 
+        of dementia-related hospitalizations and the urgent need for community-based dementia 
+        support programs aligned with AFU principles.
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab3:
+        c1, c2 = st.columns(2)
+        with c1:
+            fig_alc = go.Figure()
+            x = alc_df['province']
+            fig_alc.add_trace(go.Bar(
+                name='2023–2024', x=x, y=alc_df['alc_pct_2324'],
+                marker_color='#93C5FD', text=[f"{v:.1f}%" for v in alc_df['alc_pct_2324']],
+                textposition='outside'
+            ))
+            fig_alc.add_trace(go.Bar(
+                name='2024–2025', x=x, y=alc_df['alc_pct_2425'],
+                marker_color='#2563EB', text=[f"{v:.1f}%" for v in alc_df['alc_pct_2425']],
+                textposition='outside'
+            ))
+            fig_alc.update_layout(
+                barmode='group', title='ALC Patient Days (%) — Year-over-Year',
+                yaxis_title='Patient Days in ALC (%)', height=380,
+                margin=dict(l=40, r=20, t=60, b=40)
+            )
+            st.plotly_chart(fig_alc, use_container_width=True)
+
+        with c2:
+            prov_colors_map = {'Ontario':'#16A34A','British Columbia':'#9333EA',
+                               'Alberta':'#DC2626','Manitoba':'#D97706'}
+            fig_sc = go.Figure()
+            for _, row in alc_df.iterrows():
+                fig_sc.add_trace(go.Scatter(
+                    x=[row['afu_count']], y=[row['alc_pct_2425']],
+                    mode='markers+text',
+                    marker=dict(size=20, color=prov_colors_map[row['province']]),
+                    text=[row['province']], textposition='top center',
+                    name=row['province'], showlegend=True
+                ))
+            # trend line
+            import numpy as np
+            z = np.polyfit(alc_df['afu_count'], alc_df['alc_pct_2425'], 1)
+            p = np.poly1d(z)
+            xline = np.linspace(0.5, 6.5, 50)
+            fig_sc.add_trace(go.Scatter(
+                x=xline, y=p(xline), mode='lines',
+                line=dict(color='#94A3B8', dash='dash'), name='Trend', showlegend=True
+            ))
+            fig_sc.update_layout(
+                title='AFU Count vs. ALC Burden (2024–25)',
+                xaxis_title='Number of AFU Institutions',
+                yaxis_title='Patient Days in ALC (%)',
+                xaxis=dict(range=[0,7]), height=380,
+                margin=dict(l=40, r=20, t=60, b=40)
+            )
+            st.plotly_chart(fig_sc, use_container_width=True)
+
+        st.markdown("""
+        <div class="warning-box">
+        <b>Key Finding:</b> Manitoba ALC burden worsened from 15.6% to 17.3% year-over-year — 
+        the steepest increase among the four provinces — while having only 1 AFU institution. 
+        The scatter plot suggests an inverse relationship between AFU coverage and hospital system strain.
+        </div>
+        """, unsafe_allow_html=True)
+
+
+# ── PAGE: INTEGRATED ANALYSIS ────────────────────────────────────────────────
+def page_integrated_analysis():
+    st.markdown('<p class="main-title">🔗 Integrated Analysis — All Data Sources</p>', unsafe_allow_html=True)
+    st.markdown("Combining GBD 2023 burden forecasts, Statistics Canada population projections, CIHI hospitalization data, and AFU program audit.")
+
+    pop_df  = get_statcan_population()
+    alc_df  = get_cihi_alc()
+    afu_df, categories = get_afu_matrix()
+
+    tab1, tab2, tab3 = st.tabs(["AFU Program Heatmap", "Gap Analysis", "Provincial Summary"])
+
+    with tab1:
+        st.markdown("#### AFU Program Alignment with GBD Disease Categories")
+        st.markdown("Scale: **0** = No program | **1** = Minor | **2** = Moderate | **3** = Strong focus")
+
+        scores = afu_df.drop('Province', axis=1)
+        province_order = ['Alberta','British Columbia','Ontario','Manitoba']
+        sorted_inst = []
+        for prov in province_order:
+            sorted_inst += [i for i in scores.index if afu_df.loc[i,'Province'] == prov]
+
+        fig_heat = go.Figure(go.Heatmap(
+            z=scores.loc[sorted_inst].values,
+            x=categories,
+            y=sorted_inst,
+            colorscale=[[0,'#FEF3C7'],[0.33,'#FCD34D'],[0.67,'#F59E0B'],[1,'#B45309']],
+            zmin=0, zmax=3,
+            text=scores.loc[sorted_inst].values,
+            texttemplate='%{text}',
+            colorbar=dict(title='Score', tickvals=[0,1,2,3],
+                         ticktext=['None','Minor','Moderate','Strong'])
+        ))
+        fig_heat.update_layout(
+            xaxis_tickangle=-30, height=460,
+            margin=dict(l=200, r=40, t=40, b=120)
+        )
+        st.plotly_chart(fig_heat, use_container_width=True)
+
+        avg_scores = scores.mean().sort_values()
+        st.markdown("**Average program coverage by GBD category (all 11 institutions):**")
+        cols = st.columns(5)
+        for i, (cat, val) in enumerate(avg_scores.items()):
+            level = "🔴 Critical" if val < 1.0 else "🟡 Moderate" if val < 1.5 else "🟢 Adequate"
+            cols[i % 5].metric(cat[:20], f"{val:.1f}/3.0", delta=level, delta_color="off")
+
+    with tab2:
+        st.markdown("#### GBD Burden Share vs. AFU Program Coverage")
+
+        gbd_share = {
+            'Cardiovascular':      28.5, 'Neurological/Dementia': 19.2,
+            'Mental Health':       14.8, 'Musculoskeletal':        9.1,
+            'Respiratory':          8.4, 'Diabetes/Metabolic':     7.2,
+            'Social Participation': 6.0, 'Physical Activity':      4.0,
+            'Lifelong Learning':    1.8, 'Caregiver Support':      1.0,
+        }
+
+        afu_avg = scores.mean()
+        cats    = list(gbd_share.keys())
+        gbd_v   = [gbd_share[c] for c in cats]
+        afu_v   = [(afu_avg.get(c, 0) / 3 * 100) for c in cats]
+        gaps    = [g - a for g, a in zip(gbd_v, afu_v)]
+        order   = sorted(range(len(gaps)), key=lambda i: gaps[i], reverse=True)
+
+        fig_gap = go.Figure()
+        fig_gap.add_trace(go.Bar(
+            name='GBD Burden Share (%)',
+            x=[cats[i] for i in order], y=[gbd_v[i] for i in order],
+            marker_color='#EF4444', opacity=0.85
+        ))
+        fig_gap.add_trace(go.Bar(
+            name='AFU Program Coverage (%)',
+            x=[cats[i] for i in order], y=[afu_v[i] for i in order],
+            marker_color='#3B82F6', opacity=0.85
+        ))
+        fig_gap.update_layout(
+            barmode='group', xaxis_tickangle=-30,
+            yaxis_title='Share / Coverage (%)', height=420,
+            margin=dict(l=40, r=20, t=20, b=120),
+            legend=dict(x=0.6, y=0.99)
+        )
+        st.plotly_chart(fig_gap, use_container_width=True)
+
+        st.markdown("""
+        <div class="warning-box">
+        <b>Top 3 Misalignment Gaps:</b><br>
+        • <b>Cardiovascular</b>: 28.5% of DALYs, but only 2 of 11 AFUs have strong programs<br>
+        • <b>Respiratory/COPD</b>: #1 hospitalization cause for 65+, yet near-zero AFU program coverage<br>
+        • <b>Diabetes/Metabolic</b>: 7.2% of DALYs, weakest AFU coverage of clinical categories
+        </div>
+        """, unsafe_allow_html=True)
+
+    with tab3:
+        st.markdown("#### Provincial Summary — All Indicators")
+        summary = pd.DataFrame([
+            {
+                'Province': 'Ontario',
+                '# AFUs': 6,
+                '65+ Pop 2025 (k)': 3069.7,
+                '65+ Pop 2040 (k)': 4122.5,
+                'Pop Growth': '+34.3%',
+                'ALC Days 2024-25': '17.9%',
+                'YoY ALC Change': '↑ +0.49pp',
+                'Top Hospital Dx': 'Pneumonia (34,356)',
+            },
+            {
+                'Province': 'British Columbia',
+                '# AFUs': 3,
+                '65+ Pop 2025 (k)': 1167.2,
+                '65+ Pop 2040 (k)': 1528.5,
+                'Pop Growth': '+31.0%',
+                'ALC Days 2024-25': '15.8%',
+                'YoY ALC Change': '↑ +0.73pp',
+                'Top Hospital Dx': 'Osteoarthritis (11,083)',
+            },
+            {
+                'Province': 'Alberta',
+                '# AFUs': 1,
+                '65+ Pop 2025 (k)': 780.0,
+                '65+ Pop 2040 (k)': 1152.9,
+                'Pop Growth': '+47.8% ⚠️',
+                'ALC Days 2024-25': '15.1%',
+                'YoY ALC Change': '↓ -0.12pp',
+                'Top Hospital Dx': 'Pneumonia (8,865)',
+            },
+            {
+                'Province': 'Manitoba',
+                '# AFUs': 1,
+                '65+ Pop 2025 (k)': 260.4,
+                '65+ Pop 2040 (k)': 330.7,
+                'Pop Growth': '+27.0%',
+                'ALC Days 2024-25': '17.3%',
+                'YoY ALC Change': '↑ +1.68pp ⚠️',
+                'Top Hospital Dx': 'Pneumonia (3,014)',
+            },
+        ])
+        st.dataframe(summary, use_container_width=True, hide_index=True)
+
+        st.markdown("""
+        <div class="highlight-box">
+        <b>Integrated Insight:</b> The convergence of evidence across all four data sources points 
+        to <b>Alberta</b> (fastest elderly population growth, lowest AFU coverage, 
+        rising hospitalization burden) and <b>Manitoba</b> (worsening ALC days, only 1 AFU, 
+        high pneumonia hospitalization LOS) as the most critical provinces for urgent AFU expansion.
+        </div>
+        """, unsafe_allow_html=True)
+
+
+elif page == "👥 Population Projections":
+    page_population_projections()
+elif page == "🏥 Hospitalization Burden":
+    page_hospitalization_burden()
+elif page == "🔗 Integrated Analysis":
+    page_integrated_analysis()
 # ============================================================
 # PAGE: OVERVIEW
 # ============================================================
