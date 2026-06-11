@@ -617,11 +617,16 @@ def page_integrated_analysis():
         st.markdown("#### GBD Burden Share vs. AFU Program Coverage")
 
         gbd_share = {
-            'Cardiovascular':      28.5, 'Neurological/Dementia': 19.2,
-            'Mental Health':       14.8, 'Musculoskeletal':        9.1,
-            'Respiratory':          8.4, 'Diabetes/Metabolic':     7.2,
-            'Social Participation': 6.0, 'Physical Activity':      4.0,
-            'Lifelong Learning':    1.8, 'Caregiver Support':      1.0,
+            'Cardiovascular':       26.6,
+            'Neurological/Dementia':11.6,
+            'Mental Health':         3.9,
+            'Musculoskeletal':       11.0,
+            'Respiratory':            8.3,
+            'Diabetes/Metabolic':    7.5,
+            'Social Participation':  6.0,
+            'Physical Activity':     4.0,
+            'Lifelong Learning':     1.8,
+            'Caregiver Support':     1.0,
         }
 
         afu_avg = scores.mean()
