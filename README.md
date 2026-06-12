@@ -108,9 +108,11 @@ Full methodology is described in the accompanying manuscript (see `/manuscript`)
 
 ## 👥 Authors
 
-- **Amala K J (Narayanee)** — PhD Candidate, SRM Institute of Science and Technology / Mitacs GRA, University of Windsor
+- **Amala K J ** — PhD Candidate, SRM Institute of Science and Technology / Mitacs GRA, University of Windsor
+- **Dr. Shanthi Johnson** — Vice President, Research and Innovation, University of Windsor
 - **Dr. Parthiban Natarajan** — Office of VP-Research and Innovation, University of Windsor
-- **Dr. Shanthi Johnson** — University of Windsor
+- **Dr. D. Rajeswari ** — Professor, SRM Institute of Science and Technology / Mitacs GRA, University of Windsor
+- 
 
 ---
 
