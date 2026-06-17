@@ -25,55 +25,77 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ── CUSTOM CSS ──
-st.markdown("""
-<style>
-    .main-title {
-        font-size: 1.8rem;
-        font-weight: 600;
-        color: #4D9FE8;
-        margin-bottom: 0.2rem;
-    }
-    .sub-title {
-        font-size: 1rem;
-        margin-bottom: 1.5rem;
-    }
-    .metric-card {
-        border-radius: 8px;
-        padding: 1rem;
-        text-align: center;
-    }
-    .section-header {
-        font-size: 1.2rem;
-        font-weight: 600;
-        color: #4D9FE8;
-        border-bottom: 2px solid #4D9FE8;
-        padding-bottom: 0.3rem;
-        margin-bottom: 1rem;
-    }
-    .highlight-box {
-        background: rgba(77, 159, 232, 0.15);
-        border-left: 4px solid #4D9FE8;
-        padding: 0.75rem 1rem;
-        border-radius: 0 8px 8px 0;
-        margin: 1rem 0;
-    }
-    .warning-box {
-        background: rgba(220, 80, 80, 0.15);
-        border-left: 4px solid #E05555;
-        padding: 0.75rem 1rem;
-        border-radius: 0 8px 8px 0;
-        margin: 1rem 0;
-    }
-    .success-box {
-        background: rgba(50, 160, 80, 0.15);
-        border-left: 4px solid #32A050;
-        padding: 0.75rem 1rem;
-        border-radius: 0 8px 8px 0;
-        margin: 1rem 0;
-    }
-</style>
-""", unsafe_allow_html=True)
+# ============================================================
+# UPDATED PAGE 1 VISUALIZATION ZONE (Replaces everything below st.markdown("---") in Page 1)
+# ============================================================
+
+col_left, col_right = st.columns([3, 2])
+
+with col_left:
+    st.markdown('<p class="section-header">Disease Burden by Category — 2023</p>', unsafe_allow_html=True)
+    dalys_2023 = {d: daly_data[d][-1] for d in filtered_diseases}
+    df_plot = pd.DataFrame({'Disease': list(dalys_2023.keys()), 'DALYs': list(dalys_2023.values())})
+    df_plot = df_plot.sort_values('DALYs', ascending=True)
+    
+    fig = px.bar(
+        df_plot, x='DALYs', y='Disease', orientation='h',
+        color='Disease', color_discrete_map=DISEASE_COLORS,
+        labels={'DALYs': 'DALYs (Absolute Count)'}
+    )
+    # Journal refinement: Position text inside/outside safely, clean gridlines
+    fig.update_traces(texttemplate='%{x:,.0f}', textposition='outside', cliponaxis=False)
+    fig.update_layout(
+        showlegend=False, height=400,
+        plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
+        xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.2)', zeroline=True, zerolinecolor='rgba(128,128,128,0.2)'),
+        yaxis=dict(showgrid=False),
+        margin=dict(l=10, r=100, t=20, b=20)
+    )
+    st.plotly_chart(fig, use_container_width=True)
+    
+    # Modern Text Callout directly under the primary figure
+    st.markdown("""
+    > **Figure Notes:** DALY absolute counts represent the total combined years of healthy life lost due to premature 
+    > mortality and disability. Subsetting down to these seven key chronic disease frameworks captures **72.7%** 
+    > ($5.01\text{M}$ of $6.90\text{M}$) of all-cause aging health burdens across Canada in 2023.
+    """)
+
+with col_right:
+    st.markdown('<p class="section-header">Key Research Insights</p>', unsafe_allow_html=True)
+    
+    # Using markdown containers with soft backgrounds for thematic callouts
+    st.markdown("""
+    <div style="background-color: rgba(220, 80, 80, 0.08); border-left: 5px solid #A32D2D; padding: 12px; border-radius: 4px; margin-bottom: 10px;">
+        <strong style="color: #A32D2D;">⚠️ Mental Health Velocity:</strong><br>
+        Mental disorders showed the highest absolute DALY growth (+160.7%) and an alarming <strong>+20.2% increase in age-standardized rates</strong>, signifying a true structural escalation beyond raw population growth.
+    </div>
+    <div style="background-color: rgba(240, 165, 0, 0.08); border-left: 5px solid #F0A500; padding: 12px; border-radius: 4px; margin-bottom: 10px;">
+        <strong style="color: #B57C00;">⚠️ Geographic Strain Patterns:</strong><br>
+        <strong>Alberta</strong> exhibits the highest senior expansion velocity (+22.0%), while <strong>Prince Edward Island</strong> registers the heaviest antidepressant volume and Alternate Level of Care (ALC) bed dependency.
+    </div>
+    <div style="background-color: rgba(15, 110, 86, 0.08); border-left: 5px solid #0F6E56; padding: 12px; border-radius: 4px; margin-bottom: 15px;">
+        <strong style="color: #0F6E56;">✅ Cardiovascular Policy Success:</strong><br>
+        Age-standardized rates contracted by <strong>-48.6%</strong>, demonstrating the massive efficacy of multi-decade vascular preventative strategies across the country.
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown('<p class="section-header">Proportional Share of Analyzed Burden (2023)</p>', unsafe_allow_html=True)
+    dalys_pie = {d: daly_data[d][-1] for d in DISEASES}
+    
+    # Refactoring standard pie into a modern, publication-style donut chart
+    fig_donut = px.pie(
+        values=list(dalys_pie.values()), names=list(dalys_pie.keys()),
+        color=list(dalys_pie.keys()), color_discrete_map=DISEASE_COLORS,
+        hole=0.5
+    )
+    fig_donut.update_layout(
+        showlegend=True, 
+        legend=dict(orientation="h", yanchor="bottom", y=-0.4, xanchor="center", x=0.5),
+        height=280, 
+        margin=dict(l=10, r=10, t=10, b=10)
+    )
+    fig_donut.update_traces(textposition='inside', textinfo='percent', textfont_size=11)
+    st.plotly_chart(fig_donut, use_container_width=True)
 
 # ── CONSTANTS ──
 DISEASE_COLORS = {
