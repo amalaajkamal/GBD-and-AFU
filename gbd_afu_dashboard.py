@@ -404,3 +404,202 @@ if page == "📊 Overall Disease Burden":
                           plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
                           xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.2)'),
                           yaxis=dict(showgrid=False),
+                          margin=dict(l=10, r=100, t=20, b=20))
+        st.plotly_chart(fig, width='stretch')
+        
+        st.markdown("""
+        > **Figure Notes:** DALY absolute counts represent the total combined years of healthy life lost due to premature 
+        > mortality and disability. Subsetting down to these seven key chronic disease frameworks captures **72.7%** > ($5.01\text{M}$ of $6.90\text{M}$) of all-cause aging health burdens across Canada in 2023.
+        """)
+
+    with col_right:
+        st.markdown('<p class="section-header">Key Research Insights</p>', unsafe_allow_html=True)
+        st.markdown("""
+        <div style="background-color: rgba(220, 80, 80, 0.08); border-left: 5px solid #A32D2D; padding: 12px; border-radius: 4px; margin-bottom: 10px;">
+            <strong style="color: #A32D2D;">⚠️ Mental Health Velocity:</strong><br>
+            Mental disorders showed the highest absolute DALY growth (+160.7%) and an alarming <strong>+20.2% increase in age-standardized rates</strong>, signifying a true structural escalation beyond raw population growth.
+        </div>
+        <div style="background-color: rgba(240, 165, 0, 0.08); border-left: 5px solid #F0A500; padding: 12px; border-radius: 4px; margin-bottom: 10px;">
+            <strong style="color: #B57C00;">⚠️ Geographic Strain Patterns:</strong><br>
+            <strong>Alberta</strong> exhibits the highest senior expansion velocity (+22.0%), while <strong>Prince Edward Island</strong> registers the heaviest antidepressant volume and Alternate Level of Care (ALC) bed dependency.
+        </div>
+        <div style="background-color: rgba(15, 110, 86, 0.08); border-left: 5px solid #0F6E56; padding: 12px; border-radius: 4px; margin-bottom: 15px;">
+            <strong style="color: #0F6E56;">✅ Cardiovascular Policy Success:</strong><br>
+            Age-standardized rates contracted by <strong>-48.6%</strong>, demonstrating the massive efficacy of multi-decade vascular preventative strategies across the country.
+        </div>
+        """, unsafe_allow_html=True)
+
+        st.markdown('<p class="section-header">Proportional Share of Analyzed Burden (2023)</p>', unsafe_allow_html=True)
+        dalys_pie = {d: daly_data[d][-1] for d in DISEASES}
+        
+        fig_donut = px.pie(values=list(dalys_pie.values()), names=list(dalys_pie.keys()),
+                           color=list(dalys_pie.keys()), color_discrete_map=DISEASE_COLORS, hole=0.5)
+        fig_donut.update_layout(showlegend=True, 
+                               legend=dict(orientation="h", yanchor="bottom", y=-0.4, xanchor="center", x=0.5),
+                               height=280, margin=dict(l=10, r=10, t=10, b=10))
+        fig_donut.update_traces(textposition='inside', textinfo='percent', textfont_size=11)
+        st.plotly_chart(fig_donut, width='stretch')
+
+
+# ============================================================
+# PAGE 2: ABSOLUTE DALY TRENDS
+# ============================================================
+elif page == "📈 Absolute DALY Trends":
+    st.markdown('<p class="main-title">Absolute DALY Trends, 1995–2023</p>', unsafe_allow_html=True)
+
+    metric_type = st.radio("View metric as:", ["Absolute numbers", "% Growth from 1995 baseline"], horizontal=True)
+
+    fig = go.Figure()
+    for disease in filtered_diseases:
+        vals = daly_data[disease]
+        y_vals = vals if metric_type == "Absolute numbers" else [(v - vals[0]) / vals[0] * 100 for v in vals]
+        fig.add_trace(go.Scatter(
+            x=OBS_YEARS, y=y_vals, mode='lines+markers', name=disease,
+            line=dict(color=DISEASE_COLORS[disease], width=2.5), marker=dict(size=7)
+        ))
+
+    ylabel = "DALYs (number)" if metric_type == "Absolute numbers" else "% Growth from 1995 baseline"
+    fig.update_layout(height=450, xaxis_title="Year", yaxis_title=ylabel,
+                       plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
+                       xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
+                       yaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
+                       legend=dict(orientation='v', x=1.01, y=1),
+                       margin=dict(l=0, r=150, t=20, b=40))
+    st.plotly_chart(fig, width='stretch')
+
+    st.markdown("---")
+    st.markdown('<p class="section-header">Year-by-Year DALY Table</p>', unsafe_allow_html=True)
+    df_table = pd.DataFrame({d: daly_data[d] for d in filtered_diseases}, index=OBS_YEARS)
+    df_table.index.name = 'Year'
+    df_table['% Change 1995-2023'] = df_table.apply(
+        lambda col: f"+{(col.iloc[-1]-col.iloc[0])/col.iloc[0]*100:.1f}%" if col.name != '% Change 1995-2023' else '', axis=0
+    )
+    st.dataframe(df_table.style.format("{:,.0f}"), use_container_width=True)
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.markdown('<div class="warning-box"><b>Fastest growing</b><br>Mental disorders: +160.7%<br>Neurological: +135.7%</div>', unsafe_allow_html=True)
+    with col2:
+        st.markdown('<div class="highlight-box"><b>Moderate growth</b><br>Diabetes: +116.7%<br>Musculoskeletal: +112.9%</div>', unsafe_allow_html=True)
+    with col3:
+        st.markdown('<div class="success-box"><b>Slowest growth</b><br>Cardiovascular: +11.5%<br>(Interventions effective)</div>', unsafe_allow_html=True)
+
+
+# ============================================================
+# PAGE 3: AGE-STANDARDIZED RATE TRENDS
+# ============================================================
+elif page == "📉 Age-Standardized Rate Trends":
+    st.markdown('<p class="main-title">Age-Standardized Rate Trends, 1995–2023</p>', unsafe_allow_html=True)
+    st.markdown("Controls for population growth — shows the true burden trajectory")
+
+    col_left, col_right = st.columns(2)
+
+    with col_left:
+        st.markdown('<p class="section-header">Rate trends, 1995–2023</p>', unsafe_allow_html=True)
+        fig = go.Figure()
+        for disease in filtered_diseases:
+            if disease in rate_data:
+                fig.add_trace(go.Scatter(
+                    x=OBS_YEARS, y=rate_data[disease], mode='lines+markers',
+                    name=disease, line=dict(color=DISEASE_COLORS[disease], width=2.5),
+                    marker=dict(size=6)
+                ))
+        fig.update_layout(height=380, xaxis_title="Year",
+                          yaxis_title="Age-standardized rate per 100,000",
+                          plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
+                          xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
+                          yaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
+                          legend=dict(orientation='v', x=1.01, y=1),
+                          margin=dict(l=0, r=150, t=10, b=40))
+        st.plotly_chart(fig, width='stretch')
+
+    with col_right:
+        st.markdown('<p class="section-header">% Change in rate, 1995→2023</p>', unsafe_allow_html=True)
+        rate_changes = {d: (rate_data[d][-1] - rate_data[d][0]) / rate_data[d][0] * 100
+                         for d in filtered_diseases if d in rate_data}
+        df_rate = pd.DataFrame({'Disease': list(rate_changes.keys()), 'Rate Change (%)': list(rate_changes.values())})
+        df_rate = df_rate.sort_values('Rate Change (%)')
+        colors = ['#0F6E56' if v < 0 else '#A32D2D' for v in df_rate['Rate Change (%)']]
+        fig2 = px.bar(df_rate, x='Rate Change (%)', y='Disease', orientation='h',
+                      color='Disease', color_discrete_map={d: c for d, c in zip(df_rate['Disease'], colors)})
+        fig2.add_vline(x=0, line_color='gray', line_width=1)
+        fig2.update_layout(showlegend=False, height=380,
+                           plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
+                           xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)', ticksuffix='%'),
+                           yaxis=dict(showgrid=False),
+                           margin=dict(l=0, r=20, t=10, b=40))
+        st.plotly_chart(fig2, width='stretch')
+
+    st.markdown("---")
+    st.markdown('<p class="section-header">Age-Standardized Rate Table</p>', unsafe_allow_html=True)
+    df_rates_table = pd.DataFrame(rate_data, index=OBS_YEARS).T
+    df_rates_table.index.name = 'Disease'
+    df_rates_table['Rate Change'] = df_rates_table.apply(
+        lambda row: f"{(row.iloc[-1]-row.iloc[0])/row.iloc[0]*100:+.1f}%", axis=1
+    )
+    df_rates_table['Interpretation'] = df_rates_table['Rate Change'].apply(
+        lambda x: '↓ Declining (interventions effective)' if float(x[:-1]) < -10
+        else '↓ Slightly declining' if float(x[:-1]) < 0
+        else '→ Stable' if float(x[:-1]) < 5
+        else '↑ Rising (genuine increase) ⚠️'
+    )
+    st.dataframe(df_rates_table.style.format({c: "{:.1f}" for c in OBS_YEARS}), use_container_width=True)
+
+    st.markdown("""
+    <div class="highlight-box">
+    <b>Key finding:</b> Cardiovascular disease rate fell -48.6% — the strongest evidence that targeted
+    intervention works. Mental disorders rate rose +20.2% even after controlling for population growth
+    — a genuine worsening that existing interventions have not yet addressed.
+    </div>
+    """, unsafe_allow_html=True)
+
+
+# ============================================================
+# PAGE 4: PROVINCIAL BURDEN & DEMOGRAPHICS
+# ============================================================
+elif page == "🗺️ Provincial Burden & Demographics":
+    st.markdown('<p class="main-title">Provincial Senior Population and Mental Health Burden Proxy</p>', unsafe_allow_html=True)
+    st.markdown("CIHI Pharmaceutical Data Tool, 2020–2024 | All ten Canadian provinces")
+
+    df_prov = prov_pharma_df[prov_pharma_df['Province'].isin(filtered_provinces)].copy()
+
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.metric("Largest senior population", "Ontario", "2.95M seniors")
+    with col2:
+        st.metric("Fastest-growing", "Alberta", "+22.0% since 2020")
+    with col3:
+        st.metric("Highest antidepressant Rx", "Prince Edward Island", "256.7 per 1,000")
+    with col4:
+        st.metric("Lowest antidepressant Rx", "New Brunswick", "150.7 per 1,000")
+
+    st.markdown("---")
+    metric_choice = st.selectbox("Select metric to visualize:", [
+        'Senior Pop (2024)', 'Growth % (2020-24)', 'Antidepressant Rx (2024)', 'Rx per 1,000 Seniors'
+    ])
+
+    col_left, col_right = st.columns(2)
+
+    with col_left:
+        df_sorted = df_prov.sort_values(metric_choice, ascending=True)
+        fig = px.bar(df_sorted, x=metric_choice, y='Province', orientation='h',
+                     color='Province', color_discrete_map=PROVINCE_COLORS, text=metric_choice)
+        fig.update_traces(texttemplate='%{text:,.1f}', textposition='outside')
+        fig.update_layout(showlegend=False, height=420, plot_bgcolor='rgba(0,0,0,0)',
+                          paper_bgcolor='rgba(0,0,0,0)', margin=dict(l=0, r=60, t=10, b=40),
+                          yaxis=dict(showgrid=False), xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'))
+        st.plotly_chart(fig, width='stretch')
+
+    with col_right:
+        st.markdown("**Two pressure points: growth velocity vs. mental health burden**")
+        fig2 = px.scatter(df_prov, x='Growth % (2020-24)', y='Rx per 1,000 Seniors',
+                          color='Province', color_discrete_map=PROVINCE_COLORS,
+                          size='Senior Pop (2024)', text='Province',
+                          labels={'Growth % (2020-24)': 'Senior population growth, 2020–2024 (%)',
+                                  'Rx per 1,000 Seniors': 'Antidepressant Rx per 1,000 seniors'})
+        fig2.update_traces(textposition='top center')
+        fig2.update_layout(showlegend=False, height=420, plot_bgcolor='rgba(0,0,0,0)',
+                           paper_bgcolor='rgba(0,0,0,0)', margin=dict(l=0, r=20, t=10, b=40))
+        st.plotly_chart(fig2, width='stretch')
+
+    st.markdown("---")
