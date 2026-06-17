@@ -25,77 +25,55 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ============================================================
-# UPDATED PAGE 1 VISUALIZATION ZONE (Replaces everything below st.markdown("---") in Page 1)
-# ============================================================
-
-col_left, col_right = st.columns([3, 2])
-
-with col_left:
-    st.markdown('<p class="section-header">Disease Burden by Category — 2023</p>', unsafe_allow_html=True)
-    dalys_2023 = {d: daly_data[d][-1] for d in filtered_diseases}
-    df_plot = pd.DataFrame({'Disease': list(dalys_2023.keys()), 'DALYs': list(dalys_2023.values())})
-    df_plot = df_plot.sort_values('DALYs', ascending=True)
-    
-    fig = px.bar(
-        df_plot, x='DALYs', y='Disease', orientation='h',
-        color='Disease', color_discrete_map=DISEASE_COLORS,
-        labels={'DALYs': 'DALYs (Absolute Count)'}
-    )
-    # Journal refinement: Position text inside/outside safely, clean gridlines
-    fig.update_traces(texttemplate='%{x:,.0f}', textposition='outside', cliponaxis=False)
-    fig.update_layout(
-        showlegend=False, height=400,
-        plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
-        xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.2)', zeroline=True, zerolinecolor='rgba(128,128,128,0.2)'),
-        yaxis=dict(showgrid=False),
-        margin=dict(l=10, r=100, t=20, b=20)
-    )
-    st.plotly_chart(fig, use_container_width=True)
-    
-    # Modern Text Callout directly under the primary figure
-    st.markdown("""
-    > **Figure Notes:** DALY absolute counts represent the total combined years of healthy life lost due to premature 
-    > mortality and disability. Subsetting down to these seven key chronic disease frameworks captures **72.7%** 
-    > ($5.01\text{M}$ of $6.90\text{M}$) of all-cause aging health burdens across Canada in 2023.
-    """)
-
-with col_right:
-    st.markdown('<p class="section-header">Key Research Insights</p>', unsafe_allow_html=True)
-    
-    # Using markdown containers with soft backgrounds for thematic callouts
-    st.markdown("""
-    <div style="background-color: rgba(220, 80, 80, 0.08); border-left: 5px solid #A32D2D; padding: 12px; border-radius: 4px; margin-bottom: 10px;">
-        <strong style="color: #A32D2D;">⚠️ Mental Health Velocity:</strong><br>
-        Mental disorders showed the highest absolute DALY growth (+160.7%) and an alarming <strong>+20.2% increase in age-standardized rates</strong>, signifying a true structural escalation beyond raw population growth.
-    </div>
-    <div style="background-color: rgba(240, 165, 0, 0.08); border-left: 5px solid #F0A500; padding: 12px; border-radius: 4px; margin-bottom: 10px;">
-        <strong style="color: #B57C00;">⚠️ Geographic Strain Patterns:</strong><br>
-        <strong>Alberta</strong> exhibits the highest senior expansion velocity (+22.0%), while <strong>Prince Edward Island</strong> registers the heaviest antidepressant volume and Alternate Level of Care (ALC) bed dependency.
-    </div>
-    <div style="background-color: rgba(15, 110, 86, 0.08); border-left: 5px solid #0F6E56; padding: 12px; border-radius: 4px; margin-bottom: 15px;">
-        <strong style="color: #0F6E56;">✅ Cardiovascular Policy Success:</strong><br>
-        Age-standardized rates contracted by <strong>-48.6%</strong>, demonstrating the massive efficacy of multi-decade vascular preventative strategies across the country.
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown('<p class="section-header">Proportional Share of Analyzed Burden (2023)</p>', unsafe_allow_html=True)
-    dalys_pie = {d: daly_data[d][-1] for d in DISEASES}
-    
-    # Refactoring standard pie into a modern, publication-style donut chart
-    fig_donut = px.pie(
-        values=list(dalys_pie.values()), names=list(dalys_pie.keys()),
-        color=list(dalys_pie.keys()), color_discrete_map=DISEASE_COLORS,
-        hole=0.5
-    )
-    fig_donut.update_layout(
-        showlegend=True, 
-        legend=dict(orientation="h", yanchor="bottom", y=-0.4, xanchor="center", x=0.5),
-        height=280, 
-        margin=dict(l=10, r=10, t=10, b=10)
-    )
-    fig_donut.update_traces(textposition='inside', textinfo='percent', textfont_size=11)
-    st.plotly_chart(fig_donut, use_container_width=True)
+# ── CUSTOM CSS ──
+st.markdown("""
+<style>
+    .main-title {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #4D9FE8;
+        margin-bottom: 0.2rem;
+    }
+    .sub-title {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    .metric-card {
+        border-radius: 8px;
+        padding: 1rem;
+        text-align: center;
+    }
+    .section-header {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #4D9FE8;
+        border-bottom: 2px solid #4D9FE8;
+        padding-bottom: 0.3rem;
+        margin-bottom: 1rem;
+    }
+    .highlight-box {
+        background: rgba(77, 159, 232, 0.15);
+        border-left: 4px solid #4D9FE8;
+        padding: 0.75rem 1rem;
+        border-radius: 0 8px 8px 0;
+        margin: 1rem 0;
+    }
+    .warning-box {
+        background: rgba(220, 80, 80, 0.15);
+        border-left: 4px solid #E05555;
+        padding: 0.75rem 1rem;
+        border-radius: 0 8px 8px 0;
+        margin: 1rem 0;
+    }
+    .success-box {
+        background: rgba(50, 160, 80, 0.15);
+        border-left: 4px solid #32A050;
+        padding: 0.75rem 1rem;
+        border-radius: 0 8px 8px 0;
+        margin: 1rem 0;
+    }
+</style>
+""", unsafe_allow_html=True)
 
 # ── CONSTANTS ──
 DISEASE_COLORS = {
@@ -223,15 +201,15 @@ def get_provincial_pharma():
     provinces. Matches paper Table 4."""
     return pd.DataFrame([
         {'Province': 'Ontario',                   'Senior Pop (2024)': 2954128, 'Growth % (2020-24)': 14.2, 'Antidepressant Rx (2024)': 640981, 'Rx per 1,000 Seniors': 217.0},
-        {'Province': 'Quebec',                     'Senior Pop (2024)': 1908944, 'Growth % (2020-24)': 14.1, 'Antidepressant Rx (2024)': 448342, 'Rx per 1,000 Seniors': 234.9},
-        {'Province': 'British Columbia',           'Senior Pop (2024)': 1127346, 'Growth % (2020-24)': 14.7, 'Antidepressant Rx (2024)': 205795, 'Rx per 1,000 Seniors': 182.5},
-        {'Province': 'Alberta',                    'Senior Pop (2024)': 740710,  'Growth % (2020-24)': 22.0, 'Antidepressant Rx (2024)': 153543, 'Rx per 1,000 Seniors': 207.3},
-        {'Province': 'Manitoba',                   'Senior Pop (2024)': 251515,  'Growth % (2020-24)': 13.0, 'Antidepressant Rx (2024)': 53462,  'Rx per 1,000 Seniors': 212.6},
-        {'Province': 'Saskatchewan',                'Senior Pop (2024)': 217401,  'Growth % (2020-24)': 13.2, 'Antidepressant Rx (2024)': 47626,  'Rx per 1,000 Seniors': 219.1},
-        {'Province': 'Nova Scotia',                 'Senior Pop (2024)': 238698,  'Growth % (2020-24)': 13.6, 'Antidepressant Rx (2024)': 47925,  'Rx per 1,000 Seniors': 200.8},
-        {'Province': 'New Brunswick',               'Senior Pop (2024)': 196181,  'Growth % (2020-24)': 13.9, 'Antidepressant Rx (2024)': 29561,  'Rx per 1,000 Seniors': 150.7},
-        {'Province': 'Newfoundland and Labrador',   'Senior Pop (2024)': 134324,  'Growth % (2020-24)': 13.4, 'Antidepressant Rx (2024)': 21244,  'Rx per 1,000 Seniors': 158.2},
-        {'Province': 'Prince Edward Island',        'Senior Pop (2024)': 36848,   'Growth % (2020-24)': 15.2, 'Antidepressant Rx (2024)': 9458,   'Rx per 1,000 Seniors': 256.7},
+        {'Province': 'Quebec',                    'Senior Pop (2024)': 1908944, 'Growth % (2020-24)': 14.1, 'Antidepressant Rx (2024)': 448342, 'Rx per 1,000 Seniors': 234.9},
+        {'Province': 'British Columbia',          'Senior Pop (2024)': 1127346, 'Growth % (2020-24)': 14.7, 'Antidepressant Rx (2024)': 205795, 'Rx per 1,000 Seniors': 182.5},
+        {'Province': 'Alberta',                   'Senior Pop (2024)': 740710,  'Growth % (2020-24)': 22.0, 'Antidepressant Rx (2024)': 153543, 'Rx per 1,000 Seniors': 207.3},
+        {'Province': 'Manitoba',                  'Senior Pop (2024)': 251515,  'Growth % (2020-24)': 13.0, 'Antidepressant Rx (2024)': 53462,  'Rx per 1,000 Seniors': 212.6},
+        {'Province': 'Saskatchewan',              'Senior Pop (2024)': 217401,  'Growth % (2020-24)': 13.2, 'Antidepressant Rx (2024)': 47626,  'Rx per 1,000 Seniors': 219.1},
+        {'Province': 'Nova Scotia',               'Senior Pop (2024)': 238698,  'Growth % (2020-24)': 13.6, 'Antidepressant Rx (2024)': 47925,  'Rx per 1,000 Seniors': 200.8},
+        {'Province': 'New Brunswick',             'Senior Pop (2024)': 196181,  'Growth % (2020-24)': 13.9, 'Antidepressant Rx (2024)': 29561,  'Rx per 1,000 Seniors': 150.7},
+        {'Province': 'Newfoundland and Labrador', 'Senior Pop (2024)': 134324,  'Growth % (2020-24)': 13.4, 'Antidepressant Rx (2024)': 21244,  'Rx per 1,000 Seniors': 158.2},
+        {'Province': 'Prince Edward Island',      'Senior Pop (2024)': 36848,   'Growth % (2020-24)': 15.2, 'Antidepressant Rx (2024)': 9458,   'Rx per 1,000 Seniors': 256.7},
     ])
 
 
@@ -263,14 +241,14 @@ def get_cihi_hosp_65plus():
     """CIHI HMDB/OMHRS 2024-2025 — top 10 inpatient hospitalizations, age 65+. Matches paper Table 6."""
     return pd.DataFrame([
         {'rank': 1,  'diagnosis': 'COPD and bronchitis',                          'n_hosp': 68321, 'avg_los': 7.3,  'category': 'Respiratory'},
-        {'rank': 2,  'diagnosis': 'Heart failure',                                'n_hosp': 61591, 'avg_los': 9.7,  'category': 'Cardiovascular'},
-        {'rank': 3,  'diagnosis': 'Neurocognitive disorders',                     'n_hosp': 49996, 'avg_los': 17.1, 'category': 'Neurological'},
-        {'rank': 4,  'diagnosis': 'Pneumonia',                                    'n_hosp': 49060, 'avg_los': 7.9,  'category': 'Respiratory'},
+        {'rank': 2,  'diagnosis': 'Heart failure',                                 'n_hosp': 61591, 'avg_los': 9.7,  'category': 'Cardiovascular'},
+        {'rank': 3,  'diagnosis': 'Neurocognitive disorders',                      'n_hosp': 49996, 'avg_los': 17.1, 'category': 'Neurological'},
+        {'rank': 4,  'diagnosis': 'Pneumonia',                                     'n_hosp': 49060, 'avg_los': 7.9,  'category': 'Respiratory'},
         {'rank': 5,  'diagnosis': 'Osteoarthritis of the knee',                   'n_hosp': 45585, 'avg_los': 2.1,  'category': 'Musculoskeletal'},
-        {'rank': 6,  'diagnosis': 'Other medical care (palliative)',              'n_hosp': 40829, 'avg_los': 9.1,  'category': 'Other'},
-        {'rank': 7,  'diagnosis': 'Acute myocardial infarction',                  'n_hosp': 40284, 'avg_los': 5.6,  'category': 'Cardiovascular'},
-        {'rank': 8,  'diagnosis': 'Fracture of femur',                            'n_hosp': 39700, 'avg_los': 11.4, 'category': 'Musculoskeletal'},
-        {'rank': 9,  'diagnosis': 'Cerebral infarction',                          'n_hosp': 32662, 'avg_los': 10.4, 'category': 'Neurological'},
+        {'rank': 6,  'diagnosis': 'Other medical care (palliative)',               'n_hosp': 40829, 'avg_los': 9.1,  'category': 'Other'},
+        {'rank': 7,  'diagnosis': 'Acute myocardial infarction',                   'n_hosp': 40284, 'avg_los': 5.6,  'category': 'Cardiovascular'},
+        {'rank': 8,  'diagnosis': 'Fracture of femur',                             'n_hosp': 39700, 'avg_los': 11.4, 'category': 'Musculoskeletal'},
+        {'rank': 9,  'diagnosis': 'Cerebral infarction',                           'n_hosp': 32662, 'avg_los': 10.4, 'category': 'Neurological'},
         {'rank': 10, 'diagnosis': 'Other diseases of the urinary system (UTI)',   'n_hosp': 26443, 'avg_los': 7.8,  'category': 'Other'},
     ])
 
@@ -322,7 +300,7 @@ CLSA_FINDINGS = {
 }
 
 
-# ── LOAD DATA ──
+# ── INITIAL DATA LOADING EXECUTION ──
 gbd_raw, missing_files = load_gbd_data()
 daly_data, rate_data, deaths_2023 = get_gbd_fallback()
 allcause = get_allcause_gbd()
@@ -344,7 +322,8 @@ hosp_df = get_cihi_hosp_65plus()
 hosp_rate_trend_df = get_national_hosp_rate_trend()
 alc_df, alc_canada_df = get_cihi_alc()
 
-# ── SIDEBAR ──
+
+# ── SIDEBAR INTERFACES & FILTER GLOBALS (MIGRATED UPWARD) ──
 st.sidebar.markdown("## 🏥 Disease Burden Dashboard")
 st.sidebar.markdown("**GBD 2023 · CIHI · Statistics Canada · CLSA**")
 st.sidebar.markdown("---")
@@ -359,6 +338,8 @@ page = st.sidebar.radio(
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("### Filters")
+
+# CRITICAL FIX: These filters must compute before any visual sections evaluate down-script!
 selected_diseases = st.sidebar.multiselect("Select diseases", DISEASES, default=DISEASES)
 filtered_diseases = [d for d in selected_diseases if d in DISEASES] or DISEASES
 
@@ -414,669 +395,12 @@ if page == "📊 Overall Disease Burden":
         dalys_2023 = {d: daly_data[d][-1] for d in filtered_diseases}
         df_plot = pd.DataFrame({'Disease': list(dalys_2023.keys()), 'DALYs': list(dalys_2023.values())})
         df_plot = df_plot.sort_values('DALYs', ascending=True)
+        
         fig = px.bar(df_plot, x='DALYs', y='Disease', orientation='h',
                      color='Disease', color_discrete_map=DISEASE_COLORS,
-                     labels={'DALYs': 'DALYs (number)'})
-        fig.update_traces(texttemplate='%{x:,.0f}', textposition='outside')
-        fig.update_layout(showlegend=False, height=380,
-                           plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
-                           xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
-                           yaxis=dict(showgrid=False),
-                           margin=dict(l=0, r=80, t=10, b=10))
-        st.plotly_chart(fig, use_container_width=True)
-
-    with col_right:
-        st.markdown('<p class="section-header">Key Findings</p>', unsafe_allow_html=True)
-        st.markdown("""
-        <div class="warning-box">
-        <b>⚠️ Mental disorders</b><br>
-        Highest absolute DALY growth (+160.7%) AND rising age-standardized rate (+20.2%) — a genuine
-        worsening, not just population growth.
-        </div>
-        <div class="warning-box">
-        <b>⚠️ Two geographic pressure points</b><br>
-        Alberta: fastest-growing senior population (+22.0% since 2020). Prince Edward Island: highest
-        antidepressant Rx rate and highest ALC burden of any province.
-        </div>
-        <div class="success-box">
-        <b>✅ Cardiovascular disease</b><br>
-        Age-standardized rate fell -48.6% — the strongest evidence in this dataset that sustained
-        intervention works.
-        </div>
-        <div class="highlight-box">
-        <b>🔮 2040 forecast</b><br>
-        Mental disorders projected +80.8% growth by 2040 — the highest of any category analyzed.
-        </div>
-        """, unsafe_allow_html=True)
-
-        st.markdown('<p class="section-header" style="margin-top:1rem;">Burden distribution, 2023</p>', unsafe_allow_html=True)
-        dalys_pie = {d: daly_data[d][-1] for d in DISEASES}
-        fig_pie = px.pie(values=list(dalys_pie.values()), names=list(dalys_pie.keys()),
-                          color=list(dalys_pie.keys()), color_discrete_map=DISEASE_COLORS)
-        fig_pie.update_layout(showlegend=False, height=220, margin=dict(l=0, r=0, t=0, b=0))
-        fig_pie.update_traces(textposition='inside', textinfo='percent+label', textfont_size=10)
-        st.plotly_chart(fig_pie, use_container_width=True)
-
-
-# ============================================================
-# PAGE 2: ABSOLUTE DALY TRENDS
-# ============================================================
-elif page == "📈 Absolute DALY Trends":
-    st.markdown('<p class="main-title">Absolute DALY Trends, 1995–2023</p>', unsafe_allow_html=True)
-
-    metric_type = st.radio("View metric as:", ["Absolute numbers", "% Growth from 1995 baseline"], horizontal=True)
-
-    fig = go.Figure()
-    for disease in filtered_diseases:
-        vals = daly_data[disease]
-        y_vals = vals if metric_type == "Absolute numbers" else [(v - vals[0]) / vals[0] * 100 for v in vals]
-        fig.add_trace(go.Scatter(
-            x=OBS_YEARS, y=y_vals, mode='lines+markers', name=disease,
-            line=dict(color=DISEASE_COLORS[disease], width=2.5), marker=dict(size=7)
-        ))
-
-    ylabel = "DALYs (number)" if metric_type == "Absolute numbers" else "% Growth from 1995 baseline"
-    fig.update_layout(height=450, xaxis_title="Year", yaxis_title=ylabel,
-                       plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
-                       xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
-                       yaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
-                       legend=dict(orientation='v', x=1.01, y=1),
-                       margin=dict(l=0, r=150, t=20, b=40))
-    st.plotly_chart(fig, use_container_width=True)
-
-    st.markdown("---")
-    st.markdown('<p class="section-header">Year-by-Year DALY Table</p>', unsafe_allow_html=True)
-    df_table = pd.DataFrame({d: daly_data[d] for d in filtered_diseases}, index=OBS_YEARS)
-    df_table.index.name = 'Year'
-    df_table['% Change 1995-2023'] = df_table.apply(
-        lambda col: f"+{(col.iloc[-1]-col.iloc[0])/col.iloc[0]*100:.1f}%" if col.name != '% Change 1995-2023' else '', axis=0
-    )
-    st.dataframe(df_table.style.format("{:,.0f}"), use_container_width=True)
-
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.markdown('<div class="warning-box"><b>Fastest growing</b><br>Mental disorders: +160.7%<br>Neurological: +135.7%</div>', unsafe_allow_html=True)
-    with col2:
-        st.markdown('<div class="highlight-box"><b>Moderate growth</b><br>Diabetes: +116.7%<br>Musculoskeletal: +112.9%</div>', unsafe_allow_html=True)
-    with col3:
-        st.markdown('<div class="success-box"><b>Slowest growth</b><br>Cardiovascular: +11.5%<br>(Interventions effective)</div>', unsafe_allow_html=True)
-
-
-# ============================================================
-# PAGE 3: AGE-STANDARDIZED RATE TRENDS
-# ============================================================
-elif page == "📉 Age-Standardized Rate Trends":
-    st.markdown('<p class="main-title">Age-Standardized Rate Trends, 1995–2023</p>', unsafe_allow_html=True)
-    st.markdown("Controls for population growth — shows the true burden trajectory")
-
-    col_left, col_right = st.columns(2)
-
-    with col_left:
-        st.markdown('<p class="section-header">Rate trends, 1995–2023</p>', unsafe_allow_html=True)
-        fig = go.Figure()
-        for disease in filtered_diseases:
-            if disease in rate_data:
-                fig.add_trace(go.Scatter(
-                    x=OBS_YEARS, y=rate_data[disease], mode='lines+markers',
-                    name=disease, line=dict(color=DISEASE_COLORS[disease], width=2.5),
-                    marker=dict(size=6)
-                ))
-        fig.update_layout(height=380, xaxis_title="Year",
-                           yaxis_title="Age-standardized rate per 100,000",
-                           plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
-                           xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
-                           yaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
-                           legend=dict(orientation='v', x=1.01, y=1),
-                           margin=dict(l=0, r=150, t=10, b=40))
-        st.plotly_chart(fig, use_container_width=True)
-
-    with col_right:
-        st.markdown('<p class="section-header">% Change in rate, 1995→2023</p>', unsafe_allow_html=True)
-        rate_changes = {d: (rate_data[d][-1] - rate_data[d][0]) / rate_data[d][0] * 100
-                         for d in filtered_diseases if d in rate_data}
-        df_rate = pd.DataFrame({'Disease': list(rate_changes.keys()), 'Rate Change (%)': list(rate_changes.values())})
-        df_rate = df_rate.sort_values('Rate Change (%)')
-        colors = ['#0F6E56' if v < 0 else '#A32D2D' for v in df_rate['Rate Change (%)']]
-        fig2 = px.bar(df_rate, x='Rate Change (%)', y='Disease', orientation='h',
-                      color='Disease', color_discrete_map={d: c for d, c in zip(df_rate['Disease'], colors)})
-        fig2.add_vline(x=0, line_color='gray', line_width=1)
-        fig2.update_layout(showlegend=False, height=380,
-                            plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
-                            xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)', ticksuffix='%'),
-                            yaxis=dict(showgrid=False),
-                            margin=dict(l=0, r=20, t=10, b=40))
-        st.plotly_chart(fig2, use_container_width=True)
-
-    st.markdown("---")
-    st.markdown('<p class="section-header">Age-Standardized Rate Table</p>', unsafe_allow_html=True)
-    df_rates_table = pd.DataFrame(rate_data, index=OBS_YEARS).T
-    df_rates_table.index.name = 'Disease'
-    df_rates_table['Rate Change'] = df_rates_table.apply(
-        lambda row: f"{(row.iloc[-1]-row.iloc[0])/row.iloc[0]*100:+.1f}%", axis=1
-    )
-    df_rates_table['Interpretation'] = df_rates_table['Rate Change'].apply(
-        lambda x: '↓ Declining (interventions effective)' if float(x[:-1]) < -10
-        else '↓ Slightly declining' if float(x[:-1]) < 0
-        else '→ Stable' if float(x[:-1]) < 5
-        else '↑ Rising (genuine increase) ⚠️'
-    )
-    st.dataframe(df_rates_table.style.format({c: "{:.1f}" for c in OBS_YEARS}), use_container_width=True)
-
-    st.markdown("""
-    <div class="highlight-box">
-    <b>Key finding:</b> Cardiovascular disease rate fell -48.6% — the strongest evidence that targeted
-    intervention works. Mental disorders rate rose +20.2% even after controlling for population growth
-    — a genuine worsening that existing interventions have not yet addressed.
-    </div>
-    """, unsafe_allow_html=True)
-
-
-# ============================================================
-# PAGE 4: PROVINCIAL BURDEN & DEMOGRAPHICS
-# ============================================================
-elif page == "🗺️ Provincial Burden & Demographics":
-    st.markdown('<p class="main-title">Provincial Senior Population and Mental Health Burden Proxy</p>', unsafe_allow_html=True)
-    st.markdown("CIHI Pharmaceutical Data Tool, 2020–2024 | All ten Canadian provinces")
-
-    df_prov = prov_pharma_df[prov_pharma_df['Province'].isin(filtered_provinces)].copy()
-
-    col1, col2, col3, col4 = st.columns(4)
-    with col1:
-        st.metric("Largest senior population", "Ontario", "2.95M seniors")
-    with col2:
-        st.metric("Fastest-growing", "Alberta", "+22.0% since 2020")
-    with col3:
-        st.metric("Highest antidepressant Rx", "Prince Edward Island", "256.7 per 1,000")
-    with col4:
-        st.metric("Lowest antidepressant Rx", "New Brunswick", "150.7 per 1,000")
-
-    st.markdown("---")
-    metric_choice = st.selectbox("Select metric to visualize:", [
-        'Senior Pop (2024)', 'Growth % (2020-24)', 'Antidepressant Rx (2024)', 'Rx per 1,000 Seniors'
-    ])
-
-    col_left, col_right = st.columns(2)
-
-    with col_left:
-        df_sorted = df_prov.sort_values(metric_choice, ascending=True)
-        fig = px.bar(df_sorted, x=metric_choice, y='Province', orientation='h',
-                     color='Province', color_discrete_map=PROVINCE_COLORS, text=metric_choice)
-        fig.update_traces(texttemplate='%{text:,.1f}', textposition='outside')
-        fig.update_layout(showlegend=False, height=420, plot_bgcolor='rgba(0,0,0,0)',
-                           paper_bgcolor='rgba(0,0,0,0)', margin=dict(l=0, r=60, t=10, b=40),
-                           yaxis=dict(showgrid=False), xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'))
-        st.plotly_chart(fig, use_container_width=True)
-
-    with col_right:
-        st.markdown("**Two pressure points: growth velocity vs. mental health burden**")
-        fig2 = px.scatter(df_prov, x='Growth % (2020-24)', y='Rx per 1,000 Seniors',
-                           color='Province', color_discrete_map=PROVINCE_COLORS,
-                           size='Senior Pop (2024)', text='Province',
-                           labels={'Growth % (2020-24)': 'Senior population growth, 2020–2024 (%)',
-                                   'Rx per 1,000 Seniors': 'Antidepressant Rx per 1,000 seniors'})
-        fig2.update_traces(textposition='top center')
-        fig2.update_layout(showlegend=False, height=420, plot_bgcolor='rgba(0,0,0,0)',
-                            paper_bgcolor='rgba(0,0,0,0)', margin=dict(l=0, r=20, t=10, b=40))
-        st.plotly_chart(fig2, use_container_width=True)
-
-    st.markdown("---")
-    st.markdown('<p class="section-header">Complete Provincial Summary Table</p>', unsafe_allow_html=True)
-    st.dataframe(df_prov.set_index('Province'), use_container_width=True)
-
-    st.markdown("""
-    <div class="warning-box">
-    <b>⚠️ Alberta — demographic growth velocity</b><br>
-    740,710 seniors growing at +22.0% since 2020 — 6.8 percentage points ahead of the next-fastest
-    province (Prince Edward Island). Alberta's antidepressant Rx rate (207.3 per 1,000) sits in the
-    middle of the national distribution, indicating its primary pressure point is the speed of growth
-    itself, not an unusually high baseline mental health burden.
-    </div>
-    <div class="warning-box">
-    <b>⚠️ Prince Edward Island — community capacity strain</b><br>
-    Combines the highest antidepressant Rx rate of any province (256.7 per 1,000) with the highest
-    proportion of hospital patient-days in alternate level of care (28.0%, see Hospitalization Burden
-    page) — despite comparatively modest population growth (+15.2%). This is a distinct pressure point
-    from Alberta's, concentrated in the smaller Atlantic provinces.
-    </div>
-    """, unsafe_allow_html=True)
-
-
-# ============================================================
-# PAGE 5: FORECASTING THROUGH 2040
-# ============================================================
-elif page == "🔮 Forecasting Through 2040":
-    st.markdown('<p class="main-title">Disease Burden Forecasting, 2024–2040</p>', unsafe_allow_html=True)
-    st.markdown("Polynomial regression (degree=2) with cubic spline interpolation | R² > 0.96 | MAPE < 3.1%")
-
-    col1, col2, col3, col4 = st.columns(4)
-    with col1:
-        st.metric("Total DALYs 2023", "5.01M", "7 disease categories")
-    with col2:
-        st.metric("Projected 2040", "7.99M", "+59.5% growth")
-    with col3:
-        st.metric("Highest growth", "Mental disorders", "+80.8%")
-    with col4:
-        st.metric("Model R²", "> 0.96", "All diseases")
-
-    st.markdown("---")
-    disease_choice = st.selectbox("Select disease to view:", ['All diseases'] + DISEASES)
-    annual_years = np.arange(1995, 2024)
-
-    fig = go.Figure()
-    diseases_to_plot = DISEASES if disease_choice == 'All diseases' else [disease_choice]
-
-    for disease in diseases_to_plot:
-        if disease not in filtered_diseases and disease_choice == 'All diseases':
-            continue
-        color = DISEASE_COLORS[disease]
-        obs_vals = daly_data[disease]
-        cs = CubicSpline(OBS_YEARS, obs_vals)
-        annual_hist = np.maximum(cs(annual_years), 0)
-        forecast = forecasts[disease]
-
-        fig.add_trace(go.Scatter(
-            x=list(annual_years), y=list(annual_hist / 1_000_000),
-            mode='lines', name=f"{disease} (hist)",
-            line=dict(color=color, width=2.5), showlegend=True
-        ))
-        fig.add_trace(go.Scatter(
-            x=list(forecast_years), y=list(forecast / 1_000_000),
-            mode='lines', name=f"{disease} (forecast)",
-            line=dict(color=color, width=2.5, dash='dash'), showlegend=True
-        ))
-
-    fig.add_vline(x=2023, line_color='gray', line_dash='dot', line_width=1.5,
-                  annotation_text="← Historical | Forecast →", annotation_position="top right")
-    fig.update_layout(
-        height=460, xaxis_title="Year", yaxis_title="DALYs (Millions)",
-        plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
-        xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
-        yaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
-        legend=dict(orientation='v', x=1.01, y=1),
-        margin=dict(l=0, r=200, t=20, b=40)
-    )
-    st.plotly_chart(fig, use_container_width=True)
-
-    st.markdown("---")
-    st.markdown('<p class="section-header">Forecast Table — DALYs, 2023–2040</p>', unsafe_allow_html=True)
-    forecast_table_data = {'Disease': [], '2023 (obs)': [], '2025': [], '2030': [], '2035': [], '2040': [], 'Growth 2023-2040': []}
-
-    for disease in DISEASES:
-        f = forecasts[disease]
-        obs = daly_data[disease][-1]
-        growth = forecast_metrics[disease]['growth_2040']
-        forecast_table_data['Disease'].append(disease)
-        forecast_table_data['2023 (obs)'].append(f"{obs:,.0f}")
-        forecast_table_data['2025'].append(f"{f[1]:,.0f}")
-        forecast_table_data['2030'].append(f"{f[6]:,.0f}")
-        forecast_table_data['2035'].append(f"{f[11]:,.0f}")
-        forecast_table_data['2040'].append(f"{f[16]:,.0f}")
-        forecast_table_data['Growth 2023-2040'].append(f"+{growth:.1f}%")
-
-    df_forecast = pd.DataFrame(forecast_table_data).set_index('Disease')
-    st.dataframe(df_forecast, use_container_width=True)
-
-    total_2040 = sum(forecasts[d][16] for d in DISEASES)
-    st.markdown(f"""
-    <div class="warning-box">
-    <b>🔮 2040 Projection Summary</b><br>
-    Total DALYs across 7 disease categories are projected to reach <b>{total_2040/1e6:.2f} million by 2040</b>
-    (+59.5% from 2023). Mental disorders (+80.8%) and musculoskeletal disorders (+76.5%) show the
-    highest projected growth, reinforcing the need for proactive expansion of mental health and
-    musculoskeletal care capacity for older Canadians over the next two decades. Model: polynomial
-    regression (degree=2), R² > 0.96, MAPE < 3.1% for all disease categories.
-    </div>
-    """, unsafe_allow_html=True)
-
-
-# ============================================================
-# PAGE 6: POPULATION PROJECTIONS (2025-2040)
-# ============================================================
-elif page == "👥 Population Projections (2025–2040)":
-    st.markdown('<p class="main-title">Population Projections — Statistics Canada</p>', unsafe_allow_html=True)
-    st.markdown("**Source:** Table 17-10-0057-01 | M2 medium-growth scenario | Age 65+ | 2025–2040")
-
-    display_provinces = filtered_provinces
-
-    st.markdown("### Key Metrics (2025 → 2040, M2 Scenario)")
-    regions = ['Canada'] + display_provinces
-    cols = st.columns(min(len(regions), 6))
-    for i, region in enumerate(regions[:6]):
-        base = pop_df.loc[2025, region]
-        end = pop_df.loc[2040, region]
-        growth = (end - base) / base * 100
-        with cols[i]:
-            st.metric(label=region, value=f"{end/1000:.2f}M" if region == 'Canada' else f"{end:,.0f}k",
-                      delta=f"+{growth:.1f}%")
-
-    st.markdown("---")
-    c1, c2 = st.columns(2)
-
-    with c1:
-        st.markdown("#### Absolute 65+ population (thousands)")
-        fig = go.Figure()
-        fig.add_trace(go.Scatter(x=pop_df.index, y=pop_df['Canada'], name='Canada',
-                                  line=dict(color='#2563EB', width=3), mode='lines+markers', marker=dict(size=5)))
-        for p in display_provinces:
-            fig.add_trace(go.Scatter(x=pop_df.index, y=pop_df[p], name=p,
-                                      line=dict(color=PROVINCE_COLORS[p], width=2, dash='dash'),
-                                      mode='lines+markers', marker=dict(size=4)))
-        fig.update_layout(xaxis_title='Year', yaxis_title='Population (thousands)',
-                           legend=dict(x=0.01, y=0.99), height=400, margin=dict(l=40, r=20, t=20, b=40))
-        st.plotly_chart(fig, use_container_width=True)
-
-    with c2:
-        st.markdown("#### Growth from 2025 baseline (%)")
-        fig2 = go.Figure()
-        fig2.add_trace(go.Scatter(x=pop_df.index, y=(pop_df['Canada'] - pop_df.loc[2025, 'Canada']) / pop_df.loc[2025, 'Canada'] * 100,
-                                   name='Canada', line=dict(color='#2563EB', width=3), mode='lines+markers', marker=dict(size=5)))
-        for p in display_provinces:
-            base = pop_df.loc[2025, p]
-            growth_pct = (pop_df[p] - base) / base * 100
-            fig2.add_trace(go.Scatter(x=pop_df.index, y=growth_pct, name=p,
-                                       line=dict(color=PROVINCE_COLORS[p], width=2, dash='dash'),
-                                       mode='lines+markers', marker=dict(size=4)))
-        fig2.update_layout(xaxis_title='Year', yaxis_title='Growth from 2025 (%)',
-                            legend=dict(x=0.01, y=0.99), height=400, margin=dict(l=40, r=20, t=20, b=40))
-        st.plotly_chart(fig2, use_container_width=True)
-
-    st.markdown("#### Full Data Table (thousands, M2 scenario)")
-    key_years = [2025, 2030, 2035, 2040]
-    display_df = pop_df.loc[key_years, ['Canada'] + display_provinces].copy()
-    display_df.index.name = 'Year'
-    st.dataframe(display_df.style.format("{:,.1f}"), use_container_width=True)
-
-    st.markdown("""
-    <div class="highlight-box">
-    <b>Key Finding:</b> Alberta's 65+ population is projected to grow by <b>+47.8%</b> by 2040 — the
-    fastest rate of any of the ten provinces, nearly double the next-fastest, Prince Edward Island
-    (+27.3%) and Saskatchewan (+25.7%). The four Atlantic provinces show the slowest projected growth,
-    ranging from +16.8% to +27.3%.
-    </div>
-    """, unsafe_allow_html=True)
-
-
-# ============================================================
-# PAGE 7: HOSPITALIZATION BURDEN & ALC
-# ============================================================
-elif page == "🏥 Hospitalization Burden & ALC":
-    st.markdown('<p class="main-title">Hospitalization Burden — CIHI</p>', unsafe_allow_html=True)
-    st.markdown("**Source:** CIHI Hospital Morbidity Database (HMDB)/OMHRS, 2024–2025 | Released February 19, 2026")
-
-    cat_colors = {'Cardiovascular': '#EF4444', 'Respiratory': '#3B82F6', 'Neurological': '#8B5CF6',
-                  'Musculoskeletal': '#F59E0B', 'Other': '#6B7280'}
-
-    st.markdown("### National Hospitalization Rate (Age 65+)")
-    m1, m2, m3, m4 = st.columns(4)
-    m1.metric("Rate 2024–25 (per 100k)", "7,560", delta="+4.6% vs 2020–21")
-    m2.metric("Avg Length of Stay", "6.1 days", delta="+0.3d vs 2020–21")
-    m3.metric("Top 65+ Cause", "COPD (68,321)", delta="#1 by volume")
-    m4.metric("Longest LOS (65+)", "Neurocognitive (17.1d)", delta="Highest care intensity")
-
-    st.markdown("---")
-    tab1, tab2, tab3 = st.tabs(["Top 10 Diagnoses (65+)", "National Rate Trend", "ALC Days by Province"])
-
-    with tab1:
-        c1, c2 = st.columns([3, 2])
-        with c1:
-            fig = go.Figure(go.Bar(
-                x=hosp_df['n_hosp'][::-1] / 1000, y=hosp_df['diagnosis'][::-1], orientation='h',
-                marker_color=[cat_colors[c] for c in hosp_df['category'][::-1]],
-                text=[f"{v:,}" for v in hosp_df['n_hosp'][::-1]], textposition='outside'
-            ))
-            fig.update_layout(title='Hospitalizations by diagnosis (thousands)',
-                               xaxis_title='Hospitalizations (thousands)', height=420,
-                               margin=dict(l=260, r=60, t=40, b=40))
-            st.plotly_chart(fig, use_container_width=True)
-        with c2:
-            st.markdown("**Category breakdown**")
-            cat_totals = hosp_df.groupby('category')['n_hosp'].sum().reset_index()
-            fig_pie = go.Figure(go.Pie(labels=cat_totals['category'], values=cat_totals['n_hosp'],
-                                        marker_colors=[cat_colors.get(c, '#999') for c in cat_totals['category']], hole=0.4))
-            fig_pie.update_layout(height=300, margin=dict(l=20, r=20, t=20, b=20), showlegend=True)
-            st.plotly_chart(fig_pie, use_container_width=True)
-            st.markdown("**Note:** chronic respiratory disease ranks only 5th of 7 categories by DALYs (Table 1),"
-                        " yet COPD and bronchitis ranks 1st in hospitalizations — see the Integrated Analysis page.")
-
-    with tab2:
-        fig_trend = go.Figure()
-        fig_trend.add_trace(go.Scatter(x=hosp_rate_trend_df['Fiscal Year'], y=hosp_rate_trend_df['Rate per 100,000'],
-                                        mode='lines+markers', name='Rate per 100,000', line=dict(color='#2563EB', width=3)))
-        fig_trend.update_layout(title='National age-sex-standardized hospitalization rate, 2020–21 to 2024–25',
-                                 yaxis_title='Rate per 100,000', height=380, margin=dict(l=40, r=20, t=60, b=40))
-        st.plotly_chart(fig_trend, use_container_width=True)
-        st.dataframe(hosp_rate_trend_df.set_index('Fiscal Year'), use_container_width=True)
-        st.markdown("""
-        <div class="warning-box">
-        <b>Key Finding:</b> Neurocognitive disorders have an average length of stay of <b>17.1 days</b> —
-        nearly three times the overall average of 6.1 days — reflecting the high care intensity of
-        dementia-related hospitalizations and the need for expanded community-based dementia support.
-        </div>
-        """, unsafe_allow_html=True)
-
-    with tab3:
-        alc_display = alc_df[alc_df['Province'].isin([p for p in filtered_provinces if p != 'Quebec'])].copy()
-        alc_display = alc_display.sort_values('Patient Days in ALC (%)', ascending=True)
-        highlight = ['#F0A500' if p == 'Prince Edward Island' else '#185FA5' for p in alc_display['Province']]
-        fig_alc = go.Figure(go.Bar(
-            x=alc_display['Patient Days in ALC (%)'], y=alc_display['Province'], orientation='h',
-            marker_color=highlight, text=[f"{v:.1f}%" for v in alc_display['Patient Days in ALC (%)']],
-            textposition='outside'
-        ))
-        fig_alc.update_layout(title='Patient days in ALC (%), 2024–2025', xaxis_title='Patient Days in ALC (%)',
-                               height=420, margin=dict(l=160, r=40, t=60, b=40))
-        st.plotly_chart(fig_alc, use_container_width=True)
-
-        st.markdown(f"Canada (excl. Quebec) overall: **{alc_canada_df['Patient Days in ALC (%)'].iloc[0]:.1f}%** "
-                    f"across {alc_canada_df['Hospitalizations (2024-25)'].iloc[0]:,} hospitalizations. "
-                    "Quebec is excluded — its ALC definition is structurally narrower than the one used "
-                    "in the other nine provinces (see paper Section 2.4). The Canada total also includes "
-                    "Yukon, Northwest Territories, and Nunavut, which are not shown as separate rows.")
-
-        st.markdown("""
-        <div class="warning-box">
-        <b>Key Finding:</b> Prince Edward Island recorded the highest ALC burden of any province (28.0%),
-        more than double Saskatchewan's 11.9% (the lowest). The highest-ALC provinces — PEI, Newfoundland
-        and Labrador, New Brunswick, and Nova Scotia — are concentrated in Atlantic Canada, a pattern
-        invisible in a smaller provincial comparison set.
-        </div>
-        """, unsafe_allow_html=True)
-
-
-# ============================================================
-# PAGE 8: INTEGRATED MULTI-SOURCE ANALYSIS
-# ============================================================
-elif page == "🔗 Integrated Multi-Source Analysis":
-    st.markdown('<p class="main-title">Integrated Analysis — All Four Data Sources</p>', unsafe_allow_html=True)
-    st.markdown("Combining GBD 2023 burden data, Statistics Canada population projections, "
-                "CIHI hospitalization and pharmaceutical data, and CLSA individual-level evidence.")
-
-    tab1, tab2, tab3 = st.tabs(["GBD–CIHI Divergence", "Two Geographic Pressure Points", "CLSA Corroboration"])
-
-    with tab1:
-        st.markdown("#### DALY rank vs. hospitalization rank, by category")
-        st.markdown("Comparing the four disease categories present in both GBD (Table 1) and CIHI's "
-                    "top-10 hospitalization diagnoses (Table 6).")
-        daly_rank = {'Cardiovascular diseases': 2, 'Neurological disorders': 3,
-                     'Musculoskeletal disorders': 4, 'Chronic respiratory diseases': 5}
-        hosp_cat_map = {'Cardiovascular diseases': 'Cardiovascular', 'Neurological disorders': 'Neurological',
-                        'Musculoskeletal disorders': 'Musculoskeletal', 'Chronic respiratory diseases': 'Respiratory'}
-        hosp_totals = hosp_df.groupby('category')['n_hosp'].sum()
-        hosp_rank_order = hosp_totals.sort_values(ascending=False).index.tolist()
-
-        rows = []
-        for disease, cat in hosp_cat_map.items():
-            rows.append({
-                'Disease Category': disease,
-                'DALY Rank (of 7)': daly_rank[disease],
-                'Hospitalizations (top 10 sum)': int(hosp_totals[cat]),
-                'Hospitalization Rank (of 5)': hosp_rank_order.index(cat) + 1,
-            })
-        df_div = pd.DataFrame(rows).sort_values('DALY Rank (of 7)')
-        st.dataframe(df_div.set_index('Disease Category'), use_container_width=True)
-
-        fig_div = go.Figure()
-        fig_div.add_trace(go.Bar(name='DALY Rank', x=df_div['Disease Category'], y=df_div['DALY Rank (of 7)'],
-                                  marker_color='#854F0B'))
-        fig_div.add_trace(go.Bar(name='Hospitalization Rank', x=df_div['Disease Category'], y=df_div['Hospitalization Rank (of 5)'],
-                                  marker_color='#3B82F6'))
-        fig_div.update_layout(barmode='group', yaxis_title='Rank (1 = highest)', yaxis=dict(autorange='reversed'),
-                               height=380, margin=dict(l=20, r=20, t=20, b=60))
-        st.plotly_chart(fig_div, use_container_width=True)
-
-        st.markdown("""
-        <div class="warning-box">
-        <b>Key Finding:</b> Chronic respiratory disease ranks only 5th of 7 categories by DALYs, yet COPD
-        and bronchitis is the #1 hospitalization cause for Canadians 65+ — a disconnect between disability
-        burden and acute-care utilization, consistent with the episodic, exacerbation-driven nature of
-        COPD. Cardiovascular disease shows the opposite pattern: large DALY burden, but a hospitalization
-        share more proportionate to that burden, consistent with effective prevention and management.
-        </div>
-        """, unsafe_allow_html=True)
-
-    with tab2:
-        st.markdown("#### Alberta (growth velocity) vs. the smaller Atlantic provinces (capacity strain)")
-        merged = prov_pharma_df.merge(
-            pd.concat([alc_df, pd.DataFrame([{'Province': 'Quebec', 'Hospitalizations (2024-25)': None, 'Patient Days in ALC (%)': None}])],
-                      ignore_index=True),
-            on='Province', how='left'
-        )
-        merged = merged[merged['Province'].isin(filtered_provinces)]
-
-        fig_combo = go.Figure()
-        fig_combo.add_trace(go.Bar(name='Senior pop. growth 2020–24 (%)', x=merged['Province'],
-                                    y=merged['Growth % (2020-24)'], marker_color='#F0A500', yaxis='y1'))
-        fig_combo.add_trace(go.Scatter(name='Patient days in ALC (%)', x=merged['Province'],
-                                        y=merged['Patient Days in ALC (%)'], mode='markers+lines',
-                                        marker=dict(size=10, color='#A32D2D'), yaxis='y2'))
-        fig_combo.update_layout(
-            height=420, margin=dict(l=40, r=60, t=40, b=80),
-            yaxis=dict(title='Senior population growth, 2020–2024 (%)'),
-            yaxis2=dict(title='Patient days in ALC (%)', overlaying='y', side='right'),
-            legend=dict(x=0.01, y=1.15, orientation='h')
-        )
-        st.plotly_chart(fig_combo, use_container_width=True)
-
-        st.markdown("""
-        <div class="highlight-box">
-        <b>Integrated Insight:</b> Alberta combines by far the fastest senior population growth (+22.0%
-        since 2020, projected +47.8% by 2040) with a mid-range antidepressant Rx rate and below-average
-        ALC burden — its challenge is demographic velocity, not an undersized system today. Prince Edward
-        Island shows the opposite pattern: comparatively modest population growth (+15.2%) paired with the
-        highest antidepressant Rx rate and the highest ALC burden of any province — a community-care
-        capacity shortfall relative to its current, more slowly growing population. These are two distinct
-        policy problems, not one "highest burden" province.
-        </div>
-        """, unsafe_allow_html=True)
-
-    with tab3:
-        st.markdown("#### Individual-level corroboration from the CLSA")
-        st.markdown("Published, peer-reviewed CLSA findings used to corroborate the aggregate GBD burden "
-                    "patterns above (CLSA microdata were not accessed directly; see paper Section 2.5).")
-        c1, c2, c3 = st.columns(3)
-        with c1:
-            st.metric("Multimorbidity (65+)", f"{CLSA_FINDINGS['multimorbidity_pct']}%", "2+ chronic conditions")
-            st.metric("No chronic conditions", f"{CLSA_FINDINGS['no_chronic_pct']}%", "65+ participants")
-        with c2:
-            st.metric("PAR, male ADL disability", f"{CLSA_FINDINGS['par_male_cardiometabolic']}%", "Cardiometabolic, age 65–74")
-            st.metric("PAR, female ADL disability", f"{CLSA_FINDINGS['par_female_musculoskeletal']}%", "Musculoskeletal, age 65–74")
-        with c3:
-            st.metric("Sustained successful aging", f"{CLSA_FINDINGS['sustained_aging_pct']}%", "With recreational/volunteer activity")
-            st.metric("Volunteer/charity uplift", f"+{CLSA_FINDINGS['volunteer_uplift_pct']}%", "Likelihood of sustained healthy aging")
-
-        st.markdown(f"""
-        <div class="success-box">
-        Among CLSA participants aged 65+, the most prevalent chronic conditions were hypertension
-        ({CLSA_FINDINGS['hypertension_pct']}%), arthritis (~{CLSA_FINDINGS['arthritis_pct']}%), and
-        respiratory conditions ({CLSA_FINDINGS['respiratory_pct']}%) — consistent with GBD's ranking of
-        cardiovascular and musculoskeletal disorders among the top four burden categories. Participants
-        engaged in recreational activity or volunteer/charity work were
-        {CLSA_FINDINGS['recreational_uplift_pct']}% and {CLSA_FINDINGS['volunteer_uplift_pct']}% more
-        likely, respectively, to maintain successful aging three years later.
-        </div>
-        """, unsafe_allow_html=True)
-
-
-# ============================================================
-# PAGE 9: DATA EXPLORER
-# ============================================================
-elif page == "📋 Data Explorer":
-    st.markdown('<p class="main-title">Data Explorer</p>', unsafe_allow_html=True)
-    st.markdown("Explore and download the underlying data from all four sources.")
-
-    tab1, tab2, tab3, tab4, tab5 = st.tabs(
-        ["GBD: DALYs & Rates", "CIHI: Provincial & Hospitalization", "StatCan: Population", "Forecast", "Download"]
-    )
-
-    with tab1:
-        st.markdown("**Absolute DALYs — Canadians 60+, 1995–2023**")
-        df_dalys = pd.DataFrame(daly_data, index=OBS_YEARS).T
-        df_dalys.index.name = 'Disease'
-        df_dalys['% Change 1995-2023'] = df_dalys.apply(lambda row: f"+{(row.iloc[-1]-row.iloc[0])/row.iloc[0]*100:.1f}%", axis=1)
-        st.dataframe(df_dalys.style.format({c: "{:,.0f}" for c in OBS_YEARS}), use_container_width=True)
-
-        st.markdown("**Age-standardized DALY rates per 100,000 — Canadians 60+, 1995–2023**")
-        df_rates = pd.DataFrame(rate_data, index=OBS_YEARS).T
-        df_rates.index.name = 'Disease'
-        df_rates['Rate Change'] = df_rates.apply(lambda row: f"{(row.iloc[-1]-row.iloc[0])/row.iloc[0]*100:+.1f}%", axis=1)
-        st.dataframe(df_rates.style.format({c: "{:.1f}" for c in OBS_YEARS}), use_container_width=True)
-
-    with tab2:
-        st.markdown("**Senior population and mental health burden proxy by province, 2024**")
-        st.dataframe(prov_pharma_df.set_index('Province'), use_container_width=True)
-        st.markdown("**Top 10 inpatient hospitalizations, age 65+, 2024–2025**")
-        st.dataframe(hosp_df.set_index('rank'), use_container_width=True)
-        st.markdown("**ALC indicators by province, 2024–2025**")
-        st.dataframe(pd.concat([alc_df, alc_canada_df], ignore_index=True).set_index('Province'), use_container_width=True)
-
-    with tab3:
-        st.markdown("**Projected 65+ population by province, Statistics Canada M2 scenario**")
-        key_years = [2025, 2030, 2035, 2040]
-        st.dataframe(pop_df.loc[key_years].style.format("{:,.1f}"), use_container_width=True)
-        st.markdown("**Download Statistics Canada population data (CSV)**")
-        csv_pop = pop_df.to_csv().encode('utf-8')
-        st.download_button("⬇️ Download population projections (CSV)", data=csv_pop,
-                            file_name='StatCan_65plus_Population_M2_2025_2040.csv', mime='text/csv')
-
-    with tab4:
-        st.markdown("**Polynomial regression forecast — DALYs among Canadians 60+, 2023–2040**")
-        f_rows = []
-        for disease in DISEASES:
-            f = forecasts[disease]
-            f_rows.append({'Disease': disease, '2023': daly_data[disease][-1], '2025': f[1],
-                            '2030': f[6], '2035': f[11], '2040': f[16],
-                            'Growth 2023-2040': f"+{forecast_metrics[disease]['growth_2040']:.1f}%"})
-        st.dataframe(pd.DataFrame(f_rows).set_index('Disease').style.format({c: "{:,.0f}" for c in ['2023', '2025', '2030', '2035', '2040']}),
-                     use_container_width=True)
-
-    with tab5:
-        st.markdown("**Download analysis data as CSV**")
-        df_download = pd.DataFrame(daly_data, index=OBS_YEARS).T
-        df_download.index.name = 'Disease'
-        st.download_button("⬇️ Download DALYs data (CSV)", data=df_download.to_csv().encode('utf-8'),
-                            file_name='GBD_2023_Canada_DALYs.csv', mime='text/csv')
-
-        df_rate_download = pd.DataFrame(rate_data, index=OBS_YEARS).T
-        df_rate_download.index.name = 'Disease'
-        st.download_button("⬇️ Download rate data (CSV)", data=df_rate_download.to_csv().encode('utf-8'),
-                            file_name='GBD_2023_Canada_Rates.csv', mime='text/csv')
-
-        st.download_button("⬇️ Download provincial data (CSV)", data=prov_pharma_df.to_csv(index=False).encode('utf-8'),
-                            file_name='CIHI_Provincial_Senior_Population_2024.csv', mime='text/csv')
-
-        st.download_button("⬇️ Download hospitalization data (CSV)", data=hosp_df.to_csv(index=False).encode('utf-8'),
-                            file_name='CIHI_Top10_Hospitalizations_65plus_2024_2025.csv', mime='text/csv')
-
-        st.download_button("⬇️ Download ALC data (CSV)", data=pd.concat([alc_df, alc_canada_df], ignore_index=True).to_csv(index=False).encode('utf-8'),
-                            file_name='CIHI_ALC_Indicators_2024_2025.csv', mime='text/csv')
-
-
-# ── FOOTER ──
-st.markdown("---")
-st.markdown("""
-<div style='text-align:center; font-size:12px;'>
-Disease Burden Among Aging Canadians — Multi-Source Analysis Dashboard |
-GBD 2023 (IHME) · CIHI · Statistics Canada · CLSA |
-University of Windsor, Windsor, Ontario, Canada | June 2026
-</div>
-""", unsafe_allow_html=True)
+                     labels={'DALYs': 'DALYs (Absolute Count)'})
+        fig.update_traces(texttemplate='%{x:,.0f}', textposition='outside', cliponaxis=False)
+        fig.update_layout(showlegend=False, height=400,
+                          plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
+                          xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.2)'),
+                          yaxis=dict(showgrid=False),
