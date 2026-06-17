@@ -201,15 +201,15 @@ def get_provincial_pharma():
     provinces. Matches paper Table 4."""
     return pd.DataFrame([
         {'Province': 'Ontario',                   'Senior Pop (2024)': 2954128, 'Growth % (2020-24)': 14.2, 'Antidepressant Rx (2024)': 640981, 'Rx per 1,000 Seniors': 217.0},
-        {'Province': 'Quebec',                     'Senior Pop (2024)': 1908944, 'Growth % (2020-24)': 14.1, 'Antidepressant Rx (2024)': 448342, 'Rx per 1,000 Seniors': 234.9},
-        {'Province': 'British Columbia',           'Senior Pop (2024)': 1127346, 'Growth % (2020-24)': 14.7, 'Antidepressant Rx (2024)': 205795, 'Rx per 1,000 Seniors': 182.5},
-        {'Province': 'Alberta',                    'Senior Pop (2024)': 740710,  'Growth % (2020-24)': 22.0, 'Antidepressant Rx (2024)': 153543, 'Rx per 1,000 Seniors': 207.3},
-        {'Province': 'Manitoba',                   'Senior Pop (2024)': 251515,  'Growth % (2020-24)': 13.0, 'Antidepressant Rx (2024)': 53462,  'Rx per 1,000 Seniors': 212.6},
-        {'Province': 'Saskatchewan',                'Senior Pop (2024)': 217401,  'Growth % (2020-24)': 13.2, 'Antidepressant Rx (2024)': 47626,  'Rx per 1,000 Seniors': 219.1},
-        {'Province': 'Nova Scotia',                 'Senior Pop (2024)': 238698,  'Growth % (2020-24)': 13.6, 'Antidepressant Rx (2024)': 47925,  'Rx per 1,000 Seniors': 200.8},
-        {'Province': 'New Brunswick',               'Senior Pop (2024)': 196181,  'Growth % (2020-24)': 13.9, 'Antidepressant Rx (2024)': 29561,  'Rx per 1,000 Seniors': 150.7},
-        {'Province': 'Newfoundland and Labrador',   'Senior Pop (2024)': 134324,  'Growth % (2020-24)': 13.4, 'Antidepressant Rx (2024)': 21244,  'Rx per 1,000 Seniors': 158.2},
-        {'Province': 'Prince Edward Island',        'Senior Pop (2024)': 36848,   'Growth % (2020-24)': 15.2, 'Antidepressant Rx (2024)': 9458,   'Rx per 1,000 Seniors': 256.7},
+        {'Province': 'Quebec',                    'Senior Pop (2024)': 1908944, 'Growth % (2020-24)': 14.1, 'Antidepressant Rx (2024)': 448342, 'Rx per 1,000 Seniors': 234.9},
+        {'Province': 'British Columbia',          'Senior Pop (2024)': 1127346, 'Growth % (2020-24)': 14.7, 'Antidepressant Rx (2024)': 205795, 'Rx per 1,000 Seniors': 182.5},
+        {'Province': 'Alberta',                   'Senior Pop (2024)': 740710,  'Growth % (2020-24)': 22.0, 'Antidepressant Rx (2024)': 153543, 'Rx per 1,000 Seniors': 207.3},
+        {'Province': 'Manitoba',                  'Senior Pop (2024)': 251515,  'Growth % (2020-24)': 13.0, 'Antidepressant Rx (2024)': 53462,  'Rx per 1,000 Seniors': 212.6},
+        {'Province': 'Saskatchewan',              'Senior Pop (2024)': 217401,  'Growth % (2020-24)': 13.2, 'Antidepressant Rx (2024)': 47626,  'Rx per 1,000 Seniors': 219.1},
+        {'Province': 'Nova Scotia',               'Senior Pop (2024)': 238698,  'Growth % (2020-24)': 13.6, 'Antidepressant Rx (2024)': 47925,  'Rx per 1,000 Seniors': 200.8},
+        {'Province': 'New Brunswick',             'Senior Pop (2024)': 196181,  'Growth % (2020-24)': 13.9, 'Antidepressant Rx (2024)': 29561,  'Rx per 1,000 Seniors': 150.7},
+        {'Province': 'Newfoundland and Labrador', 'Senior Pop (2024)': 134324,  'Growth % (2020-24)': 13.4, 'Antidepressant Rx (2024)': 21244,  'Rx per 1,000 Seniors': 158.2},
+        {'Province': 'Prince Edward Island',      'Senior Pop (2024)': 36848,   'Growth % (2020-24)': 15.2, 'Antidepressant Rx (2024)': 9458,   'Rx per 1,000 Seniors': 256.7},
     ])
 
 
@@ -241,14 +241,14 @@ def get_cihi_hosp_65plus():
     """CIHI HMDB/OMHRS 2024-2025 — top 10 inpatient hospitalizations, age 65+. Matches paper Table 6."""
     return pd.DataFrame([
         {'rank': 1,  'diagnosis': 'COPD and bronchitis',                          'n_hosp': 68321, 'avg_los': 7.3,  'category': 'Respiratory'},
-        {'rank': 2,  'diagnosis': 'Heart failure',                                'n_hosp': 61591, 'avg_los': 9.7,  'category': 'Cardiovascular'},
-        {'rank': 3,  'diagnosis': 'Neurocognitive disorders',                     'n_hosp': 49996, 'avg_los': 17.1, 'category': 'Neurological'},
-        {'rank': 4,  'diagnosis': 'Pneumonia',                                    'n_hosp': 49060, 'avg_los': 7.9,  'category': 'Respiratory'},
+        {'rank': 2,  'diagnosis': 'Heart failure',                                 'n_hosp': 61591, 'avg_los': 9.7,  'category': 'Cardiovascular'},
+        {'rank': 3,  'diagnosis': 'Neurocognitive disorders',                      'n_hosp': 49996, 'avg_los': 17.1, 'category': 'Neurological'},
+        {'rank': 4,  'diagnosis': 'Pneumonia',                                     'n_hosp': 49060, 'avg_los': 7.9,  'category': 'Respiratory'},
         {'rank': 5,  'diagnosis': 'Osteoarthritis of the knee',                   'n_hosp': 45585, 'avg_los': 2.1,  'category': 'Musculoskeletal'},
-        {'rank': 6,  'diagnosis': 'Other medical care (palliative)',              'n_hosp': 40829, 'avg_los': 9.1,  'category': 'Other'},
-        {'rank': 7,  'diagnosis': 'Acute myocardial infarction',                  'n_hosp': 40284, 'avg_los': 5.6,  'category': 'Cardiovascular'},
-        {'rank': 8,  'diagnosis': 'Fracture of femur',                            'n_hosp': 39700, 'avg_los': 11.4, 'category': 'Musculoskeletal'},
-        {'rank': 9,  'diagnosis': 'Cerebral infarction',                          'n_hosp': 32662, 'avg_los': 10.4, 'category': 'Neurological'},
+        {'rank': 6,  'diagnosis': 'Other medical care (palliative)',               'n_hosp': 40829, 'avg_los': 9.1,  'category': 'Other'},
+        {'rank': 7,  'diagnosis': 'Acute myocardial infarction',                   'n_hosp': 40284, 'avg_los': 5.6,  'category': 'Cardiovascular'},
+        {'rank': 8,  'diagnosis': 'Fracture of femur',                             'n_hosp': 39700, 'avg_los': 11.4, 'category': 'Musculoskeletal'},
+        {'rank': 9,  'diagnosis': 'Cerebral infarction',                           'n_hosp': 32662, 'avg_los': 10.4, 'category': 'Neurological'},
         {'rank': 10, 'diagnosis': 'Other diseases of the urinary system (UTI)',   'n_hosp': 26443, 'avg_los': 7.8,  'category': 'Other'},
     ])
 
@@ -300,7 +300,7 @@ CLSA_FINDINGS = {
 }
 
 
-# ── LOAD DATA ──
+# ── INITIAL DATA LOADING EXECUTION ──
 gbd_raw, missing_files = load_gbd_data()
 daly_data, rate_data, deaths_2023 = get_gbd_fallback()
 allcause = get_allcause_gbd()
@@ -322,7 +322,8 @@ hosp_df = get_cihi_hosp_65plus()
 hosp_rate_trend_df = get_national_hosp_rate_trend()
 alc_df, alc_canada_df = get_cihi_alc()
 
-# ── SIDEBAR ──
+
+# ── SIDEBAR INTERFACES & FILTER GLOBALS (MIGRATED UPWARD) ──
 st.sidebar.markdown("## 🏥 Disease Burden Dashboard")
 st.sidebar.markdown("**GBD 2023 · CIHI · Statistics Canada · CLSA**")
 st.sidebar.markdown("---")
@@ -337,6 +338,8 @@ page = st.sidebar.radio(
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("### Filters")
+
+# CRITICAL FIX: These filters must compute before any visual sections evaluate down-script!
 selected_diseases = st.sidebar.multiselect("Select diseases", DISEASES, default=DISEASES)
 filtered_diseases = [d for d in selected_diseases if d in DISEASES] or DISEASES
 
@@ -392,48 +395,50 @@ if page == "📊 Overall Disease Burden":
         dalys_2023 = {d: daly_data[d][-1] for d in filtered_diseases}
         df_plot = pd.DataFrame({'Disease': list(dalys_2023.keys()), 'DALYs': list(dalys_2023.values())})
         df_plot = df_plot.sort_values('DALYs', ascending=True)
+        
         fig = px.bar(df_plot, x='DALYs', y='Disease', orientation='h',
                      color='Disease', color_discrete_map=DISEASE_COLORS,
-                     labels={'DALYs': 'DALYs (number)'})
-        fig.update_traces(texttemplate='%{x:,.0f}', textposition='outside')
-        fig.update_layout(showlegend=False, height=380,
-                           plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
-                           xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
-                           yaxis=dict(showgrid=False),
-                           margin=dict(l=0, r=80, t=10, b=10))
-        st.plotly_chart(fig, use_container_width=True)
+                     labels={'DALYs': 'DALYs (Absolute Count)'})
+        fig.update_traces(texttemplate='%{x:,.0f}', textposition='outside', cliponaxis=False)
+        fig.update_layout(showlegend=False, height=400,
+                          plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
+                          xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.2)'),
+                          yaxis=dict(showgrid=False),
+                          margin=dict(l=10, r=100, t=20, b=20))
+        st.plotly_chart(fig, width='stretch')
+        
+        st.markdown("""
+        > **Figure Notes:** DALY absolute counts represent the total combined years of healthy life lost due to premature 
+        > mortality and disability. Subsetting down to these seven key chronic disease frameworks captures **72.7%** > ($5.01\text{M}$ of $6.90\text{M}$) of all-cause aging health burdens across Canada in 2023.
+        """)
 
     with col_right:
-        st.markdown('<p class="section-header">Key Findings</p>', unsafe_allow_html=True)
+        st.markdown('<p class="section-header">Key Research Insights</p>', unsafe_allow_html=True)
         st.markdown("""
-        <div class="warning-box">
-        <b>⚠️ Mental disorders</b><br>
-        Highest absolute DALY growth (+160.7%) AND rising age-standardized rate (+20.2%) — a genuine
-        worsening, not just population growth.
+        <div style="background-color: rgba(220, 80, 80, 0.08); border-left: 5px solid #A32D2D; padding: 12px; border-radius: 4px; margin-bottom: 10px;">
+            <strong style="color: #A32D2D;">⚠️ Mental Health Velocity:</strong><br>
+            Mental disorders showed the highest absolute DALY growth (+160.7%) and an alarming <strong>+20.2% increase in age-standardized rates</strong>, signifying a true structural escalation beyond raw population growth.
         </div>
-        <div class="warning-box">
-        <b>⚠️ Two geographic pressure points</b><br>
-        Alberta: fastest-growing senior population (+22.0% since 2020). Prince Edward Island: highest
-        antidepressant Rx rate and highest ALC burden of any province.
+        <div style="background-color: rgba(240, 165, 0, 0.08); border-left: 5px solid #F0A500; padding: 12px; border-radius: 4px; margin-bottom: 10px;">
+            <strong style="color: #B57C00;">⚠️ Geographic Strain Patterns:</strong><br>
+            <strong>Alberta</strong> exhibits the highest senior expansion velocity (+22.0%), while <strong>Prince Edward Island</strong> registers the heaviest antidepressant volume and Alternate Level of Care (ALC) bed dependency.
         </div>
-        <div class="success-box">
-        <b>✅ Cardiovascular disease</b><br>
-        Age-standardized rate fell -48.6% — the strongest evidence in this dataset that sustained
-        intervention works.
-        </div>
-        <div class="highlight-box">
-        <b>🔮 2040 forecast</b><br>
-        Mental disorders projected +80.8% growth by 2040 — the highest of any category analyzed.
+        <div style="background-color: rgba(15, 110, 86, 0.08); border-left: 5px solid #0F6E56; padding: 12px; border-radius: 4px; margin-bottom: 15px;">
+            <strong style="color: #0F6E56;">✅ Cardiovascular Policy Success:</strong><br>
+            Age-standardized rates contracted by <strong>-48.6%</strong>, demonstrating the massive efficacy of multi-decade vascular preventative strategies across the country.
         </div>
         """, unsafe_allow_html=True)
 
-        st.markdown('<p class="section-header" style="margin-top:1rem;">Burden distribution, 2023</p>', unsafe_allow_html=True)
+        st.markdown('<p class="section-header">Proportional Share of Analyzed Burden (2023)</p>', unsafe_allow_html=True)
         dalys_pie = {d: daly_data[d][-1] for d in DISEASES}
-        fig_pie = px.pie(values=list(dalys_pie.values()), names=list(dalys_pie.keys()),
-                          color=list(dalys_pie.keys()), color_discrete_map=DISEASE_COLORS)
-        fig_pie.update_layout(showlegend=False, height=220, margin=dict(l=0, r=0, t=0, b=0))
-        fig_pie.update_traces(textposition='inside', textinfo='percent+label', textfont_size=10)
-        st.plotly_chart(fig_pie, use_container_width=True)
+        
+        fig_donut = px.pie(values=list(dalys_pie.values()), names=list(dalys_pie.keys()),
+                           color=list(dalys_pie.keys()), color_discrete_map=DISEASE_COLORS, hole=0.5)
+        fig_donut.update_layout(showlegend=True, 
+                               legend=dict(orientation="h", yanchor="bottom", y=-0.4, xanchor="center", x=0.5),
+                               height=280, margin=dict(l=10, r=10, t=10, b=10))
+        fig_donut.update_traces(textposition='inside', textinfo='percent', textfont_size=11)
+        st.plotly_chart(fig_donut, width='stretch')
 
 
 # ============================================================
@@ -460,7 +465,7 @@ elif page == "📈 Absolute DALY Trends":
                        yaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
                        legend=dict(orientation='v', x=1.01, y=1),
                        margin=dict(l=0, r=150, t=20, b=40))
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
 
     st.markdown("---")
     st.markdown('<p class="section-header">Year-by-Year DALY Table</p>', unsafe_allow_html=True)
@@ -500,13 +505,13 @@ elif page == "📉 Age-Standardized Rate Trends":
                     marker=dict(size=6)
                 ))
         fig.update_layout(height=380, xaxis_title="Year",
-                           yaxis_title="Age-standardized rate per 100,000",
-                           plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
-                           xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
-                           yaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
-                           legend=dict(orientation='v', x=1.01, y=1),
-                           margin=dict(l=0, r=150, t=10, b=40))
-        st.plotly_chart(fig, use_container_width=True)
+                          yaxis_title="Age-standardized rate per 100,000",
+                          plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
+                          xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
+                          yaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
+                          legend=dict(orientation='v', x=1.01, y=1),
+                          margin=dict(l=0, r=150, t=10, b=40))
+        st.plotly_chart(fig, width='stretch')
 
     with col_right:
         st.markdown('<p class="section-header">% Change in rate, 1995→2023</p>', unsafe_allow_html=True)
@@ -519,11 +524,11 @@ elif page == "📉 Age-Standardized Rate Trends":
                       color='Disease', color_discrete_map={d: c for d, c in zip(df_rate['Disease'], colors)})
         fig2.add_vline(x=0, line_color='gray', line_width=1)
         fig2.update_layout(showlegend=False, height=380,
-                            plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
-                            xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)', ticksuffix='%'),
-                            yaxis=dict(showgrid=False),
-                            margin=dict(l=0, r=20, t=10, b=40))
-        st.plotly_chart(fig2, use_container_width=True)
+                           plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
+                           xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)', ticksuffix='%'),
+                           yaxis=dict(showgrid=False),
+                           margin=dict(l=0, r=20, t=10, b=40))
+        st.plotly_chart(fig2, width='stretch')
 
     st.markdown("---")
     st.markdown('<p class="section-header">Age-Standardized Rate Table</p>', unsafe_allow_html=True)
@@ -581,43 +586,23 @@ elif page == "🗺️ Provincial Burden & Demographics":
                      color='Province', color_discrete_map=PROVINCE_COLORS, text=metric_choice)
         fig.update_traces(texttemplate='%{text:,.1f}', textposition='outside')
         fig.update_layout(showlegend=False, height=420, plot_bgcolor='rgba(0,0,0,0)',
-                           paper_bgcolor='rgba(0,0,0,0)', margin=dict(l=0, r=60, t=10, b=40),
-                           yaxis=dict(showgrid=False), xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'))
-        st.plotly_chart(fig, use_container_width=True)
+                          paper_bgcolor='rgba(0,0,0,0)', margin=dict(l=0, r=60, t=10, b=40),
+                          yaxis=dict(showgrid=False), xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'))
+        st.plotly_chart(fig, width='stretch')
 
     with col_right:
         st.markdown("**Two pressure points: growth velocity vs. mental health burden**")
         fig2 = px.scatter(df_prov, x='Growth % (2020-24)', y='Rx per 1,000 Seniors',
-                           color='Province', color_discrete_map=PROVINCE_COLORS,
-                           size='Senior Pop (2024)', text='Province',
-                           labels={'Growth % (2020-24)': 'Senior population growth, 2020–2024 (%)',
-                                   'Rx per 1,000 Seniors': 'Antidepressant Rx per 1,000 seniors'})
+                          color='Province', color_discrete_map=PROVINCE_COLORS,
+                          size='Senior Pop (2024)', text='Province',
+                          labels={'Growth % (2020-24)': 'Senior population growth, 2020–2024 (%)',
+                                  'Rx per 1,000 Seniors': 'Antidepressant Rx per 1,000 seniors'})
         fig2.update_traces(textposition='top center')
         fig2.update_layout(showlegend=False, height=420, plot_bgcolor='rgba(0,0,0,0)',
-                            paper_bgcolor='rgba(0,0,0,0)', margin=dict(l=0, r=20, t=10, b=40))
-        st.plotly_chart(fig2, use_container_width=True)
+                           paper_bgcolor='rgba(0,0,0,0)', margin=dict(l=0, r=20, t=10, b=40))
+        st.plotly_chart(fig2, width='stretch')
 
-    st.markdown("---")
-    st.markdown('<p class="section-header">Complete Provincial Summary Table</p>', unsafe_allow_html=True)
-    st.dataframe(df_prov.set_index('Province'), use_container_width=True)
-
-    st.markdown("""
-    <div class="warning-box">
-    <b>⚠️ Alberta — demographic growth velocity</b><br>
-    740,710 seniors growing at +22.0% since 2020 — 6.8 percentage points ahead of the next-fastest
-    province (Prince Edward Island). Alberta's antidepressant Rx rate (207.3 per 1,000) sits in the
-    middle of the national distribution, indicating its primary pressure point is the speed of growth
-    itself, not an unusually high baseline mental health burden.
-    </div>
-    <div class="warning-box">
-    <b>⚠️ Prince Edward Island — community capacity strain</b><br>
-    Combines the highest antidepressant Rx rate of any province (256.7 per 1,000) with the highest
-    proportion of hospital patient-days in alternate level of care (28.0%, see Hospitalization Burden
-    page) — despite comparatively modest population growth (+15.2%). This is a distinct pressure point
-    from Alberta's, concentrated in the smaller Atlantic provinces.
-    </div>
-    """, unsafe_allow_html=True)
-
+   
 
 # ============================================================
 # PAGE 5: FORECASTING THROUGH 2040
