@@ -5,7 +5,7 @@
 # Canada, and CLSA Data"
 # Run: streamlit run gbd_canada_dashboard.py
 # ============================================================
-
+'''
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -438,9 +438,402 @@ if page == "📊 Overall Disease Burden":
                                legend=dict(orientation="h", yanchor="bottom", y=-0.4, xanchor="center", x=0.5),
                                height=280, margin=dict(l=10, r=10, t=10, b=10))
         fig_donut.update_traces(textposition='inside', textinfo='percent', textfont_size=11)
+        st.plotly_chart(fig_donut, width='stretch')'''
+
+# ============================================================
+# Disease Burden Among Aging Canadians — Interactive Dashboard
+# Companion to: "Disease Burden Among Aging Canadians: A Multi-
+# Source Analysis and Forecast Using GBD 2023, CIHI, Statistics
+# Canada, and CLSA Data"
+# Run: streamlit run gbd_canada_dashboard.py
+# ============================================================
+
+import streamlit as st
+import pandas as pd
+import numpy as np
+import plotly.express as px
+import plotly.graph_objects as go
+from scipy.interpolate import CubicSpline
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.pipeline import make_pipeline
+import os
+
+# ── PAGE CONFIG ──
+st.set_page_config(
+    page_title="Disease Burden Among Aging Canadians",
+    page_icon="🏥",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+# ── CUSTOM CSS (PREMIUM JOURNAL FACELIFT) ──
+st.markdown("""
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    html, body, [data-testid="stAppViewContainer"] {
+        font-family: 'Inter', sans-serif;
+    }
+    
+    .main-title {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #1E3A8A;
+        margin-bottom: 0.1rem;
+        letter-spacing: -0.02em;
+    }
+    .sub-title {
+        font-size: 1.05rem;
+        color: #4B5563;
+        margin-bottom: 2rem;
+    }
+    
+    /* Premium Grid KPI Layout replacing ugly standard metrics */
+    .kpi-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    .kpi-card {
+        background: #FFFFFF;
+        border: 1px solid #E5E7EB;
+        border-radius: 12px;
+        padding: 1.25rem 1rem;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .kpi-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.08);
+    }
+    .kpi-label {
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: #6B7280;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.5rem;
+        line-height: 1.2;
+        min-height: 28px;
+    }
+    .kpi-value {
+        font-size: 1.65rem;
+        font-weight: 700;
+        color: #111827;
+        line-height: 1.1;
+        margin-bottom: 0.4rem;
+    }
+    .kpi-delta {
+        font-size: 0.82rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+    }
+    .delta-up { color: #DC2626; }
+    .delta-down { color: #16A34A; }
+    .delta-neutral { color: #2563EB; }
+
+    .section-header {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #1E3A8A;
+        border-bottom: 2px solid #E5E7EB;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.25rem;
+    }
+    
+    /* Refined structural callouts */
+    .highlight-box {
+        background: #F0F7FF;
+        border-left: 4px solid #2563EB;
+        padding: 1rem 1.25rem;
+        border-radius: 4px;
+        margin: 1.5rem 0;
+        color: #1E40AF;
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+    .warning-box {
+        background: rgba(220, 80, 80, 0.05);
+        border-left: 4px solid #DC2626;
+        padding: 0.75rem 1rem;
+        border-radius: 4px;
+        margin: 1rem 0;
+    }
+    .success-box {
+        background: rgba(50, 160, 80, 0.05);
+        border-left: 4px solid #16A34A;
+        padding: 0.75rem 1rem;
+        border-radius: 4px;
+        margin: 1rem 0;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# ── CONSTANTS ──
+DISEASE_COLORS = {
+    'Neoplasms':                    '#185FA5',
+    'Cardiovascular diseases':      '#993C1D',
+    'Neurological disorders':       '#0F6E56',
+    'Musculoskeletal disorders':    '#534AB7',
+    'Chronic respiratory diseases': '#854F0B',
+    'Diabetes and kidney diseases': '#A32D2D',
+    'Mental disorders':             '#3B6D11',
+}
+DISEASES = list(DISEASE_COLORS.keys())
+OBS_YEARS = [1995, 2000, 2005, 2010, 2015, 2019, 2023]
+
+PROVINCES = ['Ontario', 'Quebec', 'British Columbia', 'Alberta', 'Manitoba',
+             'Saskatchewan', 'Nova Scotia', 'New Brunswick',
+             'Newfoundland and Labrador', 'Prince Edward Island']
+
+PROVINCE_COLORS = {
+    'Ontario':                    '#185FA5',
+    'Quebec':                     '#993C1D',
+    'British Columbia':           '#0F6E56',
+    'Alberta':                    '#F0A500',
+    'Manitoba':                   '#534AB7',
+    'Saskatchewan':               '#854F0B',
+    'Nova Scotia':                '#A32D2D',
+    'New Brunswick':              '#3B6D11',
+    'Newfoundland and Labrador':  '#6B5B95',
+    'Prince Edward Island':       '#D81B60',
+}
+
+ALC_PROVINCES = [p for p in PROVINCES if p != 'Quebec']
+
+
+# ── DATA LOADERS ──
+@st.cache_data
+def load_gbd_data():
+    file_map = {
+        'Chronic respiratory diseases': 'IHME-GBD_2023_DATA-5da954e9-1_respiratory.csv',
+        'Mental disorders':             'IHME-GBD_2023_DATA-4eb8814a-1_mental.csv',
+        'Diabetes and kidney diseases': 'IHME-GBD_2023_DATA-dd10953b-1_diabetics.csv',
+        'Musculoskeletal disorders':    'IHME-GBD_2023_DATA-100da0be-1_musculo.csv',
+        'Neurological disorders':       'IHME-GBD_2023_DATA-cd6c1a03-1_neuro.csv',
+        'Neoplasms':                    'IHME-GBD_2023_DATA-1c9f46d3-1_neo.csv',
+        'Cardiovascular diseases':      'IHME-GBD_2023_DATA-141409a9-1_cardio.xlsx',
+    }
+    dfs, missing = [], []
+    for disease, fname in file_map.items():
+        if os.path.exists(fname):
+            try:
+                df = pd.read_excel(fname) if fname.endswith('.xlsx') else pd.read_csv(fname)
+                dfs.append(df)
+            except Exception:
+                missing.append(disease)
+        else:
+            missing.append(disease)
+    if dfs:
+        return pd.concat(dfs, ignore_index=True), missing
+    return None, missing
+
+
+@st.cache_data
+def get_gbd_fallback():
+    daly_data = {
+        'Neoplasms':                    [973032, 1023542, 1080966, 1163133, 1294164, 1394261, 1557828],
+        'Cardiovascular diseases':      [1196259, 1144752, 1078819, 1051908, 1126587, 1200679, 1333532],
+        'Neurological disorders':       [246959, 286371, 331147, 387131, 456361, 516731, 582179],
+        'Musculoskeletal disorders':    [259358, 282590, 313597, 364370, 433771, 500108, 552267],
+        'Chronic respiratory diseases': [219540, 239279, 256933, 282544, 334880, 374449, 415842],
+        'Diabetes and kidney diseases': [172889, 207633, 243272, 257874, 282879, 322291, 374726],
+        'Mental disorders':             [74447, 79391, 90221, 108909, 129190, 148278, 194075],
+    }
+    rate_data = {
+        'Cardiovascular diseases':      [25394.7, 22312.9, 18586.5, 15338.9, 13962.4, 13109.0, 13055.7],
+        'Neoplasms':                    [20655.9, 19950.3, 18623.5, 16960.8, 16039.2, 15222.5, 15251.7],
+        'Neurological disorders':       [5242.5,  5581.8,  5705.2,  5645.1,  5655.9,  5641.7,  5699.7],
+        'Musculoskeletal disorders':    [5505.8,  5508.1,  5402.8,  5313.2,  5375.9,  5460.2,  5406.9],
+        'Chronic respiratory diseases': [4660.5,  4663.9,  4426.6,  4120.1,  4150.3,  4088.2,  4071.2],
+        'Diabetes and kidney diseases': [3670.2,  4047.1,  4191.2,  3760.3,  3505.9,  3518.8,  3668.7],
+        'Mental disorders':             [1580.4,  1547.4,  1554.4,  1588.1,  1601.1,  1618.9,  1900.1],
+    }
+    deaths_2023 = {
+        'Neoplasms': 88335, 'Cardiovascular diseases': 78305,
+        'Neurological disorders': 28739, 'Chronic respiratory diseases': 19734,
+        'Diabetes and kidney diseases': 15384, 'Musculoskeletal disorders': 1142,
+        'Mental disorders': None,
+    }
+    return daly_data, rate_data, deaths_2023
+
+
+@st.cache_data
+def get_allcause_gbd():
+    return {
+        1995: {'dalys': 3_948_183, 'deaths': 172_766},
+        2023: {'dalys': 6_895_367, 'deaths': 280_718},
+    }
+
+
+@st.cache_data
+def compute_forecasts(daly_data):
+    annual_years = np.arange(1995, 2024)
+    forecast_years = np.arange(2024, 2041)
+    forecasts, metrics = {}, {}
+    for disease, obs_vals in daly_data.items():
+        cs = CubicSpline(OBS_YEARS, obs_vals)
+        annual_vals = np.maximum(cs(annual_years), 0)
+        X = annual_years.reshape(-1, 1)
+        model = make_pipeline(PolynomialFeatures(degree=2), LinearRegression())
+        model.fit(X, annual_vals)
+        forecast = np.maximum(model.predict(forecast_years.reshape(-1, 1)), 0)
+        forecasts[disease] = forecast
+        growth = (forecast[-1] - obs_vals[-1]) / obs_vals[-1] * 100
+        metrics[disease] = {'growth_2040': round(growth, 1), 'val_2040': forecast[-1]}
+    return forecasts, forecast_years, metrics
+
+
+@st.cache_data
+def get_provincial_pharma():
+    return pd.DataFrame([
+        {'Province': 'Ontario',                   'Senior Pop (2024)': 2954128, 'Growth % (2020-24)': 14.2, 'Antidepressant Rx (2024)': 640981, 'Rx per 1,000 Seniors': 217.0},
+        {'Province': 'Quebec',                    'Senior Pop (2024)': 1908944, 'Growth % (2020-24)': 14.1, 'Antidepressant Rx (2024)': 448342, 'Rx per 1,000 Seniors': 234.9},
+        {'Province': 'British Columbia',          'Senior Pop (2024)': 1127346, 'Growth % (2020-24)': 14.7, 'Antidepressant Rx (2024)': 205795, 'Rx per 1,000 Seniors': 182.5},
+        {'Province': 'Alberta',                   'Senior Pop (2024)': 740710,  'Growth % (2020-24)': 22.0, 'Antidepressant Rx (2024)': 153543, 'Rx per 1,000 Seniors': 207.3},
+        {'Province': 'Manitoba',                  'Senior Pop (2024)': 251515,  'Growth % (2020-24)': 13.0, 'Antidepressant Rx (2024)': 53462,  'Rx per 1,000 Seniors': 212.6},
+        {'Province': 'Saskatchewan',              'Senior Pop (2024)': 217401,  'Growth % (2020-24)': 13.2, 'Antidepressant Rx (2024)': 47626,  'Rx per 1,000 Seniors': 219.1},
+        {'Province': 'Nova Scotia',               'Senior Pop (2024)': 238698,  'Growth % (2020-24)': 13.6, 'Antidepressant Rx (2024)': 47925,  'Rx per 1,000 Seniors': 200.8},
+        {'Province': 'New Brunswick',             'Senior Pop (2024)': 196181,  'Growth % (2020-24)': 13.9, 'Antidepressant Rx (2024)': 29561,  'Rx per 1,000 Seniors': 150.7},
+        {'Province': 'Newfoundland and Labrador', 'Senior Pop (2024)': 134324,  'Growth % (2020-24)': 13.4, 'Antidepressant Rx (2024)': 21244,  'Rx per 1,000 Seniors': 158.2},
+        {'Province': 'Prince Edward Island',      'Senior Pop (2024)': 36848,   'Growth % (2020-24)': 15.2, 'Antidepressant Rx (2024)': 9458,   'Rx per 1,000 Seniors': 256.7},
+    ])
+
+
+# ── INITIAL DATA LOADING EXECUTION ──
+gbd_raw, missing_files = load_gbd_data()
+daly_data, rate_data, deaths_2023 = get_gbd_fallback()
+allcause = get_allcause_gbd()
+
+if gbd_raw is not None:
+    daly_pivot = gbd_raw[
+        (gbd_raw['age_name'] == '60+ years') &
+        (gbd_raw['metric_name'] == 'Number') &
+        (gbd_raw['measure_name'] == 'DALYs (Disability-Adjusted Life Years)')
+    ].pivot_table(index='cause_name', columns='year', values='val')
+    for disease in DISEASES:
+        if disease in daly_pivot.index:
+            daly_data[disease] = [daly_pivot.loc[disease, y] for y in OBS_YEARS if y in daly_pivot.columns]
+
+forecasts, forecast_years, forecast_metrics = compute_forecasts(daly_data)
+prov_pharma_df = get_provincial_pharma()
+
+
+# ── SIDEBAR INTERFACES & FILTER GLOBALS ──
+st.sidebar.markdown("## 🏥 Disease Burden Dashboard")
+st.sidebar.markdown("**GBD 2023 · CIHI · Statistics Canada · CLSA**")
+st.sidebar.markdown("---")
+
+page = st.sidebar.radio(
+    "Navigate to",
+    ["📊 Overall Disease Burden", "📈 Absolute DALY Trends", "📉 Age-Standardized Rate Trends",
+     "🗺️ Provincial Burden & Demographics"]
+)
+
+st.sidebar.markdown("---")
+st.sidebar.markdown("### Filters")
+
+selected_diseases = st.sidebar.multiselect("Select diseases", DISEASES, default=DISEASES)
+filtered_diseases = [d for d in selected_diseases if d in DISEASES] or DISEASES
+
+selected_provinces = st.sidebar.multiselect("Select provinces", PROVINCES, default=PROVINCES)
+filtered_provinces = [p for p in selected_provinces if p in PROVINCES] or PROVINCES
+
+
+# ============================================================
+# PAGE 1: OVERALL DISEASE BURDEN
+# ============================================================
+if page == "📊 Overall Disease Burden":
+    st.markdown('<p class="main-title">Disease Burden Among Aging Canadians</p>', unsafe_allow_html=True)
+    st.markdown('<p class="sub-title">A multi-source analysis using GBD 2023, CIHI, Statistics Canada, and CLSA data</p>', unsafe_allow_html=True)
+
+    # REFINED KPI CARDS GRID: Solves the layout compression and text truncation visible in Screenshot 2026-06-17 135722.jpg
+    st.markdown(f"""
+    <div class="kpi-container">
+        <div class="kpi-card">
+            <div class="kpi-label">Total DALYs<br>All-Cause (2023)</div>
+            <div class="kpi-value">{allcause[2023]['dalys']/1e6:.2f}M</div>
+            <div class="kpi-delta delta-up">▲ +{(allcause[2023]['dalys']-allcause[1995]['dalys'])/allcause[1995]['dalys']*100:.1f}% since '95</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Total Deaths<br>All-Cause (2023)</div>
+            <div class="kpi-value">{allcause[2023]['deaths']:,}</div>
+            <div class="kpi-delta delta-up">▲ +{(allcause[2023]['deaths']-allcause[1995]['deaths'])/allcause[1995]['deaths']*100:.1f}% since '95</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Fastest Growing<br>Category</div>
+            <div class="kpi-value" style="font-size: 1.25rem; padding: 0.25rem 0;">Mental Disorders</div>
+            <div class="kpi-delta delta-up">▲ +160.7% DALYs</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Best Systemic<br>Improvement</div>
+            <div class="kpi-value" style="font-size: 1.25rem; padding: 0.25rem 0;">Cardiovascular</div>
+            <div class="kpi-delta delta-down">▼ -48.6% Rate</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Geographic Range<br>Mapped</div>
+            <div class="kpi-value">10</div>
+            <div class="kpi-delta delta-neutral">Provinces Covered</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Projected 2040 Burden<br>(7 Categories)</div>
+            <div class="kpi-value">7.99M</div>
+            <div class="kpi-delta delta-up">▲ +59.5% Forecast</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="highlight-box">
+        <strong>Methodology Baseline Notice:</strong> The 6.90 million all-cause figure spans every disease and injury category tracked by
+        GBD 2023. This study isolates seven primary chronic frameworks in depth (representing 5.01 million DALYs, or <strong>72.7%</strong> of the all-cause national burden).
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("---")
+    col_left, col_right = st.columns([3, 2])
+
+    with col_left:
+        st.markdown('<p class="section-header">Disease Burden by Category — 2023</p>', unsafe_allow_html=True)
+        dalys_2023 = {d: daly_data[d][-1] for d in filtered_diseases}
+        df_plot = pd.DataFrame({'Disease': list(dalys_2023.keys()), 'DALYs': list(dalys_2023.values())})
+        df_plot = df_plot.sort_values('DALYs', ascending=True)
+        
+        fig = px.bar(df_plot, x='DALYs', y='Disease', orientation='h',
+                     color='Disease', color_discrete_map=DISEASE_COLORS,
+                     labels={'DALYs': 'Absolute DALY Count'})
+        fig.update_traces(texttemplate='%{x:,.0f}', textposition='outside', cliponaxis=False)
+        fig.update_layout(showlegend=False, height=360,
+                          plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
+                          xaxis=dict(showgrid=True, gridcolor='#E5E7EB'),
+                          yaxis=dict(showgrid=False, tickfont=dict(size=11)),
+                          margin=dict(l=10, r=90, t=10, b=10))
+        st.plotly_chart(fig, width='stretch')
+
+    with col_right:
+        st.markdown('<p class="section-header">Key Research Insights</p>', unsafe_allow_html=True)
+        st.markdown("""
+        <div style="background-color: rgba(220, 80, 80, 0.04); border-left: 4px solid #DC2626; padding: 10px 12px; border-radius: 4px; margin-bottom: 10px; font-size:0.9rem;">
+            <strong style="color: #DC2626;">⚠️ Mental Health Velocity:</strong><br>
+            Mental disorders showed the highest absolute DALY growth (+160.7%) and an alarming <strong>+20.2% increase in age-standardized rates</strong>.
+        </div>
+        <div style="background-color: rgba(245, 158, 11, 0.04); border-left: 4px solid #D97706; padding: 10px 12px; border-radius: 4px; margin-bottom: 10px; font-size:0.9rem;">
+            <strong style="color: #B45309;">⚠️ Geographic Strain Patterns:</strong><br>
+            <strong>Alberta</strong> exhibits the highest senior population expansion velocity (+22.0%), while <strong>PEI</strong> registers the heaviest antidepressant volume.
+        </div>
+        """, unsafe_allow_html=True)
+
+        st.markdown('<p class="section-header">Proportional Share of Burden (2023)</p>', unsafe_allow_html=True)
+        dalys_pie = {d: daly_data[d][-1] for d in DISEASES}
+        
+        fig_donut = px.pie(values=list(dalys_pie.values()), names=list(dalys_pie.keys()),
+                           color=list(dalys_pie.keys()), color_discrete_map=DISEASE_COLORS, hole=0.55)
+        fig_donut.update_layout(showlegend=False, height=180, margin=dict(l=10, r=10, t=10, b=10))
+        fig_donut.update_traces(textposition='inside', textinfo='percent+label', textfont_size=10)
         st.plotly_chart(fig_donut, width='stretch')
-
-
 # ============================================================
 # PAGE 2: ABSOLUTE DALY TRENDS
 # ============================================================
