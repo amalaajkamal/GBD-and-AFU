@@ -30,12 +30,12 @@ st.markdown("""
 <style>
     .main-title {
         font-size: 2.5rem;
-        font-weight: 600;
+        font-weight: 900;
         color: #4D9FE8;
         margin-bottom: 0.2rem;
     }
     .sub-title {
-        font-size: 1rem;
+        font-size: 5rem;
         margin-bottom: 1.5rem;
     }
     .metric-card {
@@ -44,7 +44,7 @@ st.markdown("""
         text-align: center;
     }
     .section-header {
-        font-size: 1.2rem;
+        font-size: 2rem;
         font-weight: 600;
         color: #4D9FE8;
         border-bottom: 2px solid #4D9FE8;
