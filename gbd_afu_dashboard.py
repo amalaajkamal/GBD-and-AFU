@@ -29,7 +29,7 @@ st.set_page_config(
 st.markdown("""
 <style>
     .main-title {
-        font-size: 1.9rem;
+        font-size: 2.5rem;
         font-weight: 600;
         color: #4D9FE8;
         margin-bottom: 0.2rem;
