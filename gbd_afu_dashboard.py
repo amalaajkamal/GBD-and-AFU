@@ -77,6 +77,67 @@ st.markdown("""
         border-radius: 0 8px 8px 0;
         margin: 1rem 0;
     }
+
+    # ── CUSTOM CSS ──
+st.markdown("""
+<style>
+    .main-title {
+        font-size: 1.9rem;
+        font-weight: 600;
+        color: #4D9FE8;
+        margin-bottom: 0.2rem;
+    }
+    .sub-title {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    .metric-card {
+        border-radius: 8px;
+        padding: 1rem;
+        text-align: center;
+    }
+    .section-header {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #4D9FE8;
+        border-bottom: 2px solid #4D9FE8;
+        padding-bottom: 0.3rem;
+        margin-bottom: 1rem;
+    }
+    .highlight-box {
+        background: rgba(77, 159, 232, 0.15);
+        border-left: 4px solid #4D9FE8;
+        padding: 0.75rem 1rem;
+        border-radius: 0 8px 8px 0;
+        margin: 1rem 0;
+    }
+    .warning-box {
+        background: rgba(220, 80, 80, 0.15);
+        border-left: 4px solid #E05555;
+        padding: 0.75rem 1rem;
+        border-radius: 0 8px 8px 0;
+        margin: 1rem 0;
+    }
+    .success-box {
+        background: rgba(50, 160, 80, 0.15);
+        border-left: 4px solid #32A050;
+        padding: 0.75rem 1rem;
+        border-radius: 0 8px 8px 0;
+        margin: 1rem 0;
+    }
+    [data-testid="stMetricValue"] {
+        font-size: 0.95rem !important;
+        white-space: nowrap !important;
+        overflow: visible !important;
+    }
+    [data-testid="stMetricLabel"] {
+        font-size: 0.75rem !important;
+    }
+    [data-testid="stMetricDelta"] {
+        font-size: 0.7rem !important;
+        white-space: nowrap !important;
+    }
+
 </style>
 """, unsafe_allow_html=True)
 
