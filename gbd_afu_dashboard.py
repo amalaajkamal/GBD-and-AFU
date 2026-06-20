@@ -3,6 +3,11 @@
 # Companion to: "Disease Burden Among Aging Canadians: A Multi-
 # Source Analysis and Forecast Using GBD 2023, CIHI, Statistics
 # Canada, and CLSA Data"
+#
+# Updated for the 12-category NCD scope (Non-Communicable Diseases
+# Level 2 classification), extended from the original 7 categories
+# per supervisor direction.
+#
 # Run: streamlit run gbd_canada_dashboard.py
 # ============================================================
 
@@ -29,13 +34,13 @@ st.set_page_config(
 st.markdown("""
 <style>
     .main-title {
-        font-size: 2.5rem;
-        font-weight: 900;
+        font-size: 1.8rem;
+        font-weight: 600;
         color: #4D9FE8;
         margin-bottom: 0.2rem;
     }
     .sub-title {
-        font-size: 5rem;
+        font-size: 1rem;
         margin-bottom: 1.5rem;
     }
     .metric-card {
@@ -44,7 +49,7 @@ st.markdown("""
         text-align: center;
     }
     .section-header {
-        font-size: 2rem;
+        font-size: 1.2rem;
         font-weight: 600;
         color: #4D9FE8;
         border-bottom: 2px solid #4D9FE8;
@@ -71,33 +76,26 @@ st.markdown("""
         padding: 0.75rem 1rem;
         border-radius: 0 8px 8px 0;
         margin: 1rem 0;
-        
-    }
-
-    [data-testid="stMetricValue"] {
-        font-size: 0.95rem !important;
-        white-space: nowrap !important;
-        overflow: visible !important;
-    }
-    [data-testid="stMetricLabel"] {
-        font-size: 0.75rem !important;
-    }
-    [data-testid="stMetricDelta"] {
-        font-size: 0.7rem !important;
-        white-space: nowrap !important;
     }
 </style>
 """, unsafe_allow_html=True)
 
 # ── CONSTANTS ──
+# 12-category palette — same hex values used in the paper's rebuilt Figures 1-4,
+# so colors are consistent between the manuscript and this dashboard.
 DISEASE_COLORS = {
-    'Neoplasms':                    '#185FA5',
-    'Cardiovascular diseases':      '#993C1D',
-    'Neurological disorders':       '#0F6E56',
-    'Musculoskeletal disorders':    '#534AB7',
-    'Chronic respiratory diseases': '#854F0B',
-    'Diabetes and kidney diseases': '#A32D2D',
-    'Mental disorders':             '#3B6D11',
+    'Neoplasms':                        '#185FA5',
+    'Cardiovascular diseases':          '#993C1D',
+    'Neurological disorders':           '#0F6E56',
+    'Musculoskeletal disorders':        '#534AB7',
+    'Chronic respiratory diseases':     '#854F0B',
+    'Diabetes and kidney diseases':     '#A32D2D',
+    'Digestive diseases':               '#3B6D11',
+    'Sense organ diseases':             '#6B5B95',
+    'Other non-communicable diseases':  '#B8742E',
+    'Mental disorders':                 '#1E7A8C',
+    'Substance use disorders':          '#D81B60',
+    'Skin and subcutaneous diseases':   '#7A8450',
 }
 DISEASES = list(DISEASE_COLORS.keys())
 OBS_YEARS = [1995, 2000, 2005, 2010, 2015, 2019, 2023]
@@ -127,20 +125,30 @@ ALC_PROVINCES = [p for p in PROVINCES if p != 'Quebec']  # Quebec excluded from 
 def load_gbd_data():
     """Optionally load real GBD CSV/XLSX files if present alongside this script."""
     file_map = {
-        'Chronic respiratory diseases': 'IHME-GBD_2023_DATA-5da954e9-1_respiratory.csv',
-        'Mental disorders':             'IHME-GBD_2023_DATA-4eb8814a-1_mental.csv',
-        'Diabetes and kidney diseases': 'IHME-GBD_2023_DATA-dd10953b-1_diabetics.csv',
-        'Musculoskeletal disorders':    'IHME-GBD_2023_DATA-100da0be-1_musculo.csv',
-        'Neurological disorders':       'IHME-GBD_2023_DATA-cd6c1a03-1_neuro.csv',
-        'Neoplasms':                    'IHME-GBD_2023_DATA-1c9f46d3-1_neo.csv',
-        'Cardiovascular diseases':      'IHME-GBD_2023_DATA-141409a9-1_cardio.xlsx',
+        'Chronic respiratory diseases':     'IHME-GBD_2023_DATA-5da954e9-1_respiratory.csv',
+        'Mental disorders':                 'IHME-GBD_2023_DATA-4eb8814a-1_mental.csv',
+        'Diabetes and kidney diseases':     'IHME-GBD_2023_DATA-dd10953b-1_diabetics.csv',
+        'Musculoskeletal disorders':        'IHME-GBD_2023_DATA-100da0be-1_musculo.csv',
+        'Neurological disorders':           'IHME-GBD_2023_DATA-cd6c1a03-1_neuro.csv',
+        'Neoplasms':                        'IHME-GBD_2023_DATA-1c9f46d3-1_neo.csv',
+        'Cardiovascular diseases':          'IHME-GBD_2023_DATA-141409a9-1_cardio.xlsx',
+        # 5 categories added for the 12-category extension — all loaded from one combined export
+        'Digestive diseases':               'IHME-GBD_2023_DATA-13912a7c-1_new_level2_csv.xlsx',
+        'Substance use disorders':          'IHME-GBD_2023_DATA-13912a7c-1_new_level2_csv.xlsx',
+        'Skin and subcutaneous diseases':   'IHME-GBD_2023_DATA-13912a7c-1_new_level2_csv.xlsx',
+        'Sense organ diseases':             'IHME-GBD_2023_DATA-13912a7c-1_new_level2_csv.xlsx',
+        'Other non-communicable diseases':  'IHME-GBD_2023_DATA-13912a7c-1_new_level2_csv.xlsx',
     }
     dfs, missing = [], []
+    seen_files = set()
     for disease, fname in file_map.items():
+        if fname in seen_files:
+            continue
         if os.path.exists(fname):
             try:
                 df = pd.read_excel(fname) if fname.endswith('.xlsx') else pd.read_csv(fname)
                 dfs.append(df)
+                seen_files.add(fname)
             except Exception:
                 missing.append(disease)
         else:
@@ -152,30 +160,44 @@ def load_gbd_data():
 
 @st.cache_data
 def get_gbd_fallback():
-    """Verified GBD 2023 data, Canadians 60+, seven disease categories. Matches paper Tables 1-3."""
+    """Verified GBD 2023 data, Canadians 60+, twelve NCD Level 2 categories.
+    Matches the paper's Tables 1-3 (12-category extension)."""
     daly_data = {
-        'Neoplasms':                    [973032, 1023542, 1080966, 1163133, 1294164, 1394261, 1557828],
-        'Cardiovascular diseases':      [1196259, 1144752, 1078819, 1051908, 1126587, 1200679, 1333532],
-        'Neurological disorders':       [246959, 286371, 331147, 387131, 456361, 516731, 582179],
-        'Musculoskeletal disorders':    [259358, 282590, 313597, 364370, 433771, 500108, 552267],
-        'Chronic respiratory diseases': [219540, 239279, 256933, 282544, 334880, 374449, 415842],
-        'Diabetes and kidney diseases': [172889, 207633, 243272, 257874, 282879, 322291, 374726],
-        'Mental disorders':             [74447, 79391, 90221, 108909, 129190, 148278, 194075],
+        'Neoplasms':                        [973032, 1023542, 1080966, 1163133, 1294164, 1394261, 1557828],
+        'Cardiovascular diseases':          [1196259, 1144752, 1078819, 1051908, 1126587, 1200679, 1333532],
+        'Neurological disorders':           [246959, 286371, 331147, 387131, 456361, 516731, 582179],
+        'Musculoskeletal disorders':        [259358, 282590, 313597, 364370, 433771, 500108, 552267],
+        'Chronic respiratory diseases':     [219540, 239279, 256933, 282544, 334880, 374449, 415842],
+        'Diabetes and kidney diseases':     [172889, 207633, 243272, 257874, 282879, 322291, 374726],
+        'Digestive diseases':               [129061, 135067, 147968, 165586, 196872, 226955, 274238],
+        'Sense organ diseases':             [126257, 139698, 161003, 174447, 202071, 242485, 274025],
+        'Other non-communicable diseases':  [88070, 100156, 124373, 145828, 159825, 180552, 207574],
+        'Mental disorders':                 [74447, 79391, 90221, 108909, 129190, 148278, 194075],
+        'Substance use disorders':          [19119, 19818, 22299, 28417, 38850, 48394, 61873],
+        'Skin and subcutaneous diseases':   [18263, 21343, 24451, 29243, 35866, 41111, 48238],
     }
     rate_data = {
-        'Cardiovascular diseases':      [25394.7, 22312.9, 18586.5, 15338.9, 13962.4, 13109.0, 13055.7],
-        'Neoplasms':                    [20655.9, 19950.3, 18623.5, 16960.8, 16039.2, 15222.5, 15251.7],
-        'Neurological disorders':       [5242.5,  5581.8,  5705.2,  5645.1,  5655.9,  5641.7,  5699.7],
-        'Musculoskeletal disorders':    [5505.8,  5508.1,  5402.8,  5313.2,  5375.9,  5460.2,  5406.9],
-        'Chronic respiratory diseases': [4660.5,  4663.9,  4426.6,  4120.1,  4150.3,  4088.2,  4071.2],
-        'Diabetes and kidney diseases': [3670.2,  4047.1,  4191.2,  3760.3,  3505.9,  3518.8,  3668.7],
-        'Mental disorders':             [1580.4,  1547.4,  1554.4,  1588.1,  1601.1,  1618.9,  1900.1],
+        'Cardiovascular diseases':          [25394.7, 22312.9, 18586.5, 15338.9, 13962.4, 13109.0, 13055.7],
+        'Neoplasms':                        [20655.9, 19950.3, 18623.5, 16960.8, 16039.2, 15222.5, 15251.7],
+        'Neurological disorders':           [5242.5, 5581.8, 5705.2, 5645.1, 5655.9, 5641.7, 5699.7],
+        'Musculoskeletal disorders':        [5505.8, 5508.1, 5402.8, 5313.2, 5375.9, 5460.2, 5406.9],
+        'Sense organ diseases':             [2680.2, 2722.9, 2773.9, 2543.8, 2504.4, 2647.4, 2682.8],
+        'Other non-communicable diseases':  [1869.6, 1952.2, 2142.8, 2126.5, 1980.8, 1971.3, 2032.2],
+        'Digestive diseases':               [2739.8, 2632.6, 2549.3, 2414.6, 2439.9, 2477.9, 2684.9],
+        'Chronic respiratory diseases':     [4660.5, 4663.9, 4426.6, 4120.1, 4150.3, 4088.2, 4071.2],
+        'Diabetes and kidney diseases':     [3670.2, 4047.1, 4191.2, 3760.3, 3505.9, 3518.8, 3668.7],
+        'Mental disorders':                 [1580.4, 1547.4, 1554.4, 1588.1, 1601.1, 1618.9, 1900.1],
+        'Substance use disorders':          [405.9, 386.3, 384.2, 414.4, 481.5, 528.4, 605.8],
+        'Skin and subcutaneous diseases':   [387.7, 416.0, 421.3, 426.4, 444.5, 448.9, 472.3],
     }
     deaths_2023 = {
         'Neoplasms': 88335, 'Cardiovascular diseases': 78305,
         'Neurological disorders': 28739, 'Chronic respiratory diseases': 19734,
         'Diabetes and kidney diseases': 15384, 'Musculoskeletal disorders': 1142,
-        'Mental disorders': None,
+        'Digestive diseases': 13783, 'Other non-communicable diseases': 5904,
+        'Substance use disorders': 1684, 'Skin and subcutaneous diseases': 998,
+        'Mental disorders': None,     # GBD reports no death data for this primarily-disability category
+        'Sense organ diseases': None,  # GBD reports no death data for this primarily-disability category
     }
     return daly_data, rate_data, deaths_2023
 
@@ -183,7 +205,7 @@ def get_gbd_fallback():
 @st.cache_data
 def get_allcause_gbd():
     """All-cause GBD 2023 totals for Canadians 60+ — the broader denominator described in
-    paper Section 3.1, distinct from the seven categories analyzed in depth elsewhere."""
+    paper Section 3.1, distinct from the twelve categories analyzed in depth elsewhere."""
     return {
         1995: {'dalys': 3_948_183, 'deaths': 172_766},
         2023: {'dalys': 6_895_367, 'deaths': 280_718},
@@ -192,7 +214,8 @@ def get_allcause_gbd():
 
 @st.cache_data
 def compute_forecasts(daly_data):
-    """Polynomial regression (degree=2) forecasts, 2024-2040. Matches paper Table 8."""
+    """Polynomial regression (degree=2) forecasts, 2024-2040. Matches paper Table 8
+    (12-category extension)."""
     annual_years = np.arange(1995, 2024)
     forecast_years = np.arange(2024, 2041)
     forecasts, metrics = {}, {}
@@ -212,25 +235,26 @@ def compute_forecasts(daly_data):
 @st.cache_data
 def get_provincial_pharma():
     """CIHI Pharmaceutical Data Tool — senior population, growth, antidepressant Rx, all ten
-    provinces. Matches paper Table 4."""
+    provinces. Matches paper Table 4. (Unaffected by the 7->12 disease-category expansion.)"""
     return pd.DataFrame([
         {'Province': 'Ontario',                   'Senior Pop (2024)': 2954128, 'Growth % (2020-24)': 14.2, 'Antidepressant Rx (2024)': 640981, 'Rx per 1,000 Seniors': 217.0},
-        {'Province': 'Quebec',                    'Senior Pop (2024)': 1908944, 'Growth % (2020-24)': 14.1, 'Antidepressant Rx (2024)': 448342, 'Rx per 1,000 Seniors': 234.9},
-        {'Province': 'British Columbia',          'Senior Pop (2024)': 1127346, 'Growth % (2020-24)': 14.7, 'Antidepressant Rx (2024)': 205795, 'Rx per 1,000 Seniors': 182.5},
-        {'Province': 'Alberta',                   'Senior Pop (2024)': 740710,  'Growth % (2020-24)': 22.0, 'Antidepressant Rx (2024)': 153543, 'Rx per 1,000 Seniors': 207.3},
-        {'Province': 'Manitoba',                  'Senior Pop (2024)': 251515,  'Growth % (2020-24)': 13.0, 'Antidepressant Rx (2024)': 53462,  'Rx per 1,000 Seniors': 212.6},
-        {'Province': 'Saskatchewan',              'Senior Pop (2024)': 217401,  'Growth % (2020-24)': 13.2, 'Antidepressant Rx (2024)': 47626,  'Rx per 1,000 Seniors': 219.1},
-        {'Province': 'Nova Scotia',               'Senior Pop (2024)': 238698,  'Growth % (2020-24)': 13.6, 'Antidepressant Rx (2024)': 47925,  'Rx per 1,000 Seniors': 200.8},
-        {'Province': 'New Brunswick',             'Senior Pop (2024)': 196181,  'Growth % (2020-24)': 13.9, 'Antidepressant Rx (2024)': 29561,  'Rx per 1,000 Seniors': 150.7},
-        {'Province': 'Newfoundland and Labrador', 'Senior Pop (2024)': 134324,  'Growth % (2020-24)': 13.4, 'Antidepressant Rx (2024)': 21244,  'Rx per 1,000 Seniors': 158.2},
-        {'Province': 'Prince Edward Island',      'Senior Pop (2024)': 36848,   'Growth % (2020-24)': 15.2, 'Antidepressant Rx (2024)': 9458,   'Rx per 1,000 Seniors': 256.7},
+        {'Province': 'Quebec',                     'Senior Pop (2024)': 1908944, 'Growth % (2020-24)': 14.1, 'Antidepressant Rx (2024)': 448342, 'Rx per 1,000 Seniors': 234.9},
+        {'Province': 'British Columbia',           'Senior Pop (2024)': 1127346, 'Growth % (2020-24)': 14.7, 'Antidepressant Rx (2024)': 205795, 'Rx per 1,000 Seniors': 182.5},
+        {'Province': 'Alberta',                    'Senior Pop (2024)': 740710,  'Growth % (2020-24)': 22.0, 'Antidepressant Rx (2024)': 153543, 'Rx per 1,000 Seniors': 207.3},
+        {'Province': 'Manitoba',                   'Senior Pop (2024)': 251515,  'Growth % (2020-24)': 13.0, 'Antidepressant Rx (2024)': 53462,  'Rx per 1,000 Seniors': 212.6},
+        {'Province': 'Saskatchewan',                'Senior Pop (2024)': 217401,  'Growth % (2020-24)': 13.2, 'Antidepressant Rx (2024)': 47626,  'Rx per 1,000 Seniors': 219.1},
+        {'Province': 'Nova Scotia',                 'Senior Pop (2024)': 238698,  'Growth % (2020-24)': 13.6, 'Antidepressant Rx (2024)': 47925,  'Rx per 1,000 Seniors': 200.8},
+        {'Province': 'New Brunswick',               'Senior Pop (2024)': 196181,  'Growth % (2020-24)': 13.9, 'Antidepressant Rx (2024)': 29561,  'Rx per 1,000 Seniors': 150.7},
+        {'Province': 'Newfoundland and Labrador',   'Senior Pop (2024)': 134324,  'Growth % (2020-24)': 13.4, 'Antidepressant Rx (2024)': 21244,  'Rx per 1,000 Seniors': 158.2},
+        {'Province': 'Prince Edward Island',        'Senior Pop (2024)': 36848,   'Growth % (2020-24)': 15.2, 'Antidepressant Rx (2024)': 9458,   'Rx per 1,000 Seniors': 256.7},
     ])
 
 
 @st.cache_data
 def get_statcan_population():
     """Statistics Canada Table 17-10-0057-01 — M2 scenario — 65+ population (thousands),
-    annual 2025-2040, Canada and all ten provinces. Matches paper Table 5."""
+    annual 2025-2040, Canada and all ten provinces. Matches paper Table 5.
+    (Unaffected by the 7->12 disease-category expansion.)"""
     years = list(range(2025, 2041))
     data = {
         'Canada':                    [8108.4, 8365.3, 8610.2, 8861.3, 9100.4, 9318.5, 9498.2, 9646.7, 9784.8, 9920.2, 10053.5, 10183.0, 10288.2, 10379.6, 10466.5, 10557.7],
@@ -252,24 +276,26 @@ def get_statcan_population():
 
 @st.cache_data
 def get_cihi_hosp_65plus():
-    """CIHI HMDB/OMHRS 2024-2025 — top 10 inpatient hospitalizations, age 65+. Matches paper Table 6."""
+    """CIHI HMDB/OMHRS 2024-2025 — top 10 inpatient hospitalizations, age 65+. Matches paper
+    Table 6. (Unaffected by the 7->12 disease-category expansion.)"""
     return pd.DataFrame([
         {'rank': 1,  'diagnosis': 'COPD and bronchitis',                          'n_hosp': 68321, 'avg_los': 7.3,  'category': 'Respiratory'},
-        {'rank': 2,  'diagnosis': 'Heart failure',                                 'n_hosp': 61591, 'avg_los': 9.7,  'category': 'Cardiovascular'},
-        {'rank': 3,  'diagnosis': 'Neurocognitive disorders',                      'n_hosp': 49996, 'avg_los': 17.1, 'category': 'Neurological'},
-        {'rank': 4,  'diagnosis': 'Pneumonia',                                     'n_hosp': 49060, 'avg_los': 7.9,  'category': 'Respiratory'},
+        {'rank': 2,  'diagnosis': 'Heart failure',                                'n_hosp': 61591, 'avg_los': 9.7,  'category': 'Cardiovascular'},
+        {'rank': 3,  'diagnosis': 'Neurocognitive disorders',                     'n_hosp': 49996, 'avg_los': 17.1, 'category': 'Neurological'},
+        {'rank': 4,  'diagnosis': 'Pneumonia',                                    'n_hosp': 49060, 'avg_los': 7.9,  'category': 'Respiratory'},
         {'rank': 5,  'diagnosis': 'Osteoarthritis of the knee',                   'n_hosp': 45585, 'avg_los': 2.1,  'category': 'Musculoskeletal'},
-        {'rank': 6,  'diagnosis': 'Other medical care (palliative)',               'n_hosp': 40829, 'avg_los': 9.1,  'category': 'Other'},
-        {'rank': 7,  'diagnosis': 'Acute myocardial infarction',                   'n_hosp': 40284, 'avg_los': 5.6,  'category': 'Cardiovascular'},
-        {'rank': 8,  'diagnosis': 'Fracture of femur',                             'n_hosp': 39700, 'avg_los': 11.4, 'category': 'Musculoskeletal'},
-        {'rank': 9,  'diagnosis': 'Cerebral infarction',                           'n_hosp': 32662, 'avg_los': 10.4, 'category': 'Neurological'},
+        {'rank': 6,  'diagnosis': 'Other medical care (palliative)',              'n_hosp': 40829, 'avg_los': 9.1,  'category': 'Other'},
+        {'rank': 7,  'diagnosis': 'Acute myocardial infarction',                  'n_hosp': 40284, 'avg_los': 5.6,  'category': 'Cardiovascular'},
+        {'rank': 8,  'diagnosis': 'Fracture of femur',                            'n_hosp': 39700, 'avg_los': 11.4, 'category': 'Musculoskeletal'},
+        {'rank': 9,  'diagnosis': 'Cerebral infarction',                          'n_hosp': 32662, 'avg_los': 10.4, 'category': 'Neurological'},
         {'rank': 10, 'diagnosis': 'Other diseases of the urinary system (UTI)',   'n_hosp': 26443, 'avg_los': 7.8,  'category': 'Other'},
     ])
 
 
 @st.cache_data
 def get_national_hosp_rate_trend():
-    """CIHI HMDB Table 1 — national age-sex-standardized hospitalization rate, 2020-21 to 2024-25."""
+    """CIHI HMDB Table 1 — national age-sex-standardized hospitalization rate, 2020-21 to
+    2024-25. (Unaffected by the 7->12 disease-category expansion.)"""
     return pd.DataFrame([
         {'Fiscal Year': '2020–2021', 'Rate per 100,000': 7227.7, 'Avg LOS (days)': 5.86},
         {'Fiscal Year': '2021–2022', 'Rate per 100,000': 7536.6, 'Avg LOS (days)': 6.02},
@@ -282,7 +308,8 @@ def get_national_hosp_rate_trend():
 @st.cache_data
 def get_cihi_alc():
     """CIHI HMDB/OMHRS Table 7 — ALC patient-day proportions, 2024-2025, nine provinces
-    (Quebec excluded; see paper Section 2.4) plus the Canada total. Matches paper Table 7."""
+    (Quebec excluded; see paper Section 2.4) plus the Canada total. Matches paper Table 7.
+    (Unaffected by the 7->12 disease-category expansion.)"""
     rows = pd.DataFrame([
         {'Province': 'Prince Edward Island',        'Hospitalizations (2024-25)': 13245,   'Patient Days in ALC (%)': 28.0},
         {'Province': 'Newfoundland and Labrador',   'Hospitalizations (2024-25)': 47277,   'Patient Days in ALC (%)': 23.8},
@@ -314,7 +341,7 @@ CLSA_FINDINGS = {
 }
 
 
-# ── INITIAL DATA LOADING EXECUTION ──
+# ── LOAD DATA ──
 gbd_raw, missing_files = load_gbd_data()
 daly_data, rate_data, deaths_2023 = get_gbd_fallback()
 allcause = get_allcause_gbd()
@@ -336,8 +363,12 @@ hosp_df = get_cihi_hosp_65plus()
 hosp_rate_trend_df = get_national_hosp_rate_trend()
 alc_df, alc_canada_df = get_cihi_alc()
 
+# 12-category total DALYs for 2023, used in several headline metrics below
+TOTAL_2023 = sum(v[-1] for v in daly_data.values())
+TOTAL_1995 = sum(v[0] for v in daly_data.values())
+TOTAL_GROWTH_PCT = (TOTAL_2023 - TOTAL_1995) / TOTAL_1995 * 100
 
-# ── SIDEBAR INTERFACES & FILTER GLOBALS (MIGRATED UPWARD) ──
+# ── SIDEBAR ──
 st.sidebar.markdown("## 🏥 Disease Burden Dashboard")
 st.sidebar.markdown("**GBD 2023 · CIHI · Statistics Canada · CLSA**")
 st.sidebar.markdown("---")
@@ -352,8 +383,6 @@ page = st.sidebar.radio(
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("### Filters")
-
-# CRITICAL FIX: These filters must compute before any visual sections evaluate down-script!
 selected_diseases = st.sidebar.multiselect("Select diseases", DISEASES, default=DISEASES)
 filtered_diseases = [d for d in selected_diseases if d in DISEASES] or DISEASES
 
@@ -364,7 +393,7 @@ st.sidebar.markdown("---")
 st.sidebar.markdown("### Data Files (optional)")
 st.sidebar.info("If present, real GBD CSV/XLSX files in this folder will be used instead of the embedded, verified dataset.")
 if missing_files:
-    st.sidebar.caption(f"Using embedded data for: {', '.join(missing_files[:3])}{'…' if len(missing_files) > 3 else ''}")
+    st.sidebar.caption(f"Using embedded data for: {', '.join(sorted(set(missing_files))[:3])}{'…' if len(set(missing_files)) > 3 else ''}")
 else:
     st.sidebar.success("✅ Real GBD files loaded")
 
@@ -384,20 +413,22 @@ if page == "📊 Overall Disease Burden":
         st.metric("Deaths, all-cause (2023)", f"{allcause[2023]['deaths']:,}",
                    f"+{(allcause[2023]['deaths']-allcause[1995]['deaths'])/allcause[1995]['deaths']*100:.1f}% since 1995")
     with col3:
-        st.metric("Fastest growing (7 categories)", "Mental disorders", "+160.7%")
+        st.metric("Fastest growing (12 categories)", "Substance use disorders", "+223.6%")
     with col4:
         st.metric("Best improvement (rate)", "Cardiovascular", "-48.6%")
     with col5:
         st.metric("Provinces analyzed", "10", "All of Canada")
     with col6:
-        st.metric("Projected 2040 (7 categories)", "7.99M DALYs", "+59.5%")
+        st.metric("Projected 2040 (12 categories)", "9.49M DALYs", "+61.5%")
 
-    st.markdown("""
+    st.markdown(f"""
     <div class="highlight-box">
     The 6.90 million all-cause figure above spans every disease and injury category tracked by
-    GBD 2023. This study analyzes seven major disease categories in depth (DALYs: 5.01 million in
-    2023, 72.7% of the all-cause total) — it is this seven-category subset that powers the trend,
-    rate, and forecasting analyses throughout this dashboard.
+    GBD 2023. This study analyzes twelve major disease categories within the Non-Communicable
+    Diseases classification in depth (DALYs: {TOTAL_2023/1e6:.2f} million in 2023,
+    {TOTAL_2023/allcause[2023]['dalys']*100:.1f}% of the all-cause total) — it is this
+    twelve-category subset that powers the trend, rate, and forecasting analyses throughout
+    this dashboard.
     </div>
     """, unsafe_allow_html=True)
 
@@ -409,50 +440,56 @@ if page == "📊 Overall Disease Burden":
         dalys_2023 = {d: daly_data[d][-1] for d in filtered_diseases}
         df_plot = pd.DataFrame({'Disease': list(dalys_2023.keys()), 'DALYs': list(dalys_2023.values())})
         df_plot = df_plot.sort_values('DALYs', ascending=True)
-        
         fig = px.bar(df_plot, x='DALYs', y='Disease', orientation='h',
                      color='Disease', color_discrete_map=DISEASE_COLORS,
-                     labels={'DALYs': 'DALYs (Absolute Count)'})
-        fig.update_traces(texttemplate='%{x:,.0f}', textposition='outside', cliponaxis=False)
-        fig.update_layout(showlegend=False, height=400,
-                          plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
-                          xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.2)'),
-                          yaxis=dict(showgrid=False),
-                          margin=dict(l=10, r=100, t=20, b=20))
-        st.plotly_chart(fig, width='stretch')
-        
-        st.markdown("""
-        > **Figure Notes:** DALY absolute counts represent the total combined years of healthy life lost due to premature 
-        > mortality and disability. Subsetting down to these seven key chronic disease frameworks captures **72.7%** > ($5.01\text{M}$ of $6.90\text{M}$) of all-cause aging health burdens across Canada in 2023.
-        """)
+                     labels={'DALYs': 'DALYs (number)'})
+        fig.update_traces(texttemplate='%{x:,.0f}', textposition='outside')
+        fig.update_layout(showlegend=False, height=480,
+                           plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
+                           xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
+                           yaxis=dict(showgrid=False),
+                           margin=dict(l=0, r=80, t=10, b=10))
+        st.plotly_chart(fig, use_container_width=True)
 
     with col_right:
-        st.markdown('<p class="section-header">Key Research Insights</p>', unsafe_allow_html=True)
+        st.markdown('<p class="section-header">Key Findings</p>', unsafe_allow_html=True)
         st.markdown("""
-        <div style="background-color: rgba(220, 80, 80, 0.08); border-left: 5px solid #A32D2D; padding: 12px; border-radius: 4px; margin-bottom: 10px;">
-            <strong style="color: #A32D2D;">⚠️ Mental Health Velocity:</strong><br>
-            Mental disorders showed the highest absolute DALY growth (+160.7%) and an alarming <strong>+20.2% increase in age-standardized rates</strong>, signifying a true structural escalation beyond raw population growth.
+        <div class="warning-box">
+        <b>⚠️ Substance use disorders</b><br>
+        Highest absolute DALY growth (+223.6%) AND rising age-standardized rate (+49.2%) of any
+        of the twelve categories — more than double mental disorders' rate increase, a genuine
+        worsening, not just population growth. Still the smallest absolute burden today,
+        suggesting a window for early intervention.
         </div>
-        <div style="background-color: rgba(240, 165, 0, 0.08); border-left: 5px solid #F0A500; padding: 12px; border-radius: 4px; margin-bottom: 10px;">
-            <strong style="color: #B57C00;">⚠️ Geographic Strain Patterns:</strong><br>
-            <strong>Alberta</strong> exhibits the highest senior expansion velocity (+22.0%), while <strong>Prince Edward Island</strong> registers the heaviest antidepressant volume and Alternate Level of Care (ALC) bed dependency.
+        <div class="warning-box">
+        <b>⚠️ Mental disorders — close second</b><br>
+        +160.7% absolute growth, +20.2% rate increase, and a far larger existing burden
+        (194,075 DALYs) than substance use disorders. Two related but distinct priorities.
         </div>
-        <div style="background-color: rgba(15, 110, 86, 0.08); border-left: 5px solid #0F6E56; padding: 12px; border-radius: 4px; margin-bottom: 15px;">
-            <strong style="color: #0F6E56;">✅ Cardiovascular Policy Success:</strong><br>
-            Age-standardized rates contracted by <strong>-48.6%</strong>, demonstrating the massive efficacy of multi-decade vascular preventative strategies across the country.
+        <div class="warning-box">
+        <b>⚠️ Two geographic pressure points</b><br>
+        Alberta: fastest-growing senior population (+22.0% since 2020). Prince Edward Island:
+        highest antidepressant Rx rate and highest ALC burden of any province.
+        </div>
+        <div class="success-box">
+        <b>✅ Cardiovascular disease</b><br>
+        Age-standardized rate fell -48.6% — the strongest evidence in this dataset that
+        sustained intervention works.
+        </div>
+        <div class="highlight-box">
+        <b>🔮 2040 forecast</b><br>
+        Substance use disorders projected +123.6% growth by 2040 — by far the highest of any
+        category analyzed, more than 40 points ahead of the next-highest.
         </div>
         """, unsafe_allow_html=True)
 
-        st.markdown('<p class="section-header">Proportional Share of Analyzed Burden (2023)</p>', unsafe_allow_html=True)
+        st.markdown('<p class="section-header" style="margin-top:1rem;">Burden distribution, 2023</p>', unsafe_allow_html=True)
         dalys_pie = {d: daly_data[d][-1] for d in DISEASES}
-        
-        fig_donut = px.pie(values=list(dalys_pie.values()), names=list(dalys_pie.keys()),
-                           color=list(dalys_pie.keys()), color_discrete_map=DISEASE_COLORS, hole=0.5)
-        fig_donut.update_layout(showlegend=True, 
-                               legend=dict(orientation="h", yanchor="bottom", y=-0.4, xanchor="center", x=0.5),
-                               height=280, margin=dict(l=10, r=10, t=10, b=10))
-        fig_donut.update_traces(textposition='inside', textinfo='percent', textfont_size=11)
-        st.plotly_chart(fig_donut, width='stretch')
+        fig_pie = px.pie(values=list(dalys_pie.values()), names=list(dalys_pie.keys()),
+                          color=list(dalys_pie.keys()), color_discrete_map=DISEASE_COLORS)
+        fig_pie.update_layout(showlegend=False, height=260, margin=dict(l=0, r=0, t=0, b=0))
+        fig_pie.update_traces(textposition='inside', textinfo='percent', textfont_size=9)
+        st.plotly_chart(fig_pie, use_container_width=True)
 
 
 # ============================================================
@@ -473,13 +510,13 @@ elif page == "📈 Absolute DALY Trends":
         ))
 
     ylabel = "DALYs (number)" if metric_type == "Absolute numbers" else "% Growth from 1995 baseline"
-    fig.update_layout(height=450, xaxis_title="Year", yaxis_title=ylabel,
+    fig.update_layout(height=480, xaxis_title="Year", yaxis_title=ylabel,
                        plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
                        xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
                        yaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
                        legend=dict(orientation='v', x=1.01, y=1),
-                       margin=dict(l=0, r=150, t=20, b=40))
-    st.plotly_chart(fig, width='stretch')
+                       margin=dict(l=0, r=180, t=20, b=40))
+    st.plotly_chart(fig, use_container_width=True)
 
     st.markdown("---")
     st.markdown('<p class="section-header">Year-by-Year DALY Table</p>', unsafe_allow_html=True)
@@ -492,11 +529,11 @@ elif page == "📈 Absolute DALY Trends":
 
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.markdown('<div class="warning-box"><b>Fastest growing</b><br>Mental disorders: +160.7%<br>Neurological: +135.7%</div>', unsafe_allow_html=True)
+        st.markdown('<div class="warning-box"><b>Fastest growing</b><br>Substance use disorders: +223.6%<br>Skin and subcutaneous diseases: +164.1%<br>Mental disorders: +160.7%</div>', unsafe_allow_html=True)
     with col2:
-        st.markdown('<div class="highlight-box"><b>Moderate growth</b><br>Diabetes: +116.7%<br>Musculoskeletal: +112.9%</div>', unsafe_allow_html=True)
+        st.markdown('<div class="highlight-box"><b>Moderate growth</b><br>Neurological disorders: +135.7%<br>Other non-comm. diseases: +135.7%<br>Sense organ diseases: +117.0%</div>', unsafe_allow_html=True)
     with col3:
-        st.markdown('<div class="success-box"><b>Slowest growth</b><br>Cardiovascular: +11.5%<br>(Interventions effective)</div>', unsafe_allow_html=True)
+        st.markdown('<div class="success-box"><b>Slowest growth</b><br>Cardiovascular disease: +11.5%<br>(Interventions effective)</div>', unsafe_allow_html=True)
 
 
 # ============================================================
@@ -518,14 +555,14 @@ elif page == "📉 Age-Standardized Rate Trends":
                     name=disease, line=dict(color=DISEASE_COLORS[disease], width=2.5),
                     marker=dict(size=6)
                 ))
-        fig.update_layout(height=380, xaxis_title="Year",
-                          yaxis_title="Age-standardized rate per 100,000",
-                          plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
-                          xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
-                          yaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
-                          legend=dict(orientation='v', x=1.01, y=1),
-                          margin=dict(l=0, r=150, t=10, b=40))
-        st.plotly_chart(fig, width='stretch')
+        fig.update_layout(height=420, xaxis_title="Year",
+                           yaxis_title="Age-standardized rate per 100,000",
+                           plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
+                           xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
+                           yaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
+                           legend=dict(orientation='v', x=1.01, y=1),
+                           margin=dict(l=0, r=180, t=10, b=40))
+        st.plotly_chart(fig, use_container_width=True)
 
     with col_right:
         st.markdown('<p class="section-header">% Change in rate, 1995→2023</p>', unsafe_allow_html=True)
@@ -533,16 +570,16 @@ elif page == "📉 Age-Standardized Rate Trends":
                          for d in filtered_diseases if d in rate_data}
         df_rate = pd.DataFrame({'Disease': list(rate_changes.keys()), 'Rate Change (%)': list(rate_changes.values())})
         df_rate = df_rate.sort_values('Rate Change (%)')
-        colors = ['#0F6E56' if v < 0 else '#A32D2D' for v in df_rate['Rate Change (%)']]
+        colors = ['#0F6E56' if v < 0 else '#D81B60' for v in df_rate['Rate Change (%)']]
         fig2 = px.bar(df_rate, x='Rate Change (%)', y='Disease', orientation='h',
                       color='Disease', color_discrete_map={d: c for d, c in zip(df_rate['Disease'], colors)})
         fig2.add_vline(x=0, line_color='gray', line_width=1)
-        fig2.update_layout(showlegend=False, height=380,
-                           plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
-                           xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)', ticksuffix='%'),
-                           yaxis=dict(showgrid=False),
-                           margin=dict(l=0, r=20, t=10, b=40))
-        st.plotly_chart(fig2, width='stretch')
+        fig2.update_layout(showlegend=False, height=420,
+                            plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
+                            xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)', ticksuffix='%'),
+                            yaxis=dict(showgrid=False),
+                            margin=dict(l=0, r=20, t=10, b=40))
+        st.plotly_chart(fig2, use_container_width=True)
 
     st.markdown("---")
     st.markdown('<p class="section-header">Age-Standardized Rate Table</p>', unsafe_allow_html=True)
@@ -561,9 +598,11 @@ elif page == "📉 Age-Standardized Rate Trends":
 
     st.markdown("""
     <div class="highlight-box">
-    <b>Key finding:</b> Cardiovascular disease rate fell -48.6% — the strongest evidence that targeted
-    intervention works. Mental disorders rate rose +20.2% even after controlling for population growth
-    — a genuine worsening that existing interventions have not yet addressed.
+    <b>Key finding:</b> Cardiovascular disease rate fell -48.6% — the strongest evidence that
+    targeted intervention works. Substance use disorders rate rose +49.2% even after
+    controlling for population growth — more than double mental disorders' +20.2% rate
+    increase — confirming substance use disorders as the most rapidly worsening category by
+    this measure, with mental disorders a close and substantial second.
     </div>
     """, unsafe_allow_html=True)
 
@@ -600,23 +639,43 @@ elif page == "🗺️ Provincial Burden & Demographics":
                      color='Province', color_discrete_map=PROVINCE_COLORS, text=metric_choice)
         fig.update_traces(texttemplate='%{text:,.1f}', textposition='outside')
         fig.update_layout(showlegend=False, height=420, plot_bgcolor='rgba(0,0,0,0)',
-                          paper_bgcolor='rgba(0,0,0,0)', margin=dict(l=0, r=60, t=10, b=40),
-                          yaxis=dict(showgrid=False), xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'))
-        st.plotly_chart(fig, width='stretch')
+                           paper_bgcolor='rgba(0,0,0,0)', margin=dict(l=0, r=60, t=10, b=40),
+                           yaxis=dict(showgrid=False), xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'))
+        st.plotly_chart(fig, use_container_width=True)
 
     with col_right:
         st.markdown("**Two pressure points: growth velocity vs. mental health burden**")
         fig2 = px.scatter(df_prov, x='Growth % (2020-24)', y='Rx per 1,000 Seniors',
-                          color='Province', color_discrete_map=PROVINCE_COLORS,
-                          size='Senior Pop (2024)', text='Province',
-                          labels={'Growth % (2020-24)': 'Senior population growth, 2020–2024 (%)',
-                                  'Rx per 1,000 Seniors': 'Antidepressant Rx per 1,000 seniors'})
+                           color='Province', color_discrete_map=PROVINCE_COLORS,
+                           size='Senior Pop (2024)', text='Province',
+                           labels={'Growth % (2020-24)': 'Senior population growth, 2020–2024 (%)',
+                                   'Rx per 1,000 Seniors': 'Antidepressant Rx per 1,000 seniors'})
         fig2.update_traces(textposition='top center')
         fig2.update_layout(showlegend=False, height=420, plot_bgcolor='rgba(0,0,0,0)',
-                           paper_bgcolor='rgba(0,0,0,0)', margin=dict(l=0, r=20, t=10, b=40))
-        st.plotly_chart(fig2, width='stretch')
+                            paper_bgcolor='rgba(0,0,0,0)', margin=dict(l=0, r=20, t=10, b=40))
+        st.plotly_chart(fig2, use_container_width=True)
 
-   
+    st.markdown("---")
+    st.markdown('<p class="section-header">Complete Provincial Summary Table</p>', unsafe_allow_html=True)
+    st.dataframe(df_prov.set_index('Province'), use_container_width=True)
+
+    st.markdown("""
+    <div class="warning-box">
+    <b>⚠️ Alberta — demographic growth velocity</b><br>
+    740,710 seniors growing at +22.0% since 2020 — 6.8 percentage points ahead of the next-fastest
+    province (Prince Edward Island). Alberta's antidepressant Rx rate (207.3 per 1,000) sits in the
+    middle of the national distribution, indicating its primary pressure point is the speed of growth
+    itself, not an unusually high baseline mental health burden.
+    </div>
+    <div class="warning-box">
+    <b>⚠️ Prince Edward Island — community capacity strain</b><br>
+    Combines the highest antidepressant Rx rate of any province (256.7 per 1,000) with the highest
+    proportion of hospital patient-days in alternate level of care (28.0%, see Hospitalization Burden
+    page) — despite comparatively modest population growth (+15.2%). This is a distinct pressure point
+    from Alberta's, concentrated in the smaller Atlantic provinces.
+    </div>
+    """, unsafe_allow_html=True)
+
 
 # ============================================================
 # PAGE 5: FORECASTING THROUGH 2040
@@ -625,13 +684,16 @@ elif page == "🔮 Forecasting Through 2040":
     st.markdown('<p class="main-title">Disease Burden Forecasting, 2024–2040</p>', unsafe_allow_html=True)
     st.markdown("Polynomial regression (degree=2) with cubic spline interpolation | R² > 0.96 | MAPE < 3.1%")
 
+    total_2040 = sum(forecasts[d][16] for d in DISEASES)
+    total_forecast_growth = (total_2040 - TOTAL_2023) / TOTAL_2023 * 100
+
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        st.metric("Total DALYs 2023", "5.01M", "7 disease categories")
+        st.metric("Total DALYs 2023", f"{TOTAL_2023/1e6:.2f}M", "12 disease categories")
     with col2:
-        st.metric("Projected 2040", "7.99M", "+59.5% growth")
+        st.metric("Projected 2040", f"{total_2040/1e6:.2f}M", f"+{total_forecast_growth:.1f}% growth")
     with col3:
-        st.metric("Highest growth", "Mental disorders", "+80.8%")
+        st.metric("Highest growth", "Substance use disorders", "+123.6%")
     with col4:
         st.metric("Model R²", "> 0.96", "All diseases")
 
@@ -665,12 +727,12 @@ elif page == "🔮 Forecasting Through 2040":
     fig.add_vline(x=2023, line_color='gray', line_dash='dot', line_width=1.5,
                   annotation_text="← Historical | Forecast →", annotation_position="top right")
     fig.update_layout(
-        height=460, xaxis_title="Year", yaxis_title="DALYs (Millions)",
+        height=480, xaxis_title="Year", yaxis_title="DALYs (Millions)",
         plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
         xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
         yaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
         legend=dict(orientation='v', x=1.01, y=1),
-        margin=dict(l=0, r=200, t=20, b=40)
+        margin=dict(l=0, r=220, t=20, b=40)
     )
     st.plotly_chart(fig, use_container_width=True)
 
@@ -678,7 +740,8 @@ elif page == "🔮 Forecasting Through 2040":
     st.markdown('<p class="section-header">Forecast Table — DALYs, 2023–2040</p>', unsafe_allow_html=True)
     forecast_table_data = {'Disease': [], '2023 (obs)': [], '2025': [], '2030': [], '2035': [], '2040': [], 'Growth 2023-2040': []}
 
-    for disease in DISEASES:
+    diseases_sorted_by_growth = sorted(DISEASES, key=lambda d: forecast_metrics[d]['growth_2040'], reverse=True)
+    for disease in diseases_sorted_by_growth:
         f = forecasts[disease]
         obs = daly_data[disease][-1]
         growth = forecast_metrics[disease]['growth_2040']
@@ -693,15 +756,17 @@ elif page == "🔮 Forecasting Through 2040":
     df_forecast = pd.DataFrame(forecast_table_data).set_index('Disease')
     st.dataframe(df_forecast, use_container_width=True)
 
-    total_2040 = sum(forecasts[d][16] for d in DISEASES)
     st.markdown(f"""
     <div class="warning-box">
     <b>🔮 2040 Projection Summary</b><br>
-    Total DALYs across 7 disease categories are projected to reach <b>{total_2040/1e6:.2f} million by 2040</b>
-    (+59.5% from 2023). Mental disorders (+80.8%) and musculoskeletal disorders (+76.5%) show the
-    highest projected growth, reinforcing the need for proactive expansion of mental health and
-    musculoskeletal care capacity for older Canadians over the next two decades. Model: polynomial
-    regression (degree=2), R² > 0.96, MAPE < 3.1% for all disease categories.
+    Total DALYs across 12 disease categories are projected to reach
+    <b>{total_2040/1e6:.2f} million by 2040</b> (+{total_forecast_growth:.1f}% from 2023).
+    Substance use disorders (+123.6%) shows by far the highest projected growth — more than
+    40 percentage points ahead of the next-highest category — followed by digestive diseases
+    (+81.7%) and mental disorders (+80.8%). This reinforces the need for proactive expansion of
+    substance use treatment, mental health, and musculoskeletal care capacity for older
+    Canadians over the next two decades. Model: polynomial regression (degree=2), R² > 0.96,
+    MAPE < 3.1% for all disease categories.
     </div>
     """, unsafe_allow_html=True)
 
@@ -812,7 +877,7 @@ elif page == "🏥 Hospitalization Burden & ALC":
                                         marker_colors=[cat_colors.get(c, '#999') for c in cat_totals['category']], hole=0.4))
             fig_pie.update_layout(height=300, margin=dict(l=20, r=20, t=20, b=20), showlegend=True)
             st.plotly_chart(fig_pie, use_container_width=True)
-            st.markdown("**Note:** chronic respiratory disease ranks only 5th of 7 categories by DALYs (Table 1),"
+            st.markdown("**Note:** chronic respiratory disease ranks only 5th of 12 categories by DALYs (Table 1),"
                         " yet COPD and bronchitis ranks 1st in hospitalizations — see the Integrated Analysis page.")
 
     with tab2:
@@ -872,8 +937,8 @@ elif page == "🔗 Integrated Multi-Source Analysis":
 
     with tab1:
         st.markdown("#### DALY rank vs. hospitalization rank, by category")
-        st.markdown("Comparing the four disease categories present in both GBD (Table 1) and CIHI's "
-                    "top-10 hospitalization diagnoses (Table 6).")
+        st.markdown("Comparing the four disease categories present in both GBD (Table 1, ranked out of "
+                    "12) and CIHI's top-10 hospitalization diagnoses (Table 6).")
         daly_rank = {'Cardiovascular diseases': 2, 'Neurological disorders': 3,
                      'Musculoskeletal disorders': 4, 'Chronic respiratory diseases': 5}
         hosp_cat_map = {'Cardiovascular diseases': 'Cardiovascular', 'Neurological disorders': 'Neurological',
@@ -885,17 +950,17 @@ elif page == "🔗 Integrated Multi-Source Analysis":
         for disease, cat in hosp_cat_map.items():
             rows.append({
                 'Disease Category': disease,
-                'DALY Rank (of 7)': daly_rank[disease],
+                'DALY Rank (of 12)': daly_rank[disease],
                 'Hospitalizations (top 10 sum)': int(hosp_totals[cat]),
                 'Hospitalization Rank (of 5)': hosp_rank_order.index(cat) + 1,
             })
-        df_div = pd.DataFrame(rows).sort_values('DALY Rank (of 7)')
+        df_div = pd.DataFrame(rows).sort_values('DALY Rank (of 12)')
         st.dataframe(df_div.set_index('Disease Category'), use_container_width=True)
 
         fig_div = go.Figure()
-        fig_div.add_trace(go.Bar(name='DALY Rank', x=df_div['Disease Category'], y=df_div['DALY Rank (of 7)'],
+        fig_div.add_trace(go.Bar(name='DALY Rank (of 12)', x=df_div['Disease Category'], y=df_div['DALY Rank (of 12)'],
                                   marker_color='#854F0B'))
-        fig_div.add_trace(go.Bar(name='Hospitalization Rank', x=df_div['Disease Category'], y=df_div['Hospitalization Rank (of 5)'],
+        fig_div.add_trace(go.Bar(name='Hospitalization Rank (of 5)', x=df_div['Disease Category'], y=df_div['Hospitalization Rank (of 5)'],
                                   marker_color='#3B82F6'))
         fig_div.update_layout(barmode='group', yaxis_title='Rank (1 = highest)', yaxis=dict(autorange='reversed'),
                                height=380, margin=dict(l=20, r=20, t=20, b=60))
@@ -903,7 +968,7 @@ elif page == "🔗 Integrated Multi-Source Analysis":
 
         st.markdown("""
         <div class="warning-box">
-        <b>Key Finding:</b> Chronic respiratory disease ranks only 5th of 7 categories by DALYs, yet COPD
+        <b>Key Finding:</b> Chronic respiratory disease ranks only 5th of 12 categories by DALYs, yet COPD
         and bronchitis is the #1 hospitalization cause for Canadians 65+ — a disconnect between disability
         burden and acute-care utilization, consistent with the episodic, exacerbation-driven nature of
         COPD. Cardiovascular disease shows the opposite pattern: large DALY burden, but a hospitalization
@@ -986,13 +1051,13 @@ elif page == "📋 Data Explorer":
     )
 
     with tab1:
-        st.markdown("**Absolute DALYs — Canadians 60+, 1995–2023**")
+        st.markdown("**Absolute DALYs — Canadians 60+, 1995–2023 (12 categories)**")
         df_dalys = pd.DataFrame(daly_data, index=OBS_YEARS).T
         df_dalys.index.name = 'Disease'
         df_dalys['% Change 1995-2023'] = df_dalys.apply(lambda row: f"+{(row.iloc[-1]-row.iloc[0])/row.iloc[0]*100:.1f}%", axis=1)
         st.dataframe(df_dalys.style.format({c: "{:,.0f}" for c in OBS_YEARS}), use_container_width=True)
 
-        st.markdown("**Age-standardized DALY rates per 100,000 — Canadians 60+, 1995–2023**")
+        st.markdown("**Age-standardized DALY rates per 100,000 — Canadians 60+, 1995–2023 (12 categories)**")
         df_rates = pd.DataFrame(rate_data, index=OBS_YEARS).T
         df_rates.index.name = 'Disease'
         df_rates['Rate Change'] = df_rates.apply(lambda row: f"{(row.iloc[-1]-row.iloc[0])/row.iloc[0]*100:+.1f}%", axis=1)
@@ -1016,9 +1081,9 @@ elif page == "📋 Data Explorer":
                             file_name='StatCan_65plus_Population_M2_2025_2040.csv', mime='text/csv')
 
     with tab4:
-        st.markdown("**Polynomial regression forecast — DALYs among Canadians 60+, 2023–2040**")
+        st.markdown("**Polynomial regression forecast — DALYs among Canadians 60+, 2023–2040 (12 categories)**")
         f_rows = []
-        for disease in DISEASES:
+        for disease in sorted(DISEASES, key=lambda d: forecast_metrics[d]['growth_2040'], reverse=True):
             f = forecasts[disease]
             f_rows.append({'Disease': disease, '2023': daly_data[disease][-1], '2025': f[1],
                             '2030': f[6], '2035': f[11], '2040': f[16],
@@ -1031,12 +1096,12 @@ elif page == "📋 Data Explorer":
         df_download = pd.DataFrame(daly_data, index=OBS_YEARS).T
         df_download.index.name = 'Disease'
         st.download_button("⬇️ Download DALYs data (CSV)", data=df_download.to_csv().encode('utf-8'),
-                            file_name='GBD_2023_Canada_DALYs.csv', mime='text/csv')
+                            file_name='GBD_2023_Canada_DALYs_12cat.csv', mime='text/csv')
 
         df_rate_download = pd.DataFrame(rate_data, index=OBS_YEARS).T
         df_rate_download.index.name = 'Disease'
         st.download_button("⬇️ Download rate data (CSV)", data=df_rate_download.to_csv().encode('utf-8'),
-                            file_name='GBD_2023_Canada_Rates.csv', mime='text/csv')
+                            file_name='GBD_2023_Canada_Rates_12cat.csv', mime='text/csv')
 
         st.download_button("⬇️ Download provincial data (CSV)", data=prov_pharma_df.to_csv(index=False).encode('utf-8'),
                             file_name='CIHI_Provincial_Senior_Population_2024.csv', mime='text/csv')
@@ -1053,7 +1118,7 @@ st.markdown("---")
 st.markdown("""
 <div style='text-align:center; font-size:12px;'>
 Disease Burden Among Aging Canadians — Multi-Source Analysis Dashboard |
-GBD 2023 (IHME) · CIHI · Statistics Canada · CLSA |
+GBD 2023 (IHME) · CIHI · Statistics Canada · CLSA | Twelve NCD Level 2 disease categories |
 University of Windsor, Windsor, Ontario, Canada | June 2026
 </div>
 """, unsafe_allow_html=True)
