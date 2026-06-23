@@ -453,7 +453,7 @@ if page == "📊 Overall Disease Burden":
 
     col1, col2, col3, col4, col5, col6 = st.columns(6)
     with col1:
-        st.metric("Total DALYs, all-cause (2023)", f"{allcause[2023]['dalys']/1e6:.2f}M",
+        st.metric("Total DALYs,all-cause(2023)", f"{allcause[2023]['dalys']/1e6:.2f}M",
                    f"+{(allcause[2023]['dalys']-allcause[1995]['dalys'])/allcause[1995]['dalys']*100:.1f}% since 1995")
     with col2:
         st.metric("Deaths, all-cause (2023)", f"{allcause[2023]['deaths']:,}",
