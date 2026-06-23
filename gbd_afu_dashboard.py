@@ -380,11 +380,12 @@ TOTAL_2023 = sum(v[-1] for v in daly_data.values())
 TOTAL_1995 = sum(v[0] for v in daly_data.values())
 TOTAL_GROWTH_PCT = (TOTAL_2023 - TOTAL_1995) / TOTAL_1995 * 100
 
+
 # ── SIDEBAR ──
 st.sidebar.markdown("## 🏥 Disease Burden Dashboard")
 st.sidebar.markdown("**GBD 2023 · CIHI · Statistics Canada · CLSA**")
 st.sidebar.markdown("---")
-
+ 
 page = st.sidebar.radio(
     "Navigate to",
     ["📊 Overall Disease Burden", "📈 Absolute DALY Trends", "📉 Age-Standardized Rate Trends",
@@ -392,15 +393,15 @@ page = st.sidebar.radio(
      "👥 Population Projections (2025–2040)", "🏥 Hospitalization Burden & ALC",
      "🔗 Integrated Multi-Source Analysis", "📋 Data Explorer"]
 )
-
+ 
 st.sidebar.markdown("---")
 st.sidebar.markdown("### Filters")
 selected_diseases = st.sidebar.multiselect("Select diseases", DISEASES, default=DISEASES)
 filtered_diseases = [d for d in selected_diseases if d in DISEASES] or DISEASES
-
+ 
 selected_provinces = st.sidebar.multiselect("Select provinces", PROVINCES, default=PROVINCES)
 filtered_provinces = [p for p in selected_provinces if p in PROVINCES] or PROVINCES
-
+ 
 st.sidebar.markdown("---")
 st.sidebar.markdown("### Data Files (optional)")
 st.sidebar.info("If present, real GBD CSV/XLSX files in this folder will be used instead of the embedded, verified dataset.")
