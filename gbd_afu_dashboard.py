@@ -536,13 +536,7 @@ if page == "📊 Overall Disease Burden":
         </div>
         """, unsafe_allow_html=True)
 
-        st.markdown('<p class="section-header" style="margin-top:1rem;">Burden distribution, 2023</p>', unsafe_allow_html=True)
-        dalys_pie = {d: daly_data[d][-1] for d in DISEASES}
-        fig_pie = px.pie(values=list(dalys_pie.values()), names=list(dalys_pie.keys()),
-                          color=list(dalys_pie.keys()), color_discrete_map=DISEASE_COLORS)
-        fig_pie.update_layout(showlegend=False, height=260, margin=dict(l=0, r=0, t=0, b=0))
-        fig_pie.update_traces(textposition='inside', textinfo='percent', textfont_size=9)
-        st.plotly_chart(fig_pie, use_container_width=True)
+        
 
 
 # ============================================================
