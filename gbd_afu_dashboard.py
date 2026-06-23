@@ -25,7 +25,7 @@ import os
 # ── PAGE CONFIG ──
 st.set_page_config(
     page_title="Disease Burden Among Aging Canadians",
-    page_icon="🏥",
+    page_icon="🍁",
     layout="wide",
     initial_sidebar_state="expanded"
 )
