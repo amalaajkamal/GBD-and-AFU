@@ -415,7 +415,7 @@ TOTAL_GROWTH_PCT = (TOTAL_2023 - TOTAL_1995) / TOTAL_1995 * 100
 
 
 # ── SIDEBAR ──
-st.sidebar.markdown("## 🏥 Disease Burden Dashboard")
+st.sidebar.markdown("## 🍁 Disease Burden Dashboard")
 st.sidebar.markdown("**GBD 2023 · CIHI · Statistics Canada · CLSA**")
 st.sidebar.markdown("---")
  
