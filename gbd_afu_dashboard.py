@@ -77,6 +77,39 @@ st.markdown("""
         border-radius: 0 8px 8px 0;
         margin: 1rem 0;
     }
+    /* ── Sidebar spacing overrides ── */
+    section[data-testid="stSidebar"] > div {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+    section[data-testid="stSidebar"] .stRadio > div {
+        gap: 0rem;
+    }
+    section[data-testid="stSidebar"] .stRadio label {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.85rem;
+        line-height: 1.3;
+    }
+    section[data-testid="stSidebar"] .stMarkdown p {
+        margin-bottom: 0.2rem;
+        font-size: 0.85rem;
+    }
+    section[data-testid="stSidebar"] h2,
+    section[data-testid="stSidebar"] h3 {
+        margin-top: 0.5rem;
+        margin-bottom: 0.2rem;
+        font-size: 0.95rem;
+    }
+    section[data-testid="stSidebar"] hr {
+        margin: 0.5rem 0;
+    }
+    section[data-testid="stSidebar"] .stMultiSelect {
+        margin-bottom: 0.3rem;
+    }
+    section[data-testid="stSidebar"] .stMultiSelect label {
+        font-size: 0.82rem;
+        margin-bottom: 0.1rem;
+    }
      [data-testid="stMetricValue"] {
         font-size: 0.95rem !important;
         white-space: nowrap !important;
