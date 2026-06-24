@@ -25,7 +25,7 @@ import os
 # ── PAGE CONFIG ──
 st.set_page_config(
     page_title="Disease Burden Among Aging Canadians",
-    page_icon="🍁",
+    page_icon="🏥",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -34,7 +34,7 @@ st.set_page_config(
 st.markdown("""
 <style>
     .main-title {
-        font-size: 2.99rem;
+        font-size: 1.8rem;
         font-weight: 600;
         color: #4D9FE8;
         margin-bottom: 0.2rem;
@@ -77,6 +77,7 @@ st.markdown("""
         border-radius: 0 8px 8px 0;
         margin: 1rem 0;
     }
+
     /* ── Sidebar spacing overrides ── */
     section[data-testid="stSidebar"] > div {
         padding-top: 1rem;
@@ -109,18 +110,6 @@ st.markdown("""
     section[data-testid="stSidebar"] .stMultiSelect label {
         font-size: 0.82rem;
         margin-bottom: 0.1rem;
-    }
-     [data-testid="stMetricValue"] {
-        font-size: 0.95rem !important;
-        white-space: nowrap !important;
-        overflow: visible !important;
-    }
-    [data-testid="stMetricLabel"] {
-        font-size: 0.75rem !important;
-    }
-    [data-testid="stMetricDelta"] {
-        font-size: 0.7rem !important;
-        white-space: nowrap !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -413,12 +402,11 @@ TOTAL_2023 = sum(v[-1] for v in daly_data.values())
 TOTAL_1995 = sum(v[0] for v in daly_data.values())
 TOTAL_GROWTH_PCT = (TOTAL_2023 - TOTAL_1995) / TOTAL_1995 * 100
 
-
 # ── SIDEBAR ──
-st.sidebar.markdown("## 🍁 Disease Burden Dashboard")
+st.sidebar.markdown("## 🏥 Disease Burden Dashboard")
 st.sidebar.markdown("**GBD 2023 · CIHI · Statistics Canada · CLSA**")
 st.sidebar.markdown("---")
- 
+
 page = st.sidebar.radio(
     "Navigate to",
     ["📊 Overall Disease Burden", "📈 Absolute DALY Trends", "📉 Age-Standardized Rate Trends",
@@ -426,15 +414,26 @@ page = st.sidebar.radio(
      "👥 Population Projections (2025–2040)", "🏥 Hospitalization Burden & ALC",
      "🔗 Integrated Multi-Source Analysis", "📋 Data Explorer"]
 )
- 
+
 st.sidebar.markdown("---")
 st.sidebar.markdown("### Filters")
 selected_diseases = st.sidebar.multiselect("Select diseases", DISEASES, default=DISEASES)
 filtered_diseases = [d for d in selected_diseases if d in DISEASES] or DISEASES
- 
-selected_provinces = st.sidebar.multiselect("Select provinces", PROVINCES, default=PROVINCES)
-filtered_provinces = [p for p in selected_provinces if p in PROVINCES] or PROVINCES
- 
+
+# Pages where the province filter actually affects the output
+PROVINCE_FILTER_PAGES = [
+    "🗺️ Provincial Burden & Demographics",
+    "👥 Population Projections (2025–2040)",
+    "🏥 Hospitalization Burden & ALC",
+    "🔗 Integrated Multi-Source Analysis",
+]
+
+if page in PROVINCE_FILTER_PAGES:
+    selected_provinces = st.sidebar.multiselect("Select provinces", PROVINCES, default=PROVINCES)
+    filtered_provinces = [p for p in selected_provinces if p in PROVINCES] or PROVINCES
+else:
+    filtered_provinces = PROVINCES  # use all provinces silently on pages where it doesn't apply
+
 st.sidebar.markdown("---")
 st.sidebar.markdown("### Data Files (optional)")
 st.sidebar.info("If present, real GBD CSV/XLSX files in this folder will be used instead of the embedded, verified dataset.")
@@ -453,7 +452,7 @@ if page == "📊 Overall Disease Burden":
 
     col1, col2, col3, col4, col5, col6 = st.columns(6)
     with col1:
-        st.metric("Total DALYs,all-cause(2023)", f"{allcause[2023]['dalys']/1e6:.2f}M",
+        st.metric("Total DALYs, all-cause (2023)", f"{allcause[2023]['dalys']/1e6:.2f}M",
                    f"+{(allcause[2023]['dalys']-allcause[1995]['dalys'])/allcause[1995]['dalys']*100:.1f}% since 1995")
     with col2:
         st.metric("Deaths, all-cause (2023)", f"{allcause[2023]['deaths']:,}",
@@ -496,7 +495,8 @@ if page == "📊 Overall Disease Burden":
                            yaxis=dict(showgrid=False),
                            margin=dict(l=0, r=80, t=10, b=10))
         st.plotly_chart(fig, use_container_width=True)
-        st.markdown('<p class="section-header" style="margin-top:1rem;">Burden distribution, 2023</p>', unsafe_allow_html=True)
+
+        st.markdown('<p class="section-header">Burden distribution, 2023</p>', unsafe_allow_html=True)
         dalys_pie = {d: daly_data[d][-1] for d in DISEASES}
         fig_pie = px.pie(values=list(dalys_pie.values()), names=list(dalys_pie.keys()),
                           color=list(dalys_pie.keys()), color_discrete_map=DISEASE_COLORS)
@@ -535,8 +535,6 @@ if page == "📊 Overall Disease Burden":
         category analyzed, more than 40 points ahead of the next-highest.
         </div>
         """, unsafe_allow_html=True)
-
-        
 
 
 # ============================================================
