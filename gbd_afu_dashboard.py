@@ -508,19 +508,19 @@ if page == "📊 Overall Disease Burden":
         st.markdown('<p class="section-header">Key Findings</p>', unsafe_allow_html=True)
         st.markdown("""
         <div class="warning-box">
-        <b>⚠️ Substance use disorders</b><br>
+        <b>📈 Substance use disorders</b><br>
         Highest absolute DALY growth (+223.6%) AND rising age-standardized rate (+49.2%) of any
         of the twelve categories — more than double mental disorders' rate increase, a genuine
         worsening, not just population growth. Still the smallest absolute burden today,
         suggesting a window for early intervention.
         </div>
         <div class="warning-box">
-        <b>⚠️ Mental disorders — close second</b><br>
+        <b>📈 Mental disorders — close second</b><br>
         +160.7% absolute growth, +20.2% rate increase, and a far larger existing burden
         (194,075 DALYs) than substance use disorders. Two related but distinct priorities.
         </div>
         <div class="warning-box">
-        <b>⚠️ Two geographic pressure points</b><br>
+        <b>📈 Two geographic pressure points</b><br>
         Alberta: fastest-growing senior population (+22.0% since 2020). Prince Edward Island:
         highest antidepressant Rx rate and highest ALC burden of any province.
         </div>
@@ -706,14 +706,14 @@ elif page == "🗺️ Provincial Burden & Demographics":
 
     st.markdown("""
     <div class="warning-box">
-    <b>⚠️ Alberta — demographic growth velocity</b><br>
+    <b>📈 Alberta — demographic growth velocity</b><br>
     740,710 seniors growing at +22.0% since 2020 — 6.8 percentage points ahead of the next-fastest
     province (Prince Edward Island). Alberta's antidepressant Rx rate (207.3 per 1,000) sits in the
     middle of the national distribution, indicating its primary pressure point is the speed of growth
     itself, not an unusually high baseline mental health burden.
     </div>
     <div class="warning-box">
-    <b>⚠️ Prince Edward Island — community capacity strain</b><br>
+    <b>📈 Prince Edward Island — community capacity strain</b><br>
     Combines the highest antidepressant Rx rate of any province (256.7 per 1,000) with the highest
     proportion of hospital patient-days in alternate level of care (28.0%, see Hospitalization Burden
     page) — despite comparatively modest population growth (+15.2%). This is a distinct pressure point
