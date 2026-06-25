@@ -622,7 +622,7 @@ elif page == "📉 Age-Standardized Rate Trends":
         x_min = df_rate['Rate Change (%)'].min()
         x_max = df_rate['Rate Change (%)'].max()
         padding = (x_max - x_min) * 0.15
-        fig2.update_layout(showlegend=False, height=420,
+        fig2.update_layout(showlegend=False, height=650,
                             plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
                             xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)',
                                        ticksuffix='%',
