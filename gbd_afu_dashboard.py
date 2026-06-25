@@ -452,19 +452,19 @@ if page == "📊 Overall Disease Burden":
 
     col1, col2, col3, col4, col5, col6 = st.columns(6)
     with col1:
-        st.metric("Total DALYs, all-cause (2023)", f"{allcause[2023]['dalys']/1e6:.2f}M",
+        st.metric("All-cause DALYs (2023)", f"{allcause[2023]['dalys']/1e6:.2f}M",
                    f"+{(allcause[2023]['dalys']-allcause[1995]['dalys'])/allcause[1995]['dalys']*100:.1f}% since 1995")
     with col2:
-        st.metric("Deaths, all-cause (2023)", f"{allcause[2023]['deaths']:,}",
+        st.metric("All-cause Deaths (2023)", f"{allcause[2023]['deaths']:,}",
                    f"+{(allcause[2023]['deaths']-allcause[1995]['deaths'])/allcause[1995]['deaths']*100:.1f}% since 1995")
     with col3:
-        st.metric("Fastest growing (12 categories)", "Substance use disorders", "+223.6%")
+        st.metric("Fastest growing", "Substance use", "+223.6%")
     with col4:
-        st.metric("Best improvement (rate)", "Cardiovascular", "-48.6%")
+        st.metric("Best improvement", "Cardiovascular", "-48.6% rate")
     with col5:
         st.metric("Provinces analyzed", "10", "All of Canada")
     with col6:
-        st.metric("Projected 2040 (12 categories)", "9.49M DALYs", "+61.5%")
+        st.metric("2040 projection", "9.49M DALYs", "+61.5%")
 
     st.markdown(f"""
     <div class="highlight-box">
