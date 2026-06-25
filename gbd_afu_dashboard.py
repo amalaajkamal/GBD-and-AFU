@@ -902,7 +902,7 @@ elif page == "🏥 Hospitalization Burden & ALC":
     cat_colors = {'Cardiovascular': '#EF4444', 'Respiratory': '#3B82F6', 'Neurological': '#8B5CF6',
                   'Musculoskeletal': '#F59E0B', 'Other': '#6B7280'}
 
-    st.markdown("### National Hospitalization Rate (Age 65+)")
+    st.markdown("### National Hospitalization Rate, Canadians Aged 65+ (2020–21 to 2024–25)")
     m1, m2, m3, m4 = st.columns(4)
     m1.metric("Rate 2024–25 (per 100k)", "7,560", delta="+4.6% vs 2020–21")
     m2.metric("Avg Length of Stay", "6.1 days", delta="+0.3d vs 2020–21")
@@ -938,7 +938,7 @@ elif page == "🏥 Hospitalization Burden & ALC":
         fig_trend = go.Figure()
         fig_trend.add_trace(go.Scatter(x=hosp_rate_trend_df['Fiscal Year'], y=hosp_rate_trend_df['Rate per 100,000'],
                                         mode='lines+markers', name='Rate per 100,000', line=dict(color='#2563EB', width=3)))
-        fig_trend.update_layout(title='National age-sex-standardized hospitalization rate, 2020–21 to 2024–25',
+        fig_trend.update_layout(title='National Hospitalization Rate, Canadians Aged 65+ (2020–21 to 2024–25)',
                                  yaxis_title='Rate per 100,000', height=380, margin=dict(l=40, r=20, t=60, b=40))
         st.plotly_chart(fig_trend, use_container_width=True)
         st.dataframe(hosp_rate_trend_df.set_index('Fiscal Year'), use_container_width=True)
