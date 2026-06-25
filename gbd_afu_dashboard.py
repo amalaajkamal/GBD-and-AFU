@@ -637,7 +637,7 @@ elif page == "📉 Age-Standardized Rate Trends":
         lambda x: '↓ Declining (interventions effective)' if float(x[:-1]) < -10
         else '↓ Slightly declining' if float(x[:-1]) < 0
         else '→ Stable' if float(x[:-1]) < 5
-        else '↑ Rising (genuine increase) ⚠️'
+        else '↑ Rising (genuine increase) 📈'
     )
     st.dataframe(df_rates_table.style.format({c: "{:.1f}" for c in OBS_YEARS}), use_container_width=True)
 
