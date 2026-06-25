@@ -619,9 +619,14 @@ elif page == "📉 Age-Standardized Rate Trends":
         fig2 = px.bar(df_rate, x='Rate Change (%)', y='Disease', orientation='h',
                       color='Disease', color_discrete_map={d: c for d, c in zip(df_rate['Disease'], colors)})
         fig2.add_vline(x=0, line_color='gray', line_width=1)
+        x_min = df_rate['Rate Change (%)'].min()
+        x_max = df_rate['Rate Change (%)'].max()
+        padding = (x_max - x_min) * 0.15
         fig2.update_layout(showlegend=False, height=420,
                             plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
-                            xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)', ticksuffix='%'),
+                            xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)',
+                                       ticksuffix='%',
+                                       range=[x_min - padding, x_max + padding]),
                             yaxis=dict(showgrid=False),
                             margin=dict(l=0, r=20, t=10, b=40))
         st.plotly_chart(fig2, use_container_width=True)
@@ -637,7 +642,7 @@ elif page == "📉 Age-Standardized Rate Trends":
         lambda x: '↓ Declining (interventions effective)' if float(x[:-1]) < -10
         else '↓ Slightly declining' if float(x[:-1]) < 0
         else '→ Stable' if float(x[:-1]) < 5
-        else '↑ Rising (genuine increase) 📈'
+        else '↑ Rising (genuine increase) ⚠️'
     )
     st.dataframe(df_rates_table.style.format({c: "{:.1f}" for c in OBS_YEARS}), use_container_width=True)
 
