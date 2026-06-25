@@ -617,7 +617,9 @@ elif page == "📉 Age-Standardized Rate Trends":
         df_rate = df_rate.sort_values('Rate Change (%)')
         colors = ['#0F6E56' if v < 0 else '#D81B60' for v in df_rate['Rate Change (%)']]
         fig2 = px.bar(df_rate, x='Rate Change (%)', y='Disease', orientation='h',
-                      color='Disease', color_discrete_map={d: c for d, c in zip(df_rate['Disease'], colors)})
+                      color='Disease', color_discrete_map={d: c for d, c in zip(df_rate['Disease'], colors)},
+                      text='Rate Change (%)')
+        fig2.update_traces(texttemplate='%{text:.1f}%', textposition='outside')
         fig2.add_vline(x=0, line_color='gray', line_width=1)
         x_min = df_rate['Rate Change (%)'].min()
         x_max = df_rate['Rate Change (%)'].max()
@@ -626,6 +628,8 @@ elif page == "📉 Age-Standardized Rate Trends":
                             plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
                             xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)',
                                        ticksuffix='%',
+                                       dtick=10,
+                                       tick0=0,
                                        range=[x_min - padding, x_max + padding]),
                             yaxis=dict(showgrid=False),
                             margin=dict(l=0, r=20, t=10, b=40))
