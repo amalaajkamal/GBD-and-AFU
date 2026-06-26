@@ -570,6 +570,8 @@ if page == "📊 Overall Disease Burden":
 # ============================================================
 elif page == "📈 Absolute DALY Trends":
     st.markdown('<p class="main-title">Absolute DALY Trends, 1995–2023</p>', unsafe_allow_html=True)
+    
+    st.caption("Source: GBD 2023 (IHME) | Canadians aged 60+ | Raw DALY counts — affected by both disease risk AND population growth")
 
     metric_type = st.radio("View metric as:", ["Absolute numbers", "% Growth from 1995 baseline"], horizontal=True)
 
