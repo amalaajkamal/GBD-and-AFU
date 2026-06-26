@@ -484,7 +484,9 @@ if page == "📊 Overall Disease Burden":
     with col3:
         st.metric("Fastest growing", "Substance use", "+223.6%")
     with col4:
+       
         st.metric("Best improvement", "Cardiovascular", "-48.6% rate")
+        st.caption("Age-standardized rate (controls for population growth). Absolute DALYs still grew +11.5% due to larger population.")
     with col5:
         st.metric("Provinces analyzed", "10", "All of Canada")
     with col6:
