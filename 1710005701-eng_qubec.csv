@@ -1,0 +1,43 @@
+﻿"Projected population, by projection scenario, age and gender, as of July 1 (x 1,000) 1"
+"Frequency: Annual"
+"Table: 17-10-0057-01 (formerly CANSIM 052-0005)"
+"Release date: 2026-01-27"
+"Geography: Canada, Province or territory"
+""
+""
+
+"Geography 2","Quebec",,,,,,,,,
+"Gender 3","Total - gender",,,,,,,,,
+"Age group","65 years and over",,,,,,,,,
+"Projection scenario 1","Projection scenario LG: low-growth","Projection scenario M1: medium-growth","Projection scenario M2: medium-growth","Projection scenario M3: medium-growth","Projection scenario M4: medium-growth","Projection scenario M5: medium-growth","Projection scenario M6: medium-growth","Projection scenario HG: high-growth","Projection scenario SA: slow-aging","Projection scenario FA: fast-aging"
+"Reference period"
+,"Persons",,,,,,,,,
+"2025","1,964.4","1,964.4","1,964.4","1,964.4","1,964.4","1,964.4","1,964.4","1,964.4","1,964.4","1,964.4"
+"2026","2,016.6","2,020.8","2,019.8","2,020.1","2,019.9","2,020.3","2,020.8","2,025.0","2,017.7","2,023.9"
+"2027","2,063.6","2,072.3","2,070.2","2,070.8","2,070.5","2,071.2","2,072.4","2,080.8","2,065.3","2,079.0"
+"2028","2,110.5","2,123.9","2,120.8","2,121.6","2,121.2","2,122.4","2,124.2","2,137.0","2,112.7","2,134.7"
+"2029","2,153.4","2,171.8","2,167.9","2,168.9","2,168.3","2,170.0","2,172.4","2,189.9","2,156.3","2,186.9"
+"2030","2,192.2","2,215.8","2,211.0","2,212.2","2,211.6","2,213.7","2,216.7","2,238.9","2,195.7","2,235.4"
+"2031","2,220.1","2,249.0","2,243.5","2,244.9","2,244.2","2,246.8","2,250.4","2,277.5","2,224.4","2,273.2"
+"2032","2,240.0","2,274.2","2,268.2","2,269.8","2,269.0","2,272.0","2,276.3","2,308.2","2,245.1","2,303.0"
+"2033","2,254.7","2,294.4","2,288.0","2,289.8","2,288.8","2,292.2","2,297.1","2,333.9","2,260.7","2,327.8"
+"2034","2,266.7","2,311.8","2,305.2","2,307.1","2,306.0","2,309.9","2,315.3","2,356.8","2,273.6","2,349.7"
+"2035","2,278.1","2,328.6","2,321.8","2,324.0","2,322.7","2,327.0","2,333.0","2,379.2","2,286.0","2,371.1"
+"2036","2,287.2","2,343.2","2,336.3","2,338.6","2,337.1","2,341.8","2,348.4","2,399.3","2,296.2","2,390.0"
+"2037","2,291.3","2,352.6","2,345.6","2,348.1","2,346.5","2,351.5","2,358.7","2,414.1","2,301.5","2,403.6"
+"2038","2,293.7","2,360.2","2,353.2","2,355.8","2,353.9","2,359.4","2,367.1","2,427.0","2,305.1","2,415.2"
+"2039","2,297.6","2,369.1","2,362.1","2,364.9","2,362.7","2,368.6","2,376.8","2,441.2","2,310.3","2,428.0"
+"2040","2,304.9","2,381.3","2,374.4","2,377.3","2,374.8","2,381.1","2,389.8","2,458.6","2,319.1","2,443.8"
+
+
+
+
+Footnotes:
+1,"The base population for these projections is derived from the official preliminary postcensal estimates of the population for Canada, provinces and territories as of July 1, 2025. In all scenarios, the population is projected until 2050 for the provinces and territories, and until 2075 for Canada as a whole. For a summary of short and long-term projection scenario assumptions, see <a href="https://www150.statcan.gc.ca/n1/pub/17-20-0003/172000032026002-eng.htm" rel="external noopener noreferrer" target="_blank">Population Projections for Canada (2025 to 2075), Provinces and Territories (2025 to 2050): Technical Report on Methodology and Assumptions (opens new window)</a>. Because of rounding, counts within tables may differ from the totals."
+2,"The population is projected until 2050 for the provinces and territories, and until 2075 for Canada as a whole."
+3,"The demographic projections now incorporate the concept of gender, which was first introduced in the 2021 Census of Population. Gender refers to an individual's personal and social identity as a man, woman or non-binary person (a person who is not exclusively a man or a woman). Demographic projections are available for the gender category "Men+", which includes men (and/or boys), as well as some non-binary persons, and for the gender category “Women+" category, which includes women (and/or girls), as well as some non-binary persons."
+
+
+
+"How to cite: Statistics Canada. Table 17-10-0057-01  Projected population, by projection scenario, age and gender, as of July 1 (x 1,000)"
+https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1710005701

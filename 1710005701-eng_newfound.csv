@@ -1,0 +1,43 @@
+﻿"Projected population, by projection scenario, age and gender, as of July 1 (x 1,000) 1"
+"Frequency: Annual"
+"Table: 17-10-0057-01 (formerly CANSIM 052-0005)"
+"Release date: 2026-01-27"
+"Geography: Canada, Province or territory"
+""
+""
+
+"Geography 2","Newfoundland and Labrador",,,,,,,,,
+"Gender 3","Total - gender",,,,,,,,,
+"Age group","65 years and over",,,,,,,,,
+"Projection scenario 1","Projection scenario LG: low-growth","Projection scenario M1: medium-growth","Projection scenario M2: medium-growth","Projection scenario M3: medium-growth","Projection scenario M4: medium-growth","Projection scenario M5: medium-growth","Projection scenario M6: medium-growth","Projection scenario HG: high-growth","Projection scenario SA: slow-aging","Projection scenario FA: fast-aging"
+"Reference period"
+,"Persons",,,,,,,,,
+"2025","138.5","138.5","138.5","138.5","138.5","138.5","138.5","138.5","138.5","138.5"
+"2026","141.6","142.1","141.7","141.8","141.8","141.9","142.1","142.6","141.6","142.6"
+"2027","144.4","145.5","144.7","144.9","144.8","144.9","145.5","146.5","144.4","146.4"
+"2028","147.0","148.7","147.5","147.8","147.7","147.9","148.8","150.2","147.1","150.2"
+"2029","149.5","151.7","150.2","150.6","150.4","150.7","151.9","153.9","149.5","153.8"
+"2030","151.8","154.6","152.8","153.3","153.0","153.3","155.0","157.4","151.9","157.3"
+"2031","153.8","157.2","155.0","155.6","155.3","155.7","157.7","160.5","153.8","160.5"
+"2032","155.3","159.3","156.8","157.6","157.2","157.6","160.1","163.3","155.4","163.2"
+"2033","156.6","161.2","158.4","159.4","158.9","159.3","162.2","165.7","156.7","165.7"
+"2034","157.5","162.6","159.6","160.8","160.2","160.6","164.0","167.8","157.6","167.7"
+"2035","158.1","163.8","160.6","161.9","161.3","161.6","165.6","169.6","158.2","169.5"
+"2036","158.7","164.8","161.5","163.0","162.2","162.6","167.0","171.2","158.8","171.1"
+"2037","158.9","165.6","162.0","163.7","162.9","163.2","168.2","172.5","159.1","172.4"
+"2038","158.8","165.8","162.0","164.0","163.1","163.4","168.9","173.3","158.9","173.1"
+"2039","158.4","165.9","161.9","164.0","163.1","163.3","169.4","173.9","158.6","173.7"
+"2040","158.0","165.9","161.7","164.0","163.0","163.2","169.8","174.4","158.2","174.2"
+
+
+
+
+Footnotes:
+1,"The base population for these projections is derived from the official preliminary postcensal estimates of the population for Canada, provinces and territories as of July 1, 2025. In all scenarios, the population is projected until 2050 for the provinces and territories, and until 2075 for Canada as a whole. For a summary of short and long-term projection scenario assumptions, see <a href="https://www150.statcan.gc.ca/n1/pub/17-20-0003/172000032026002-eng.htm" rel="external noopener noreferrer" target="_blank">Population Projections for Canada (2025 to 2075), Provinces and Territories (2025 to 2050): Technical Report on Methodology and Assumptions (opens new window)</a>. Because of rounding, counts within tables may differ from the totals."
+2,"The population is projected until 2050 for the provinces and territories, and until 2075 for Canada as a whole."
+3,"The demographic projections now incorporate the concept of gender, which was first introduced in the 2021 Census of Population. Gender refers to an individual's personal and social identity as a man, woman or non-binary person (a person who is not exclusively a man or a woman). Demographic projections are available for the gender category "Men+", which includes men (and/or boys), as well as some non-binary persons, and for the gender category “Women+" category, which includes women (and/or girls), as well as some non-binary persons."
+
+
+
+"How to cite: Statistics Canada. Table 17-10-0057-01  Projected population, by projection scenario, age and gender, as of July 1 (x 1,000)"
+https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1710005701
