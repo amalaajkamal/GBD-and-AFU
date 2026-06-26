@@ -362,16 +362,28 @@ def get_cihi_alc():
 
 
 CLSA_FINDINGS = {
-    'multimorbidity_pct': 65,
-    'no_chronic_pct': 15,
-    'hypertension_pct': 37,
-    'arthritis_pct': 30,
-    'respiratory_pct': 16,
-    'par_male_cardiometabolic': 21.3,
-    'par_female_musculoskeletal': 22.7,
-    'recreational_uplift_pct': 15,
-    'volunteer_uplift_pct': 17,
-    'sustained_aging_pct': 72,
+    # All values computed directly from CLSA Tracking cohort (wave 3-4),
+    # n=21,220 participants aged 65+. Source: clsa_Baseline_StratifiedFrequencies_Amala_Jolly.xlsx
+    # Verified by 03_clsa_analysis.py
+    'total_n': 21220,
+    'stratified_n': 8830,
+    'hypertension_pct': 38.2,
+    'back_problems_pct': 24.5,
+    'diabetes_pct': 16.7,
+    'oa_knee_pct': 16.2,
+    'asthma_pct': 11.1,
+    'heart_disease_pct': 10.3,
+    'anxiety_pct': 7.4,
+    'copd_pct': 6.8,
+    'depression_screen_pct': 17.0,
+    'loneliness_pct': 8.8,
+    'volunteering_monthly_pct': 38.5,
+    'other_activities_monthly_pct': 53.6,
+    'self_rated_health_good_pct': 86.5,
+    # Published-paper findings retained only for the social engagement protective role
+    # (longitudinal outcome, not computable from frequency data alone)
+    'volunteer_uplift_pct': 17,   # Ho et al. 2023 IJERPH
+    'recreational_uplift_pct': 15, # Ho et al. 2023 IJERPH
 }
 
 
@@ -1067,28 +1079,52 @@ elif page == "🔗 Integrated Multi-Source Analysis":
 
     with tab3:
         st.markdown("#### Individual-level corroboration from the CLSA")
-        st.markdown("Published, peer-reviewed CLSA findings used to corroborate the aggregate GBD burden "
-                    "patterns above (CLSA microdata were not accessed directly; see paper Section 2.5).")
+        st.markdown(
+            f"CLSA Tracking cohort (wave 3–4), n = {CLSA_FINDINGS['total_n']:,} participants aged 65 and older. "
+            f"Stratified frequency data available for {CLSA_FINDINGS['stratified_n']:,} participants "
+            f"(males 65–74: 2,292; females 65–74: 2,336; males 75+: 2,102; females 75+: 2,100). "
+            f"All prevalence estimates below are from the full sample of {CLSA_FINDINGS['total_n']:,}. "
+            f"Source: clsa_Baseline_StratifiedFrequencies_Amala_Jolly.xlsx — analysed under formal data access agreement."
+        )
+
+        st.markdown("**Chronic condition prevalence**")
         c1, c2, c3 = st.columns(3)
         with c1:
-            st.metric("Multimorbidity (65+)", f"{CLSA_FINDINGS['multimorbidity_pct']}%", "2+ chronic conditions")
-            st.metric("No chronic conditions", f"{CLSA_FINDINGS['no_chronic_pct']}%", "65+ participants")
+            st.metric("Hypertension", f"{CLSA_FINDINGS['hypertension_pct']}%", "Most prevalent condition")
+            st.metric("Back problems", f"{CLSA_FINDINGS['back_problems_pct']}%", "Musculoskeletal")
+            st.metric("Diabetes", f"{CLSA_FINDINGS['diabetes_pct']}%", "Diabetes & kidney")
         with c2:
-            st.metric("PAR, male ADL disability", f"{CLSA_FINDINGS['par_male_cardiometabolic']}%", "Cardiometabolic, age 65–74")
-            st.metric("PAR, female ADL disability", f"{CLSA_FINDINGS['par_female_musculoskeletal']}%", "Musculoskeletal, age 65–74")
+            st.metric("OA of knee", f"{CLSA_FINDINGS['oa_knee_pct']}%", "Musculoskeletal")
+            st.metric("Heart disease", f"{CLSA_FINDINGS['heart_disease_pct']}%", "Cardiovascular")
+            st.metric("COPD", f"{CLSA_FINDINGS['copd_pct']}%", "Respiratory")
         with c3:
-            st.metric("Sustained successful aging", f"{CLSA_FINDINGS['sustained_aging_pct']}%", "With recreational/volunteer activity")
-            st.metric("Volunteer/charity uplift", f"+{CLSA_FINDINGS['volunteer_uplift_pct']}%", "Likelihood of sustained healthy aging")
+            st.metric("Depression (positive screen)", f"{CLSA_FINDINGS['depression_screen_pct']}%", "Mental health")
+            st.metric("Anxiety", f"{CLSA_FINDINGS['anxiety_pct']}%", "Mental health")
+            st.metric("Loneliness", f"{CLSA_FINDINGS['loneliness_pct']}%", "Social determinant")
+
+        st.markdown("**Social participation and general health**")
+        c4, c5, c6 = st.columns(3)
+        with c4:
+            st.metric("Self-rated health 'good or better'", f"{CLSA_FINDINGS['self_rated_health_good_pct']}%", "Despite chronic burden")
+        with c5:
+            st.metric("Volunteering (at least monthly)", f"{CLSA_FINDINGS['volunteering_monthly_pct']}%", "Protective factor")
+        with c6:
+            st.metric("Other activities (at least monthly)", f"{CLSA_FINDINGS['other_activities_monthly_pct']}%", "Protective factor")
 
         st.markdown(f"""
         <div class="success-box">
-        Among CLSA participants aged 65+, the most prevalent chronic conditions were hypertension
-        ({CLSA_FINDINGS['hypertension_pct']}%), arthritis (~{CLSA_FINDINGS['arthritis_pct']}%), and
-        respiratory conditions ({CLSA_FINDINGS['respiratory_pct']}%) — consistent with GBD's ranking of
-        cardiovascular and musculoskeletal disorders among the top four burden categories. Participants
-        engaged in recreational activity or volunteer/charity work were
-        {CLSA_FINDINGS['recreational_uplift_pct']}% and {CLSA_FINDINGS['volunteer_uplift_pct']}% more
-        likely, respectively, to maintain successful aging three years later.
+        <b>CLSA corroboration of GBD burden patterns:</b><br>
+        Hypertension ({CLSA_FINDINGS['hypertension_pct']}%) → GBD cardiovascular diseases (#2 by DALYs) ✅<br>
+        Back problems ({CLSA_FINDINGS['back_problems_pct']}%) + OA knee ({CLSA_FINDINGS['oa_knee_pct']}%) → GBD musculoskeletal disorders (#4) ✅<br>
+        Diabetes ({CLSA_FINDINGS['diabetes_pct']}%) → GBD diabetes & kidney diseases (#6) ✅<br>
+        COPD ({CLSA_FINDINGS['copd_pct']}%) → CIHI #1 inpatient hospitalization cause ✅<br>
+        Depression screen ({CLSA_FINDINGS['depression_screen_pct']}%) + Anxiety ({CLSA_FINDINGS['anxiety_pct']}%) → GBD mental disorders (fastest worsening by rate) ✅<br><br>
+        Despite this chronic disease burden, {CLSA_FINDINGS['self_rated_health_good_pct']}% of participants
+        rated their general health as good, very good, or excellent. Social participation was widespread:
+        {CLSA_FINDINGS['volunteering_monthly_pct']}% volunteered at least monthly and
+        {CLSA_FINDINGS['other_activities_monthly_pct']}% engaged in other recreational activities at least
+        monthly, consistent with published evidence that social engagement is protective of healthy aging
+        outcomes (Ho et al., 2023 IJERPH).
         </div>
         """, unsafe_allow_html=True)
 
