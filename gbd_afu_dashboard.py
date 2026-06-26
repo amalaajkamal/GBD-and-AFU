@@ -616,6 +616,7 @@ elif page == "📈 Absolute DALY Trends":
 # ============================================================
 elif page == "📉 Age-Standardized Rate Trends":
     st.markdown('<p class="main-title">Age-Standardized Rate Trends, 1995–2023</p>', unsafe_allow_html=True)
+    st.caption("Source: GBD 2023 (IHME) | Canadians aged 60+ | Rates per 100,000 — population-adjusted, shows genuine disease risk change independent of demographics")
     st.markdown("Controls for population growth — shows the true burden trajectory")
 
     col_left, col_right = st.columns(2)
