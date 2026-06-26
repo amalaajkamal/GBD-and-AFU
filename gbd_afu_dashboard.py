@@ -505,7 +505,9 @@ if page == "📊 Overall Disease Burden":
     col_left, col_right = st.columns([3, 2])
 
     with col_left:
+        
         st.markdown('<p class="section-header">Disease Burden by Category — 2023</p>', unsafe_allow_html=True)
+        st.caption("Source: GBD 2023 (IHME) | Canadians aged 60+ | Measure: DALYs (Disability-Adjusted Life Years) | Single year snapshot: 2023 only")
         dalys_2023 = {d: daly_data[d][-1] for d in filtered_diseases}
         df_plot = pd.DataFrame({'Disease': list(dalys_2023.keys()), 'DALYs': list(dalys_2023.values())})
         df_plot = df_plot.sort_values('DALYs', ascending=True)
