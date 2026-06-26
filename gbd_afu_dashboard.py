@@ -25,7 +25,7 @@ import os
 # ── PAGE CONFIG ──
 st.set_page_config(
     page_title="Disease Burden Among Aging Canadians",
-    page_icon="🏥",
+    page_icon="🍁",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -76,6 +76,18 @@ st.markdown("""
         padding: 0.75rem 1rem;
         border-radius: 0 8px 8px 0;
         margin: 1rem 0;
+    }
+    [data-testid="stMetricValue"] {
+        font-size: 0.95rem !important;
+        white-space: nowrap !important;
+        overflow: visible !important;
+    }
+    [data-testid="stMetricLabel"] {
+        font-size: 0.75rem !important;
+    }
+    [data-testid="stMetricDelta"] {
+        font-size: 0.7rem !important;
+        white-space: nowrap !important;
     }
 
     /* ── Sidebar spacing overrides ── */
@@ -415,7 +427,7 @@ TOTAL_1995 = sum(v[0] for v in daly_data.values())
 TOTAL_GROWTH_PCT = (TOTAL_2023 - TOTAL_1995) / TOTAL_1995 * 100
 
 # ── SIDEBAR ──
-st.sidebar.markdown("## 🏥 Disease Burden Dashboard")
+st.sidebar.markdown("## 🍁 Disease Burden Dashboard")
 st.sidebar.markdown("**GBD 2023 · CIHI · Statistics Canada · CLSA**")
 st.sidebar.markdown("---")
 
@@ -658,7 +670,7 @@ elif page == "📉 Age-Standardized Rate Trends":
         lambda x: '↓ Declining (interventions effective)' if float(x[:-1]) < -10
         else '↓ Slightly declining' if float(x[:-1]) < 0
         else '→ Stable' if float(x[:-1]) < 5
-        else '↑ Rising (genuine increase) ⚠️'
+        else '↑ Rising (genuine increase) 📈'
     )
     st.dataframe(df_rates_table.style.format({c: "{:.1f}" for c in OBS_YEARS}), use_container_width=True)
 
