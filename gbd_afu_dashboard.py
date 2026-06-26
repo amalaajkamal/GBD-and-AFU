@@ -767,7 +767,8 @@ elif page == "🗺️ Provincial Burden & Demographics":
 # ============================================================
 elif page == "🔮 Forecasting Through 2040":
     st.markdown('<p class="main-title">Disease Burden Forecasting, 2024–2040</p>', unsafe_allow_html=True)
-    st.markdown("Polynomial regression (degree=2) with cubic spline interpolation | R² > 0.96 | MAPE < 3.1%")
+    st.caption("Historical data: GBD 2023 (IHME) | Canadians aged 60+ | Forecast horizon: 2024–2040")
+    st.markdown("Polynomial regression (degree=2) with cubic spline interpolation trained on GBD observations 1995–2023 | R² > 0.96 | MAPE < 3.1%")
 
     total_2040 = sum(forecasts[d][16] for d in DISEASES)
     total_forecast_growth = (total_2040 - TOTAL_2023) / TOTAL_2023 * 100
