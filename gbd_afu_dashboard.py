@@ -35,6 +35,15 @@ st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
+    /* ── Hide Streamlit default header ── */
+    header[data-testid="stHeader"] {
+        background: transparent !important;
+        height: 0rem !important;
+    }
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    .stDeployButton {display: none;}
+
     /* ── Global ── */
     html, body, [class*="css"] {
         font-family: 'Inter', sans-serif;
