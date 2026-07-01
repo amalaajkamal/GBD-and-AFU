@@ -603,21 +603,110 @@ if page == "📊 Overall Disease Burden":
     st.markdown('<p class="main-title">Disease Burden Among Aging Canadians</p>', unsafe_allow_html=True)
     st.markdown('<p class="sub-title">A multi-source analysis using GBD 2023, CIHI, Statistics Canada, and CLSA data</p>', unsafe_allow_html=True)
 
-    col1, col2, col3, col4, col5, col6 = st.columns(6)
-    with col1:
-        st.metric("All-cause DALYs", f"{allcause[2023]['dalys']/1e6:.2f}M",
-                   f"+74.6% since 1995")
-    with col2:
-        st.metric("All-cause Deaths", f"{allcause[2023]['deaths']/1000:.1f}k",
-                   "+62.5% since 1995")
-    with col3:
-        st.metric("Fastest growing", "Subst. use", "+223.6%")
-    with col4:
-        st.metric("Best improvement", "Cardiovasc.", "-48.6% rate")
-    with col5:
-        st.metric("Provinces", "10", "All of Canada")
-    with col6:
-        st.metric("2040 forecast", "9.49M", "+61.5%")
+    # ── Metric cards — 2 rows x 3 columns ──
+    st.markdown("""
+    <style>
+    .metric-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-bottom: 1.5rem;
+    }
+    .metric-card-custom {
+        background: linear-gradient(135deg, rgba(26,41,66,0.95) 0%, rgba(22,32,53,0.95) 100%);
+        border: 1px solid rgba(99,179,237,0.18);
+        border-radius: 10px;
+        padding: 1rem 1.2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+    .metric-card-custom .mc-label {
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #718096;
+        margin: 0;
+    }
+    .metric-card-custom .mc-value {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: #E2E8F0;
+        margin: 0;
+        line-height: 1.1;
+    }
+    .metric-card-custom .mc-sublabel {
+        font-size: 0.78rem;
+        color: #718096;
+        margin: 0;
+    }
+    .metric-card-custom .mc-delta-pos {
+        font-size: 0.82rem;
+        color: #48BB78;
+        font-weight: 600;
+        margin: 0;
+    }
+    .metric-card-custom .mc-delta-neg {
+        font-size: 0.82rem;
+        color: #FC814A;
+        font-weight: 600;
+        margin: 0;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+    r1c1, r1c2, r1c3 = st.columns(3)
+    r2c1, r2c2, r2c3 = st.columns(3)
+
+    with r1c1:
+        st.markdown("""
+        <div class="metric-card-custom">
+            <p class="mc-label">All-cause Disease Burden</p>
+            <p class="mc-value">6.90M DALYs</p>
+            <p class="mc-delta-pos">▲ +74.6% since 1995 baseline</p>
+            <p class="mc-sublabel">Canadians aged 60+ · GBD 2023</p>
+        </div>""", unsafe_allow_html=True)
+    with r1c2:
+        st.markdown("""
+        <div class="metric-card-custom">
+            <p class="mc-label">All-cause Mortality</p>
+            <p class="mc-value">280,718 Deaths</p>
+            <p class="mc-delta-pos">▲ +62.5% since 1995 baseline</p>
+            <p class="mc-sublabel">Canadians aged 60+ · GBD 2023</p>
+        </div>""", unsafe_allow_html=True)
+    with r1c3:
+        st.markdown("""
+        <div class="metric-card-custom">
+            <p class="mc-label">Fastest Growing Category</p>
+            <p class="mc-value">Substance Use Disorders</p>
+            <p class="mc-delta-pos">▲ +223.6% absolute · +49.2% rate</p>
+            <p class="mc-sublabel">Highest by both measures · 1995–2023</p>
+        </div>""", unsafe_allow_html=True)
+    with r2c1:
+        st.markdown("""
+        <div class="metric-card-custom">
+            <p class="mc-label">Greatest Rate Improvement</p>
+            <p class="mc-value">Cardiovascular Diseases</p>
+            <p class="mc-delta-neg">▼ −48.6% age-standardized rate</p>
+            <p class="mc-sublabel">Evidence that sustained intervention works</p>
+        </div>""", unsafe_allow_html=True)
+    with r2c2:
+        st.markdown("""
+        <div class="metric-card-custom">
+            <p class="mc-label">Provinces Analyzed</p>
+            <p class="mc-value">10 Provinces</p>
+            <p class="mc-delta-pos">▲ Full national coverage</p>
+            <p class="mc-sublabel">All Canadian provinces · CIHI & StatCan</p>
+        </div>""", unsafe_allow_html=True)
+    with r2c3:
+        st.markdown("""
+        <div class="metric-card-custom">
+            <p class="mc-label">Projected Burden by 2040</p>
+            <p class="mc-value">9.49M DALYs</p>
+            <p class="mc-delta-pos">▲ +61.5% from 2023 · 12 NCD categories</p>
+            <p class="mc-sublabel">Polynomial regression forecast · 2024–2040</p>
+        </div>""", unsafe_allow_html=True)
 
     st.markdown(f"""
     <div class="highlight-box">
