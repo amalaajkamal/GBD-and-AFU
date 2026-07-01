@@ -734,9 +734,10 @@ if page == "📊 Overall Disease Burden":
         fig.update_traces(texttemplate='%{x:,.0f}', textposition='outside')
         fig.update_layout(showlegend=False, height=480,
                            plot_bgcolor='rgba(15,27,45,0)', paper_bgcolor='rgba(15,27,45,0)',
-                           xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.12)'),
-                           yaxis=dict(showgrid=False),
-                           margin=dict(l=220, r=80, t=10, b=10))
+                           xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)',
+                                      showline=False, zeroline=False),
+                           yaxis=dict(showgrid=False, showline=False),
+                           margin=dict(l=220, r=90, t=0, b=0))
         st.plotly_chart(fig, use_container_width=True)
 
     with col_right:
@@ -829,10 +830,10 @@ elif page == "📈 Absolute DALY Trends":
     ylabel = "DALYs (number)" if metric_type == "Absolute numbers" else "% Growth from 1995 baseline"
     fig.update_layout(height=480, xaxis_title="Year", yaxis_title=ylabel,
                        plot_bgcolor='rgba(15,27,45,0)', paper_bgcolor='rgba(15,27,45,0)',
-                       xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.12)'),
-                       yaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.12)'),
+                       xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)'),
+                       yaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)'),
                        legend=dict(orientation='v', x=1.01, y=1),
-                       margin=dict(l=0, r=180, t=20, b=40))
+                       margin=dict(l=0, r=180, t=5, b=30))
     st.plotly_chart(fig, use_container_width=True)
 
     st.markdown("---")
@@ -876,10 +877,10 @@ elif page == "📉 Age-Standardized Rate Trends":
         fig.update_layout(height=420, xaxis_title="Year",
                            yaxis_title="Age-standardized rate per 100,000",
                            plot_bgcolor='rgba(15,27,45,0)', paper_bgcolor='rgba(15,27,45,0)',
-                           xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.12)'),
-                           yaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.12)'),
+                           xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)'),
+                           yaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)'),
                            legend=dict(orientation='v', x=1.01, y=1),
-                           margin=dict(l=0, r=180, t=10, b=40))
+                           margin=dict(l=0, r=180, t=5, b=30))
         st.plotly_chart(fig, use_container_width=True)
 
     with col_right:
@@ -899,7 +900,7 @@ elif page == "📉 Age-Standardized Rate Trends":
         padding = (x_max - x_min) * 0.15
         fig2.update_layout(showlegend=False, height=650,
                             plot_bgcolor='rgba(15,27,45,0)', paper_bgcolor='rgba(15,27,45,0)',
-                            xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.12)',
+                            xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)',
                                        ticksuffix='%',
                                        dtick=10,
                                        tick0=0,
@@ -967,7 +968,7 @@ elif page == "🗺️ Provincial Burden & Demographics":
         fig.update_traces(texttemplate='%{text:,.1f}', textposition='outside')
         fig.update_layout(showlegend=False, height=420, plot_bgcolor='rgba(0,0,0,0)',
                            paper_bgcolor='rgba(0,0,0,0)', margin=dict(l=0, r=60, t=10, b=40),
-                           yaxis=dict(showgrid=False), xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.12)'))
+                           yaxis=dict(showgrid=False), xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)'))
         st.plotly_chart(fig, use_container_width=True)
 
     with col_right:
@@ -1056,10 +1057,10 @@ elif page == "🔮 Forecasting Through 2040":
     fig.update_layout(
         height=480, xaxis_title="Year", yaxis_title="DALYs (Millions)",
         plot_bgcolor='rgba(15,27,45,0)', paper_bgcolor='rgba(15,27,45,0)',
-        xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.12)'),
-        yaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.12)'),
+        xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)'),
+        yaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)'),
         legend=dict(orientation='v', x=1.01, y=1),
-        margin=dict(l=0, r=220, t=20, b=40)
+        margin=dict(l=0, r=220, t=5, b=30)
     )
     st.plotly_chart(fig, use_container_width=True)
 
@@ -1131,7 +1132,8 @@ elif page == "👥 Population Projections (2025–2040)":
                                       line=dict(color=PROVINCE_COLORS[p], width=2, dash='dash'),
                                       mode='lines+markers', marker=dict(size=4)))
         fig.update_layout(xaxis_title='Year', yaxis_title='Population (thousands)',
-                           legend=dict(x=0.01, y=0.99), height=400, margin=dict(l=40, r=20, t=20, b=40))
+                           legend=dict(x=0.01, y=0.99), height=400, margin=dict(l=40, r=20, t=5, b=25),
+                           xaxis=dict(showgrid=False), yaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)'))
         st.plotly_chart(fig, use_container_width=True)
 
     with c2:
@@ -1146,7 +1148,8 @@ elif page == "👥 Population Projections (2025–2040)":
                                        line=dict(color=PROVINCE_COLORS[p], width=2, dash='dash'),
                                        mode='lines+markers', marker=dict(size=4)))
         fig2.update_layout(xaxis_title='Year', yaxis_title='Growth from 2025 (%)',
-                            legend=dict(x=0.01, y=0.99), height=400, margin=dict(l=40, r=20, t=20, b=40))
+                            legend=dict(x=0.01, y=0.99), height=400, margin=dict(l=40, r=20, t=5, b=25),
+                           xaxis=dict(showgrid=False), yaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)'))
         st.plotly_chart(fig2, use_container_width=True)
 
     st.markdown("#### Full Data Table (thousands, M2 scenario)")
@@ -1195,7 +1198,7 @@ elif page == "🏥 Hospitalization Burden & ALC":
             ))
             fig.update_layout(title='Hospitalizations by diagnosis (thousands)',
                                xaxis_title='Hospitalizations (thousands)', height=420,
-                               margin=dict(l=260, r=60, t=40, b=40))
+                               margin=dict(l=260, r=60, t=10, b=10))
             st.plotly_chart(fig, use_container_width=True)
         with c2:
             st.markdown("**Category breakdown**")
@@ -1242,7 +1245,7 @@ elif page == "🏥 Hospitalization Burden & ALC":
             textposition='outside'
         ))
         fig_alc.update_layout(title='Patient days in ALC (%), 2024–2025', xaxis_title='Patient Days in ALC (%)',
-                               height=420, margin=dict(l=160, r=40, t=60, b=40))
+                               height=420, margin=dict(l=160, r=40, t=10, b=10))
         st.plotly_chart(fig_alc, use_container_width=True)
 
         st.markdown(f"Canada (excl. Quebec) overall: **{alc_canada_df['Patient Days in ALC (%)'].iloc[0]:.1f}%** "
