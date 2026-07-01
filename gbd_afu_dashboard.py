@@ -849,7 +849,7 @@ elif page == "📈 Absolute DALY Trends":
                        plot_bgcolor='rgba(15,27,45,0)', paper_bgcolor='rgba(15,27,45,0)',
                        xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)'),
                        yaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)'),
-                       legend=dict(orientation='v', x=1.01, y=1),
+                       legend=dict(orientation='v', x=1.01, y=1, font=dict(color='#CBD5E0', size=10), bgcolor='rgba(15,27,45,0.6)', bordercolor='rgba(99,179,237,0.15)', borderwidth=1),
                        margin=dict(l=0, r=180, t=5, b=30))
     st.plotly_chart(fig, use_container_width=True)
 
@@ -896,7 +896,7 @@ elif page == "📉 Age-Standardized Rate Trends":
                            plot_bgcolor='rgba(15,27,45,0)', paper_bgcolor='rgba(15,27,45,0)',
                            xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)'),
                            yaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)'),
-                           legend=dict(orientation='v', x=1.01, y=1),
+                           legend=dict(orientation='v', x=1.01, y=1, font=dict(color='#CBD5E0', size=10), bgcolor='rgba(15,27,45,0.6)', bordercolor='rgba(99,179,237,0.15)', borderwidth=1),
                            margin=dict(l=0, r=180, t=5, b=30))
         st.plotly_chart(fig, use_container_width=True)
 
@@ -1109,7 +1109,7 @@ elif page == "🔮 Forecasting Through 2040":
         plot_bgcolor='rgba(15,27,45,0)', paper_bgcolor='rgba(15,27,45,0)',
         xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)'),
         yaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)'),
-        legend=dict(orientation='v', x=1.01, y=1),
+        legend=dict(orientation='v', x=1.01, y=1, font=dict(color='#CBD5E0', size=10), bgcolor='rgba(15,27,45,0.6)', bordercolor='rgba(99,179,237,0.15)', borderwidth=1),
         margin=dict(l=0, r=220, t=5, b=30)
     )
     st.plotly_chart(fig, use_container_width=True)
@@ -1182,7 +1182,7 @@ elif page == "👥 Population Projections (2025–2040)":
                                       line=dict(color=PROVINCE_COLORS[p], width=2, dash='dash'),
                                       mode='lines+markers', marker=dict(size=4)))
         fig.update_layout(xaxis_title='Year', yaxis_title='Population (thousands)',
-                           legend=dict(x=0.01, y=0.99), height=400, margin=dict(l=40, r=20, t=5, b=25),
+                           legend=dict(x=0.01, y=0.99, font=dict(color='#CBD5E0', size=9), bgcolor='rgba(15,27,45,0.6)'), height=400, margin=dict(l=40, r=20, t=5, b=25),
                            xaxis=dict(showgrid=False), yaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)'))
         st.plotly_chart(fig, use_container_width=True)
 
@@ -1198,7 +1198,7 @@ elif page == "👥 Population Projections (2025–2040)":
                                        line=dict(color=PROVINCE_COLORS[p], width=2, dash='dash'),
                                        mode='lines+markers', marker=dict(size=4)))
         fig2.update_layout(xaxis_title='Year', yaxis_title='Growth from 2025 (%)',
-                            legend=dict(x=0.01, y=0.99), height=400, margin=dict(l=40, r=20, t=5, b=25),
+                            legend=dict(x=0.01, y=0.99, font=dict(color='#CBD5E0', size=9), bgcolor='rgba(15,27,45,0.6)'), height=400, margin=dict(l=40, r=20, t=5, b=25),
                            xaxis=dict(showgrid=False), yaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)'))
         st.plotly_chart(fig2, use_container_width=True)
 
@@ -1405,7 +1405,7 @@ elif page == "🔗 Integrated Multi-Source Analysis":
             height=420, margin=dict(l=40, r=60, t=40, b=80),
             yaxis=dict(title='Senior population growth, 2020–2024 (%)'),
             yaxis2=dict(title='Patient days in ALC (%)', overlaying='y', side='right'),
-            legend=dict(x=0.01, y=1.15, orientation='h')
+            legend=dict(x=0.01, y=1.15, orientation='h', font=dict(color='#CBD5E0', size=10), bgcolor='rgba(15,27,45,0.6)')
         )
         st.plotly_chart(fig_combo, use_container_width=True)
 
