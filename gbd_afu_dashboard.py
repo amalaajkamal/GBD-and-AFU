@@ -644,9 +644,28 @@ if page == "📊 Overall Disease Burden":
         st.markdown('<p class="section-header">Burden distribution, 2023</p>', unsafe_allow_html=True)
         dalys_pie = {d: daly_data[d][-1] for d in DISEASES}
         fig_pie = px.pie(values=list(dalys_pie.values()), names=list(dalys_pie.keys()),
-                          color=list(dalys_pie.keys()), color_discrete_map=DISEASE_COLORS)
-        fig_pie.update_layout(showlegend=False, height=260, margin=dict(l=0, r=0, t=0, b=0))
-        fig_pie.update_traces(textposition='inside', textinfo='percent', textfont_size=9)
+                          color=list(dalys_pie.keys()), color_discrete_map=DISEASE_COLORS,
+                          hole=0.45)
+        fig_pie.update_layout(
+            showlegend=True,
+            height=340,
+            margin=dict(l=0, r=0, t=10, b=0),
+            plot_bgcolor='rgba(0,0,0,0)',
+            paper_bgcolor='rgba(0,0,0,0)',
+            legend=dict(
+                font=dict(color='#CBD5E0', size=9),
+                bgcolor='rgba(0,0,0,0)',
+                orientation='v',
+                x=1.0,
+                y=0.5
+            )
+        )
+        fig_pie.update_traces(
+            textposition='inside',
+            textinfo='percent',
+            textfont=dict(size=9, color='white'),
+            marker=dict(line=dict(color='rgba(15,27,45,1)', width=1.5))
+        )
         st.plotly_chart(fig_pie, use_container_width=True)
 
     with col_right:
@@ -1076,7 +1095,16 @@ elif page == "🏥 Hospitalization Burden & ALC":
             cat_totals = hosp_df.groupby('category')['n_hosp'].sum().reset_index()
             fig_pie = go.Figure(go.Pie(labels=cat_totals['category'], values=cat_totals['n_hosp'],
                                         marker_colors=[cat_colors.get(c, '#999') for c in cat_totals['category']], hole=0.4))
-            fig_pie.update_layout(height=300, margin=dict(l=20, r=20, t=20, b=20), showlegend=True)
+            fig_pie.update_layout(
+                height=300,
+                margin=dict(l=20, r=20, t=20, b=20),
+                showlegend=True,
+                plot_bgcolor='rgba(0,0,0,0)',
+                paper_bgcolor='rgba(0,0,0,0)',
+                legend=dict(font=dict(color='#CBD5E0', size=10), bgcolor='rgba(0,0,0,0)')
+            )
+            fig_pie.update_traces(textfont=dict(color='white', size=10),
+                                   marker=dict(line=dict(color='rgba(15,27,45,1)', width=1.5)))
             st.plotly_chart(fig_pie, use_container_width=True)
             st.markdown("**Note:** chronic respiratory disease ranks only 5th of 12 categories by DALYs (Table 1),"
                         " yet COPD and bronchitis ranks 1st in hospitalizations — see the Integrated Analysis page.")
