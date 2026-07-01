@@ -641,6 +641,7 @@ if page == "📊 Overall Disease Burden":
                            margin=dict(l=220, r=80, t=10, b=10))
         st.plotly_chart(fig, use_container_width=True)
 
+    with col_right:
         st.markdown('<p class="section-header">Burden distribution, 2023</p>', unsafe_allow_html=True)
         dalys_pie = {d: daly_data[d][-1] for d in DISEASES}
         fig_pie = px.pie(values=list(dalys_pie.values()), names=list(dalys_pie.keys()),
@@ -648,12 +649,12 @@ if page == "📊 Overall Disease Burden":
                           hole=0.45)
         fig_pie.update_layout(
             showlegend=True,
-            height=340,
+            height=480,
             margin=dict(l=0, r=0, t=10, b=0),
             plot_bgcolor='rgba(0,0,0,0)',
             paper_bgcolor='rgba(0,0,0,0)',
             legend=dict(
-                font=dict(color='#CBD5E0', size=9),
+                font=dict(color='#CBD5E0', size=8),
                 bgcolor='rgba(0,0,0,0)',
                 orientation='v',
                 x=1.0,
@@ -668,37 +669,45 @@ if page == "📊 Overall Disease Burden":
         )
         st.plotly_chart(fig_pie, use_container_width=True)
 
-    with col_right:
-        st.markdown('<p class="section-header">Key Findings</p>', unsafe_allow_html=True)
+    # ── Key Findings as a bottom row ──
+    st.markdown("---")
+    st.markdown('<p class="section-header">Key Findings</p>', unsafe_allow_html=True)
+    kf1, kf2, kf3, kf4, kf5 = st.columns(5)
+    with kf1:
         st.markdown("""
         <div class="warning-box">
         <b>📈 Substance use disorders</b><br>
-        Highest absolute DALY growth (+223.6%) AND rising age-standardized rate (+49.2%) of any
-        of the twelve categories — more than double mental disorders' rate increase, a genuine
-        worsening, not just population growth. Still the smallest absolute burden today,
-        suggesting a window for early intervention.
-        </div>
+        Highest absolute DALY growth (+223.6%) AND rate increase (+49.2%) — more than double
+        mental disorders. Still smallest burden today — window for early intervention.
+        </div>""", unsafe_allow_html=True)
+    with kf2:
+        st.markdown("""
         <div class="warning-box">
-        <b>📈 Mental disorders — close second</b><br>
-        +160.7% absolute growth, +20.2% rate increase, and a far larger existing burden
-        (194,075 DALYs) than substance use disorders. Two related but distinct priorities.
-        </div>
+        <b>📈 Mental disorders</b><br>
+        +160.7% absolute growth, +20.2% rate increase, far larger existing burden (194,075 DALYs).
+        Two related but distinct priorities alongside substance use disorders.
+        </div>""", unsafe_allow_html=True)
+    with kf3:
+        st.markdown("""
         <div class="warning-box">
         <b>📈 Two geographic pressure points</b><br>
         Alberta: fastest-growing senior population (+22.0% since 2020). Prince Edward Island:
         highest antidepressant Rx rate and highest ALC burden of any province.
-        </div>
+        </div>""", unsafe_allow_html=True)
+    with kf4:
+        st.markdown("""
         <div class="success-box">
         <b>✅ Cardiovascular disease</b><br>
         Age-standardized rate fell -48.6% — the strongest evidence in this dataset that
-        sustained intervention works.
-        </div>
+        sustained, targeted intervention works over decades.
+        </div>""", unsafe_allow_html=True)
+    with kf5:
+        st.markdown("""
         <div class="highlight-box">
         <b>🔮 2040 forecast</b><br>
-        Substance use disorders projected +123.6% growth by 2040 — by far the highest of any
-        category analyzed, more than 40 points ahead of the next-highest.
-        </div>
-        """, unsafe_allow_html=True)
+        Substance use disorders projected +123.6% growth by 2040 — by far the highest,
+        more than 40 percentage points ahead of the next-highest category.
+        </div>""", unsafe_allow_html=True)
 
 
 # ============================================================
