@@ -961,15 +961,31 @@ elif page == "🗺️ Provincial Burden & Demographics":
 
     df_prov = prov_pharma_df[prov_pharma_df['Province'].isin(filtered_provinces)].copy()
 
-    col1, col2, col3, col4 = st.columns(4)
-    with col1:
-        st.metric("Largest senior population", "Ontario", "2.95M seniors")
-    with col2:
-        st.metric("Fastest-growing", "Alberta", "+22.0% since 2020")
-    with col3:
-        st.metric("Highest antidepressant Rx", "Prince Edward Island", "256.7 per 1,000")
-    with col4:
-        st.metric("Lowest antidepressant Rx", "New Brunswick", "150.7 per 1,000")
+    pc1, pc2, pc3, pc4 = st.columns(4)
+    with pc1:
+        st.markdown("""<div class="metric-card-custom">
+            <p class="mc-label">Largest Senior Population</p>
+            <p class="mc-value">Ontario</p>
+            <p class="mc-sublabel">2.95M seniors · 2024</p>
+        </div>""", unsafe_allow_html=True)
+    with pc2:
+        st.markdown("""<div class="metric-card-custom">
+            <p class="mc-label">Fastest-Growing Province</p>
+            <p class="mc-value">Alberta</p>
+            <p class="mc-delta-pos">▲ +22.0% since 2020</p>
+        </div>""", unsafe_allow_html=True)
+    with pc3:
+        st.markdown("""<div class="metric-card-custom">
+            <p class="mc-label">Highest Antidepressant Rx</p>
+            <p class="mc-value">Prince Edward Island</p>
+            <p class="mc-sublabel">256.7 per 1,000 seniors</p>
+        </div>""", unsafe_allow_html=True)
+    with pc4:
+        st.markdown("""<div class="metric-card-custom">
+            <p class="mc-label">Lowest Antidepressant Rx</p>
+            <p class="mc-value">New Brunswick</p>
+            <p class="mc-sublabel">150.7 per 1,000 seniors</p>
+        </div>""", unsafe_allow_html=True)
 
     st.markdown("---")
     metric_choice = st.selectbox("Select metric to visualize:", [
@@ -1032,15 +1048,31 @@ elif page == "🔮 Forecasting Through 2040":
     total_2040 = sum(forecasts[d][16] for d in DISEASES)
     total_forecast_growth = (total_2040 - TOTAL_2023) / TOTAL_2023 * 100
 
-    col1, col2, col3, col4 = st.columns(4)
-    with col1:
-        st.metric("Total DALYs 2023", f"{TOTAL_2023/1e6:.2f}M", "12 disease categories")
-    with col2:
-        st.metric("Projected 2040", f"{total_2040/1e6:.2f}M", f"+{total_forecast_growth:.1f}% growth")
-    with col3:
-        st.metric("Highest growth", "Subst. use", "+123.6%")
-    with col4:
-        st.metric("Model R²", "> 0.96", "All diseases")
+    fc1, fc2, fc3, fc4 = st.columns(4)
+    with fc1:
+        st.markdown(f"""<div class="metric-card-custom">
+            <p class="mc-label">Current Burden (2023)</p>
+            <p class="mc-value">{TOTAL_2023/1e6:.2f}M DALYs</p>
+            <p class="mc-sublabel">12 NCD disease categories</p>
+        </div>""", unsafe_allow_html=True)
+    with fc2:
+        st.markdown(f"""<div class="metric-card-custom">
+            <p class="mc-label">Projected Burden (2040)</p>
+            <p class="mc-value">{total_2040/1e6:.2f}M DALYs</p>
+            <p class="mc-delta-pos">▲ +{total_forecast_growth:.1f}% from 2023</p>
+        </div>""", unsafe_allow_html=True)
+    with fc3:
+        st.markdown("""<div class="metric-card-custom">
+            <p class="mc-label">Highest Projected Growth</p>
+            <p class="mc-value">Substance Use Disorders</p>
+            <p class="mc-delta-pos">▲ +123.6% by 2040</p>
+        </div>""", unsafe_allow_html=True)
+    with fc4:
+        st.markdown("""<div class="metric-card-custom">
+            <p class="mc-label">Model Performance</p>
+            <p class="mc-value">R² &gt; 0.96</p>
+            <p class="mc-sublabel">MAPE &lt; 3.1% · All 12 diseases</p>
+        </div>""", unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("---")
@@ -1197,11 +1229,31 @@ elif page == "🏥 Hospitalization Burden & ALC":
                   'Musculoskeletal': '#F59E0B', 'Other': '#6B7280'}
 
     st.markdown("### National Hospitalization Rate, Canadians Aged 65+ (2020–21 to 2024–25)")
-    m1, m2, m3, m4 = st.columns(4)
-    m1.metric("Rate 2024–25 (per 100k)", "7,560", delta="+4.6% vs 2020–21")
-    m2.metric("Avg Length of Stay", "6.1 days", delta="+0.3d vs 2020–21")
-    m3.metric("Top 65+ Cause", "COPD (68,321)", delta="#1 by volume")
-    m4.metric("Longest LOS (65+)", "Neurocognitive (17.1d)", delta="Highest care intensity")
+    hc1, hc2, hc3, hc4 = st.columns(4)
+    with hc1:
+        st.markdown("""<div class="metric-card-custom">
+            <p class="mc-label">Hospitalization Rate (2024–25)</p>
+            <p class="mc-value">7,560 per 100k</p>
+            <p class="mc-delta-pos">▲ +4.6% vs 2020–21</p>
+        </div>""", unsafe_allow_html=True)
+    with hc2:
+        st.markdown("""<div class="metric-card-custom">
+            <p class="mc-label">Average Length of Stay</p>
+            <p class="mc-value">6.1 days</p>
+            <p class="mc-sublabel">+0.3 days vs 2020–21</p>
+        </div>""", unsafe_allow_html=True)
+    with hc3:
+        st.markdown("""<div class="metric-card-custom">
+            <p class="mc-label">Top Cause (65+)</p>
+            <p class="mc-value">COPD & Bronchitis</p>
+            <p class="mc-sublabel">68,321 cases · #1 by volume</p>
+        </div>""", unsafe_allow_html=True)
+    with hc4:
+        st.markdown("""<div class="metric-card-custom">
+            <p class="mc-label">Longest Hospital Stay</p>
+            <p class="mc-value">Neurocognitive</p>
+            <p class="mc-sublabel">17.1 days avg · Highest care intensity</p>
+        </div>""", unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("---")
