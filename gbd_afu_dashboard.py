@@ -252,6 +252,21 @@ st.markdown("""
         color: #718096 !important;
         font-size: 0.78rem !important;
     }
+
+    /* ── Section dividers ── */
+    .section-divider {
+        border: none;
+        border-top: 1px solid rgba(99,179,237,0.12);
+        margin: 1.8rem 0 1.2rem 0;
+    }
+    .section-plane {
+        background: rgba(99,179,237,0.03);
+        border: 1px solid rgba(99,179,237,0.10);
+        border-radius: 10px;
+        padding: 1.2rem 1.2rem 0.5rem 1.2rem;
+        margin-bottom: 1.2rem;
+    }
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -719,6 +734,7 @@ if page == "📊 Overall Disease Burden":
     </div>
     """, unsafe_allow_html=True)
 
+    st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("---")
     col_left, col_right = st.columns([3, 2])
 
@@ -771,6 +787,7 @@ if page == "📊 Overall Disease Burden":
     # ── Key Findings as a bottom row ──
     st.markdown("---")
     st.markdown('<p class="section-header">Key Findings</p>', unsafe_allow_html=True)
+    st.markdown("<br>", unsafe_allow_html=True)
     kf1, kf2, kf3, kf4, kf5 = st.columns(5)
     with kf1:
         st.markdown("""
@@ -1025,6 +1042,7 @@ elif page == "🔮 Forecasting Through 2040":
     with col4:
         st.metric("Model R²", "> 0.96", "All diseases")
 
+    st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("---")
     disease_choice = st.selectbox("Select disease to view:", ['All diseases'] + DISEASES)
     annual_years = np.arange(1995, 2024)
@@ -1185,6 +1203,7 @@ elif page == "🏥 Hospitalization Burden & ALC":
     m3.metric("Top 65+ Cause", "COPD (68,321)", delta="#1 by volume")
     m4.metric("Longest LOS (65+)", "Neurocognitive (17.1d)", delta="Highest care intensity")
 
+    st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("---")
     tab1, tab2, tab3 = st.tabs(["Top 10 Diagnoses (65+)", "National Rate Trend", "ALC Days by Province"])
 
