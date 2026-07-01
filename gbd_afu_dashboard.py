@@ -587,19 +587,19 @@ if page == "📊 Overall Disease Burden":
 
     col1, col2, col3, col4, col5, col6 = st.columns(6)
     with col1:
-        st.metric("All-cause DALYs (2023)", f"{allcause[2023]['dalys']/1e6:.2f}M",
-                   f"+{(allcause[2023]['dalys']-allcause[1995]['dalys'])/allcause[1995]['dalys']*100:.1f}% since 1995")
+        st.metric("All-cause DALYs", f"{allcause[2023]['dalys']/1e6:.2f}M",
+                   f"+74.6% since 1995")
     with col2:
-        st.metric("All-cause Deaths (2023)", f"{allcause[2023]['deaths']:,}",
-                   f"+{(allcause[2023]['deaths']-allcause[1995]['deaths'])/allcause[1995]['deaths']*100:.1f}% since 1995")
+        st.metric("All-cause Deaths", f"{allcause[2023]['deaths']/1000:.1f}k",
+                   "+62.5% since 1995")
     with col3:
-        st.metric("Fastest growing", "Substance use", "+223.6%")
+        st.metric("Fastest growing", "Subst. use", "+223.6%")
     with col4:
-        st.metric("Best improvement", "Cardiovascular", "-48.6% rate")
+        st.metric("Best improvement", "Cardiovasc.", "-48.6% rate")
     with col5:
-        st.metric("Provinces analyzed", "10", "All of Canada")
+        st.metric("Provinces", "10", "All of Canada")
     with col6:
-        st.metric("2040 projection", "9.49M DALYs", "+61.5%")
+        st.metric("2040 forecast", "9.49M", "+61.5%")
 
     st.markdown(f"""
     <div class="highlight-box">
@@ -629,7 +629,7 @@ if page == "📊 Overall Disease Burden":
                            plot_bgcolor='rgba(15,27,45,0)', paper_bgcolor='rgba(15,27,45,0)',
                            xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.12)'),
                            yaxis=dict(showgrid=False),
-                           margin=dict(l=0, r=80, t=10, b=10))
+                           margin=dict(l=220, r=80, t=10, b=10))
         st.plotly_chart(fig, use_container_width=True)
 
         st.markdown('<p class="section-header">Burden distribution, 2023</p>', unsafe_allow_html=True)
@@ -885,7 +885,7 @@ elif page == "🔮 Forecasting Through 2040":
     with col2:
         st.metric("Projected 2040", f"{total_2040/1e6:.2f}M", f"+{total_forecast_growth:.1f}% growth")
     with col3:
-        st.metric("Highest growth", "Substance use disorders", "+123.6%")
+        st.metric("Highest growth", "Subst. use", "+123.6%")
     with col4:
         st.metric("Model R²", "> 0.96", "All diseases")
 
