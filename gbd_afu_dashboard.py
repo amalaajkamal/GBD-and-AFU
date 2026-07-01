@@ -169,8 +169,11 @@ st.markdown("""
         border-radius: 0 8px 8px 0;
         margin: 0.8rem 0;
         color: #CBD5E0;
-        font-size: 0.9rem;
+        font-size: 0.88rem;
         line-height: 1.6;
+        height: 100%;
+        text-align: left;
+        vertical-align: top;
     }
     .warning-box {
         background: linear-gradient(135deg, rgba(252, 129, 74, 0.08) 0%, rgba(229, 62, 62, 0.05) 100%);
@@ -179,8 +182,11 @@ st.markdown("""
         border-radius: 0 8px 8px 0;
         margin: 0.8rem 0;
         color: #CBD5E0;
-        font-size: 0.9rem;
+        font-size: 0.88rem;
         line-height: 1.6;
+        height: 100%;
+        text-align: left;
+        vertical-align: top;
     }
     .success-box {
         background: linear-gradient(135deg, rgba(72, 187, 120, 0.08) 0%, rgba(56, 178, 172, 0.05) 100%);
@@ -189,8 +195,11 @@ st.markdown("""
         border-radius: 0 8px 8px 0;
         margin: 0.8rem 0;
         color: #CBD5E0;
-        font-size: 0.9rem;
+        font-size: 0.88rem;
         line-height: 1.6;
+        height: 100%;
+        text-align: left;
+        vertical-align: top;
     }
 
     /* ── Dataframes ── */
@@ -1391,7 +1400,7 @@ elif page == "📋 Data Explorer":
 # ── FOOTER ──
 st.markdown("---")
 st.markdown("""
-<div style='text-align:center; font-size:12px;'>
+<div style='text-align:center; font-size:12px; color:#718096; padding:1rem 0;'>
 Disease Burden Among Aging Canadians — Multi-Source Analysis Dashboard |
 GBD 2023 (IHME) · CIHI · Statistics Canada · CLSA | Twelve NCD Level 2 disease categories |
 University of Windsor, Windsor, Ontario, Canada | June 2026
