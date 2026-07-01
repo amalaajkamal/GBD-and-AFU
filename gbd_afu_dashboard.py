@@ -25,7 +25,7 @@ import os
 # ── PAGE CONFIG ──
 st.set_page_config(
     page_title="Disease Burden Among Aging Canadians",
-    page_icon="🍁",
+    page_icon="🏥",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -33,64 +33,28 @@ st.set_page_config(
 # ── CUSTOM CSS ──
 st.markdown("""
 <style>
-    .main-title {
-        font-size: 1.8rem;
-        font-weight: 600;
-        color: #4D9FE8;
-        margin-bottom: 0.2rem;
-    }
-    .sub-title {
-        font-size: 1rem;
-        margin-bottom: 1.5rem;
-    }
-    .metric-card {
-        border-radius: 8px;
-        padding: 1rem;
-        text-align: center;
-    }
-    .section-header {
-        font-size: 1.2rem;
-        font-weight: 600;
-        color: #4D9FE8;
-        border-bottom: 2px solid #4D9FE8;
-        padding-bottom: 0.3rem;
-        margin-bottom: 1rem;
-    }
-    .highlight-box {
-        background: rgba(77, 159, 232, 0.15);
-        border-left: 4px solid #4D9FE8;
-        padding: 0.75rem 1rem;
-        border-radius: 0 8px 8px 0;
-        margin: 1rem 0;
-    }
-    .warning-box {
-        background: rgba(220, 80, 80, 0.15);
-        border-left: 4px solid #E05555;
-        padding: 0.75rem 1rem;
-        border-radius: 0 8px 8px 0;
-        margin: 1rem 0;
-    }
-    .success-box {
-        background: rgba(50, 160, 80, 0.15);
-        border-left: 4px solid #32A050;
-        padding: 0.75rem 1rem;
-        border-radius: 0 8px 8px 0;
-        margin: 1rem 0;
-    }
-    [data-testid="stMetricValue"] {
-        font-size: 0.95rem !important;
-        white-space: nowrap !important;
-        overflow: visible !important;
-    }
-    [data-testid="stMetricLabel"] {
-        font-size: 0.75rem !important;
-    }
-    [data-testid="stMetricDelta"] {
-        font-size: 0.7rem !important;
-        white-space: nowrap !important;
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    /* ── Global ── */
+    html, body, [class*="css"] {
+        font-family: 'Inter', sans-serif;
     }
 
-    /* ── Sidebar spacing overrides ── */
+    /* ── Main background ── */
+    .stApp {
+        background: linear-gradient(135deg, #0F1B2D 0%, #1A2942 50%, #0F1B2D 100%);
+    }
+
+    /* ── Sidebar ── */
+    section[data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #0A1628 0%, #162035 100%);
+        border-right: 1px solid rgba(99, 179, 237, 0.15);
+    }
+    section[data-testid="stSidebar"] .stMarkdown,
+    section[data-testid="stSidebar"] label,
+    section[data-testid="stSidebar"] p {
+        color: #CBD5E0 !important;
+    }
     section[data-testid="stSidebar"] > div {
         padding-top: 1rem;
         padding-bottom: 1rem;
@@ -99,29 +63,176 @@ st.markdown("""
         gap: 0rem;
     }
     section[data-testid="stSidebar"] .stRadio label {
-        padding: 0.25rem 0.5rem;
-        font-size: 0.85rem;
+        padding: 0.28rem 0.5rem;
+        font-size: 0.84rem;
         line-height: 1.3;
+        color: #A0AEC0 !important;
+        border-radius: 4px;
+        transition: background 0.15s;
+    }
+    section[data-testid="stSidebar"] .stRadio label:hover {
+        background: rgba(99, 179, 237, 0.08);
+        color: #63B3ED !important;
     }
     section[data-testid="stSidebar"] .stMarkdown p {
         margin-bottom: 0.2rem;
-        font-size: 0.85rem;
+        font-size: 0.84rem;
     }
     section[data-testid="stSidebar"] h2,
     section[data-testid="stSidebar"] h3 {
         margin-top: 0.5rem;
         margin-bottom: 0.2rem;
         font-size: 0.95rem;
+        color: #63B3ED !important;
     }
     section[data-testid="stSidebar"] hr {
         margin: 0.5rem 0;
-    }
-    section[data-testid="stSidebar"] .stMultiSelect {
-        margin-bottom: 0.3rem;
+        border-color: rgba(99, 179, 237, 0.15);
     }
     section[data-testid="stSidebar"] .stMultiSelect label {
         font-size: 0.82rem;
         margin-bottom: 0.1rem;
+        color: #A0AEC0 !important;
+    }
+
+    /* ── Main content area ── */
+    .main .block-container {
+        background: rgba(15, 27, 45, 0.0);
+        color: #E2E8F0;
+        padding-top: 1.5rem;
+    }
+
+    /* ── Typography ── */
+    .main-title {
+        font-size: 1.9rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #63B3ED 0%, #4FD1C5 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.2rem;
+        line-height: 1.2;
+    }
+    .sub-title {
+        font-size: 0.95rem;
+        color: #718096;
+        margin-bottom: 1.5rem;
+    }
+    .section-header {
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: #63B3ED;
+        border-bottom: 1px solid rgba(99, 179, 237, 0.3);
+        padding-bottom: 0.4rem;
+        margin-bottom: 1rem;
+        letter-spacing: 0.01em;
+    }
+
+    /* ── Metric cards ── */
+    [data-testid="metric-container"] {
+        background: linear-gradient(135deg, rgba(26, 41, 66, 0.9) 0%, rgba(22, 32, 53, 0.9) 100%);
+        border: 1px solid rgba(99, 179, 237, 0.15);
+        border-radius: 10px;
+        padding: 0.8rem 1rem;
+        backdrop-filter: blur(10px);
+    }
+    [data-testid="metric-container"] label {
+        color: #718096 !important;
+        font-size: 0.78rem !important;
+        font-weight: 500 !important;
+        letter-spacing: 0.03em !important;
+        text-transform: uppercase !important;
+    }
+    [data-testid="metric-container"] [data-testid="stMetricValue"] {
+        color: #E2E8F0 !important;
+        font-size: 1.4rem !important;
+        font-weight: 700 !important;
+    }
+    [data-testid="metric-container"] [data-testid="stMetricDelta"] {
+        font-size: 0.8rem !important;
+    }
+
+    /* ── Callout boxes ── */
+    .highlight-box {
+        background: linear-gradient(135deg, rgba(99, 179, 237, 0.08) 0%, rgba(79, 209, 197, 0.05) 100%);
+        border-left: 3px solid #63B3ED;
+        padding: 0.85rem 1.1rem;
+        border-radius: 0 8px 8px 0;
+        margin: 0.8rem 0;
+        color: #CBD5E0;
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+    .warning-box {
+        background: linear-gradient(135deg, rgba(252, 129, 74, 0.08) 0%, rgba(229, 62, 62, 0.05) 100%);
+        border-left: 3px solid #FC814A;
+        padding: 0.85rem 1.1rem;
+        border-radius: 0 8px 8px 0;
+        margin: 0.8rem 0;
+        color: #CBD5E0;
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+    .success-box {
+        background: linear-gradient(135deg, rgba(72, 187, 120, 0.08) 0%, rgba(56, 178, 172, 0.05) 100%);
+        border-left: 3px solid #48BB78;
+        padding: 0.85rem 1.1rem;
+        border-radius: 0 8px 8px 0;
+        margin: 0.8rem 0;
+        color: #CBD5E0;
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+
+    /* ── Dataframes ── */
+    .stDataFrame {
+        border: 1px solid rgba(99, 179, 237, 0.12);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    /* ── Tabs ── */
+    .stTabs [data-baseweb="tab-list"] {
+        background: rgba(15, 27, 45, 0.5);
+        border-radius: 8px;
+        padding: 4px;
+        gap: 4px;
+    }
+    .stTabs [data-baseweb="tab"] {
+        background: transparent;
+        color: #718096;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+    .stTabs [aria-selected="true"] {
+        background: linear-gradient(135deg, #1A3A5C 0%, #1A4A5C 100%) !important;
+        color: #63B3ED !important;
+    }
+
+    /* ── Info / warning banners ── */
+    .stInfo {
+        background: rgba(99, 179, 237, 0.08);
+        border: 1px solid rgba(99, 179, 237, 0.2);
+        border-radius: 8px;
+        color: #CBD5E0;
+    }
+
+    /* ── Dividers ── */
+    hr {
+        border-color: rgba(99, 179, 237, 0.1);
+    }
+
+    /* ── General text ── */
+    p, li, span {
+        color: #CBD5E0;
+    }
+    h1, h2, h3, h4 {
+        color: #E2E8F0;
+    }
+    .stCaption {
+        color: #718096 !important;
+        font-size: 0.78rem !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -427,7 +538,7 @@ TOTAL_1995 = sum(v[0] for v in daly_data.values())
 TOTAL_GROWTH_PCT = (TOTAL_2023 - TOTAL_1995) / TOTAL_1995 * 100
 
 # ── SIDEBAR ──
-st.sidebar.markdown("## 🍁 Disease Burden Dashboard")
+st.sidebar.markdown("## 🏥 Disease Burden Dashboard")
 st.sidebar.markdown("**GBD 2023 · CIHI · Statistics Canada · CLSA**")
 st.sidebar.markdown("---")
 
@@ -484,9 +595,7 @@ if page == "📊 Overall Disease Burden":
     with col3:
         st.metric("Fastest growing", "Substance use", "+223.6%")
     with col4:
-       
         st.metric("Best improvement", "Cardiovascular", "-48.6% rate")
-       
     with col5:
         st.metric("Provinces analyzed", "10", "All of Canada")
     with col6:
@@ -507,7 +616,6 @@ if page == "📊 Overall Disease Burden":
     col_left, col_right = st.columns([3, 2])
 
     with col_left:
-        
         st.markdown('<p class="section-header">Disease Burden by Category — 2023</p>', unsafe_allow_html=True)
         st.caption("Source: GBD 2023 (IHME) | Canadians aged 60+ | Measure: DALYs (Disability-Adjusted Life Years) | Single year snapshot: 2023 only")
         dalys_2023 = {d: daly_data[d][-1] for d in filtered_diseases}
@@ -518,8 +626,8 @@ if page == "📊 Overall Disease Burden":
                      labels={'DALYs': 'DALYs (number)'})
         fig.update_traces(texttemplate='%{x:,.0f}', textposition='outside')
         fig.update_layout(showlegend=False, height=480,
-                           plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
-                           xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
+                           plot_bgcolor='rgba(15,27,45,0)', paper_bgcolor='rgba(15,27,45,0)',
+                           xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.12)'),
                            yaxis=dict(showgrid=False),
                            margin=dict(l=0, r=80, t=10, b=10))
         st.plotly_chart(fig, use_container_width=True)
@@ -570,7 +678,6 @@ if page == "📊 Overall Disease Burden":
 # ============================================================
 elif page == "📈 Absolute DALY Trends":
     st.markdown('<p class="main-title">Absolute DALY Trends, 1995–2023</p>', unsafe_allow_html=True)
-    
     st.caption("Source: GBD 2023 (IHME) | Canadians aged 60+ | Raw DALY counts — affected by both disease risk AND population growth")
 
     metric_type = st.radio("View metric as:", ["Absolute numbers", "% Growth from 1995 baseline"], horizontal=True)
@@ -586,9 +693,9 @@ elif page == "📈 Absolute DALY Trends":
 
     ylabel = "DALYs (number)" if metric_type == "Absolute numbers" else "% Growth from 1995 baseline"
     fig.update_layout(height=480, xaxis_title="Year", yaxis_title=ylabel,
-                       plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
-                       xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
-                       yaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
+                       plot_bgcolor='rgba(15,27,45,0)', paper_bgcolor='rgba(15,27,45,0)',
+                       xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.12)'),
+                       yaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.12)'),
                        legend=dict(orientation='v', x=1.01, y=1),
                        margin=dict(l=0, r=180, t=20, b=40))
     st.plotly_chart(fig, use_container_width=True)
@@ -633,9 +740,9 @@ elif page == "📉 Age-Standardized Rate Trends":
                 ))
         fig.update_layout(height=420, xaxis_title="Year",
                            yaxis_title="Age-standardized rate per 100,000",
-                           plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
-                           xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
-                           yaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
+                           plot_bgcolor='rgba(15,27,45,0)', paper_bgcolor='rgba(15,27,45,0)',
+                           xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.12)'),
+                           yaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.12)'),
                            legend=dict(orientation='v', x=1.01, y=1),
                            margin=dict(l=0, r=180, t=10, b=40))
         st.plotly_chart(fig, use_container_width=True)
@@ -656,8 +763,8 @@ elif page == "📉 Age-Standardized Rate Trends":
         x_max = df_rate['Rate Change (%)'].max()
         padding = (x_max - x_min) * 0.15
         fig2.update_layout(showlegend=False, height=650,
-                            plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
-                            xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)',
+                            plot_bgcolor='rgba(15,27,45,0)', paper_bgcolor='rgba(15,27,45,0)',
+                            xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.12)',
                                        ticksuffix='%',
                                        dtick=10,
                                        tick0=0,
@@ -677,7 +784,7 @@ elif page == "📉 Age-Standardized Rate Trends":
         lambda x: '↓ Declining (interventions effective)' if float(x[:-1]) < -10
         else '↓ Slightly declining' if float(x[:-1]) < 0
         else '→ Stable' if float(x[:-1]) < 5
-        else '↑ Rising (genuine increase) 📈'
+        else '↑ Rising (genuine increase) ⚠️'
     )
     st.dataframe(df_rates_table.style.format({c: "{:.1f}" for c in OBS_YEARS}), use_container_width=True)
 
@@ -725,7 +832,7 @@ elif page == "🗺️ Provincial Burden & Demographics":
         fig.update_traces(texttemplate='%{text:,.1f}', textposition='outside')
         fig.update_layout(showlegend=False, height=420, plot_bgcolor='rgba(0,0,0,0)',
                            paper_bgcolor='rgba(0,0,0,0)', margin=dict(l=0, r=60, t=10, b=40),
-                           yaxis=dict(showgrid=False), xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'))
+                           yaxis=dict(showgrid=False), xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.12)'))
         st.plotly_chart(fig, use_container_width=True)
 
     with col_right:
@@ -767,8 +874,7 @@ elif page == "🗺️ Provincial Burden & Demographics":
 # ============================================================
 elif page == "🔮 Forecasting Through 2040":
     st.markdown('<p class="main-title">Disease Burden Forecasting, 2024–2040</p>', unsafe_allow_html=True)
-    st.caption("Historical data: GBD 2023 (IHME) | Canadians aged 60+ | Forecast horizon: 2024–2040")
-    st.markdown("Polynomial regression (degree=2) with cubic spline interpolation trained on GBD observations 1995–2023 | R² > 0.96 | MAPE < 3.1%")
+    st.markdown("Polynomial regression (degree=2) with cubic spline interpolation | R² > 0.96 | MAPE < 3.1%")
 
     total_2040 = sum(forecasts[d][16] for d in DISEASES)
     total_forecast_growth = (total_2040 - TOTAL_2023) / TOTAL_2023 * 100
@@ -814,9 +920,9 @@ elif page == "🔮 Forecasting Through 2040":
                   annotation_text="← Historical | Forecast →", annotation_position="top right")
     fig.update_layout(
         height=480, xaxis_title="Year", yaxis_title="DALYs (Millions)",
-        plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
-        xaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
-        yaxis=dict(showgrid=True, gridcolor='rgba(128,128,128,0.3)'),
+        plot_bgcolor='rgba(15,27,45,0)', paper_bgcolor='rgba(15,27,45,0)',
+        xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.12)'),
+        yaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.12)'),
         legend=dict(orientation='v', x=1.01, y=1),
         margin=dict(l=0, r=220, t=20, b=40)
     )
@@ -1155,6 +1261,19 @@ elif page == "🔗 Integrated Multi-Source Analysis":
 elif page == "📋 Data Explorer":
     st.markdown('<p class="main-title">Data Explorer</p>', unsafe_allow_html=True)
     st.markdown("Explore and download the underlying data from all four sources.")
+
+    st.info(
+        "**About the data in this dashboard** — All figures are embedded as verified constants "
+        "extracted programmatically from the original source files using the Python notebooks "
+        "in the accompanying GitHub repository. The dashboard runs on Streamlit Cloud, which "
+        "does not have access to raw files at runtime — constants are used for reliability and "
+        "speed. Every number traces back to a specific source file and notebook cell, documented "
+        "in `data_verification.md` in the GitHub repository. To verify any figure independently: "
+        "(1) run the notebooks in the repo against the original source files, or "
+        "(2) query the GBD Results Tool directly at vizhub.healthdata.org/gbd-results using "
+        "the parameters in paper Methods Section 2.1, or "
+        "(3) consult the data verification log at github.com/amalaajkamal/GBD-and-AFU."
+    )
 
     tab1, tab2, tab3, tab4, tab5 = st.tabs(
         ["GBD: DALYs & Rates", "CIHI: Provincial & Hospitalization", "StatCan: Population", "Forecast", "Download"]
