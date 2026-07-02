@@ -879,7 +879,7 @@ elif page == "📉 Age-Standardized Rate Trends":
     st.caption("Source: GBD 2023 (IHME) | Canadians aged 60+ | Rates per 100,000 — population-adjusted, shows genuine disease risk change independent of demographics")
     st.markdown("Controls for population growth — shows the true burden trajectory")
 
-    col_left, col_right = st.columns(2)
+    col_left, col_right = st.columns([3, 2])
 
     with col_left:
         st.markdown('<p class="section-header">Rate trends, 1995–2023</p>', unsafe_allow_html=True)
@@ -891,13 +891,14 @@ elif page == "📉 Age-Standardized Rate Trends":
                     name=disease, line=dict(color=DISEASE_COLORS[disease], width=2.5),
                     marker=dict(size=6)
                 ))
-        fig.update_layout(height=420, xaxis_title="Year",
+        fig.update_layout(height=500, xaxis_title="Year",
                            yaxis_title="Age-standardized rate per 100,000",
                            plot_bgcolor='rgba(15,27,45,0)', paper_bgcolor='rgba(15,27,45,0)',
-                           xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)'),
-                           yaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)'),
-                           legend=dict(orientation='v', x=1.01, y=1, font=dict(color='#CBD5E0', size=10), bgcolor='rgba(15,27,45,0.6)', bordercolor='rgba(99,179,237,0.15)', borderwidth=1),
-                           margin=dict(l=0, r=180, t=5, b=30))
+                           xaxis=dict(showgrid=False, showline=False),
+                           yaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)', showline=False),
+                           legend=dict(orientation='h', x=0, y=-0.25,
+                               font=dict(color='#CBD5E0', size=9), bgcolor='rgba(0,0,0,0)'),
+                           margin=dict(l=0, r=10, t=5, b=90))
         st.plotly_chart(fig, use_container_width=True)
 
     with col_right:
@@ -911,19 +912,17 @@ elif page == "📉 Age-Standardized Rate Trends":
                       color='Disease', color_discrete_map={d: c for d, c in zip(df_rate['Disease'], colors)},
                       text='Rate Change (%)')
         fig2.update_traces(texttemplate='%{text:.1f}%', textposition='outside')
-        fig2.add_vline(x=0, line_color='gray', line_width=1)
+        fig2.add_vline(x=0, line_color='rgba(99,179,237,0.3)', line_width=1)
         x_min = df_rate['Rate Change (%)'].min()
         x_max = df_rate['Rate Change (%)'].max()
-        padding = (x_max - x_min) * 0.15
-        fig2.update_layout(showlegend=False, height=650,
+        padding = (x_max - x_min) * 0.18
+        fig2.update_layout(showlegend=False, height=500,
                             plot_bgcolor='rgba(15,27,45,0)', paper_bgcolor='rgba(15,27,45,0)',
                             xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)',
-                                       ticksuffix='%',
-                                       dtick=10,
-                                       tick0=0,
+                                       ticksuffix='%', dtick=10, tick0=0,
                                        range=[x_min - padding, x_max + padding]),
                             yaxis=dict(showgrid=False),
-                            margin=dict(l=0, r=20, t=10, b=40))
+                            margin=dict(l=0, r=70, t=5, b=40))
         st.plotly_chart(fig2, use_container_width=True)
 
     st.markdown("---")
