@@ -37,12 +37,18 @@ st.markdown("""
 
     /* ── Hide Streamlit default header ── */
     header[data-testid="stHeader"] {
-        background: transparent !important;
+        background: rgba(15,27,45,0) !important;
         height: 0rem !important;
+        min-height: 0rem !important;
     }
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    .stDeployButton {display: none;}
+    header[data-testid="stHeader"] * {
+        display: none !important;
+    }
+    #MainMenu {visibility: hidden !important; display: none !important;}
+    footer {visibility: hidden !important; display: none !important;}
+    .stDeployButton {display: none !important;}
+    [data-testid="stToolbar"] {display: none !important;}
+    [data-testid="stDecoration"] {display: none !important;}
 
     /* ── Global ── */
     html, body, [class*="css"] {
@@ -1183,8 +1189,12 @@ elif page == "👥 Population Projections (2025–2040)":
                                       line=dict(color=PROVINCE_COLORS[p], width=2, dash='dash'),
                                       mode='lines+markers', marker=dict(size=4)))
         fig.update_layout(xaxis_title='Year', yaxis_title='Population (thousands)',
-                           legend=dict(x=0.01, y=0.99, font=dict(color='#CBD5E0', size=9), bgcolor='rgba(15,27,45,0.6)'), height=400, margin=dict(l=40, r=20, t=5, b=25),
-                           xaxis=dict(showgrid=False), yaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)'))
+                           plot_bgcolor='rgba(15,27,45,0)', paper_bgcolor='rgba(15,27,45,0)',
+                           legend=dict(orientation='h', x=0, y=-0.3,
+                               font=dict(color='#CBD5E0', size=8), bgcolor='rgba(0,0,0,0)'),
+                           height=420, margin=dict(l=40, r=20, t=5, b=90),
+                           xaxis=dict(showgrid=False, showline=False),
+                           yaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)', showline=False))
         st.plotly_chart(fig, use_container_width=True)
 
     with c2:
@@ -1199,8 +1209,12 @@ elif page == "👥 Population Projections (2025–2040)":
                                        line=dict(color=PROVINCE_COLORS[p], width=2, dash='dash'),
                                        mode='lines+markers', marker=dict(size=4)))
         fig2.update_layout(xaxis_title='Year', yaxis_title='Growth from 2025 (%)',
-                            legend=dict(x=0.01, y=0.99, font=dict(color='#CBD5E0', size=9), bgcolor='rgba(15,27,45,0.6)'), height=400, margin=dict(l=40, r=20, t=5, b=25),
-                           xaxis=dict(showgrid=False), yaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)'))
+                            plot_bgcolor='rgba(15,27,45,0)', paper_bgcolor='rgba(15,27,45,0)',
+                            legend=dict(orientation='h', x=0, y=-0.3,
+                                font=dict(color='#CBD5E0', size=8), bgcolor='rgba(0,0,0,0)'),
+                            height=420, margin=dict(l=40, r=20, t=5, b=90),
+                            xaxis=dict(showgrid=False, showline=False),
+                            yaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)', showline=False))
         st.plotly_chart(fig2, use_container_width=True)
 
     st.markdown("#### Full Data Table (thousands, M2 scenario)")
