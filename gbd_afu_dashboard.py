@@ -913,7 +913,7 @@ elif page == "📉 Age-Standardized Rate Trends":
     st.caption("Source: GBD 2023 (IHME) | Canadians aged 60+ | Rates per 100,000 — population-adjusted, shows genuine disease risk change independent of demographics")
     st.markdown("Controls for population growth — shows the true burden trajectory")
 
-    col_left, col_right = st.columns([2, 3])
+    col_left, col_right = st.columns([3, 2])
 
     with col_left:
         st.markdown('<p class="section-header">Rate trends, 1995–2023</p>', unsafe_allow_html=True)
@@ -925,7 +925,7 @@ elif page == "📉 Age-Standardized Rate Trends":
                     name=disease, line=dict(color=DISEASE_COLORS[disease], width=2.5),
                     marker=dict(size=6)
                 ))
-        fig.update_layout(height=600, xaxis_title="Year",
+        fig.update_layout(height=500, xaxis_title="Year",
                            yaxis_title="Age-standardized rate per 100,000",
                            plot_bgcolor='rgba(15,27,45,0)', paper_bgcolor='rgba(15,27,45,0)',
                            xaxis=dict(showgrid=False, showline=False),
@@ -941,9 +941,25 @@ elif page == "📉 Age-Standardized Rate Trends":
                          for d in filtered_diseases if d in rate_data}
         df_rate = pd.DataFrame({'Disease': list(rate_changes.keys()), 'Rate Change (%)': list(rate_changes.values())})
         df_rate = df_rate.sort_values('Rate Change (%)')
+        # Shorten disease names for the bar chart y-axis so bars get more width
+        name_map = {
+            'Cardiovascular diseases': 'Cardiovascular',
+            'Chronic respiratory diseases': 'Chr. respiratory',
+            'Diabetes and kidney diseases': 'Diabetes & kidney',
+            'Musculoskeletal disorders': 'Musculoskeletal',
+            'Neurological disorders': 'Neurological',
+            'Other non-communicable diseases': 'Other NCDs',
+            'Sense organ diseases': 'Sense organ',
+            'Skin and subcutaneous diseases': 'Skin & subcut.',
+            'Substance use disorders': 'Substance use',
+            'Mental disorders': 'Mental disorders',
+            'Digestive diseases': 'Digestive',
+            'Neoplasms': 'Neoplasms',
+        }
+        df_rate['Disease_short'] = df_rate['Disease'].map(lambda x: name_map.get(x, x))
         colors = ['#0F6E56' if v < 0 else '#D81B60' for v in df_rate['Rate Change (%)']]
-        fig2 = px.bar(df_rate, x='Rate Change (%)', y='Disease', orientation='h',
-                      color='Disease', color_discrete_map={d: c for d, c in zip(df_rate['Disease'], colors)},
+        fig2 = px.bar(df_rate, x='Rate Change (%)', y='Disease_short', orientation='h',
+                      color='Disease_short', color_discrete_map={name_map.get(d,d): c for d,c in zip(df_rate['Disease'], colors)},
                       text='Rate Change (%)')
         fig2.update_traces(texttemplate='%{text:.1f}%', textposition='outside')
         fig2.add_vline(x=0, line_color='rgba(99,179,237,0.3)', line_width=1)
