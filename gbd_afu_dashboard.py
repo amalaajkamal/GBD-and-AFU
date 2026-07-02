@@ -1314,7 +1314,8 @@ elif page == "🏥 Hospitalization Burden & ALC":
                                xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)', showline=False),
                                yaxis=dict(showgrid=False, showline=False),
                                font=dict(color='#CBD5E0'),
-                               margin=dict(l=260, r=80, t=10, b=10))
+                               title_font=dict(color='#CBD5E0', size=13),
+                               margin=dict(l=260, r=100, t=40, b=10))
             st.plotly_chart(fig, use_container_width=True)
         with c2:
             st.markdown("**Category breakdown**")
