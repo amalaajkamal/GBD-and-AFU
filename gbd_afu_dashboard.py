@@ -1280,11 +1280,15 @@ elif page == "🏥 Hospitalization Burden & ALC":
             fig = go.Figure(go.Bar(
                 x=hosp_df['n_hosp'][::-1] / 1000, y=hosp_df['diagnosis'][::-1], orientation='h',
                 marker_color=[cat_colors[c] for c in hosp_df['category'][::-1]],
-                text=[f"{v:,}" for v in hosp_df['n_hosp'][::-1]], textposition='outside'
+                text=[f"{v/1000:.1f}k" for v in hosp_df['n_hosp'][::-1]], textposition='outside'
             ))
             fig.update_layout(title='Hospitalizations by diagnosis (thousands)',
                                xaxis_title='Hospitalizations (thousands)', height=420,
-                               margin=dict(l=260, r=60, t=10, b=10))
+                               plot_bgcolor='rgba(15,27,45,0)', paper_bgcolor='rgba(15,27,45,0)',
+                               xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)', showline=False),
+                               yaxis=dict(showgrid=False, showline=False),
+                               font=dict(color='#CBD5E0'),
+                               margin=dict(l=260, r=80, t=10, b=10))
             st.plotly_chart(fig, use_container_width=True)
         with c2:
             st.markdown("**Category breakdown**")
@@ -1331,7 +1335,11 @@ elif page == "🏥 Hospitalization Burden & ALC":
             textposition='outside'
         ))
         fig_alc.update_layout(title='Patient days in ALC (%), 2024–2025', xaxis_title='Patient Days in ALC (%)',
-                               height=420, margin=dict(l=160, r=40, t=10, b=10))
+                               height=420, margin=dict(l=160, r=60, t=10, b=10),
+                               plot_bgcolor='rgba(15,27,45,0)', paper_bgcolor='rgba(15,27,45,0)',
+                               xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)', showline=False),
+                               yaxis=dict(showgrid=False, showline=False),
+                               font=dict(color='#CBD5E0'))
         st.plotly_chart(fig_alc, use_container_width=True)
 
         st.markdown(f"Canada (excl. Quebec) overall: **{alc_canada_df['Patient Days in ALC (%)'].iloc[0]:.1f}%** "
