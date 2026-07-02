@@ -1066,6 +1066,75 @@ elif page == "🗺️ Provincial Burden & Demographics":
         st.plotly_chart(fig2, use_container_width=True)
 
     st.markdown("---")
+    st.markdown('<p class="section-header">Growth Velocity vs. Mental Health Burden — The Scissor Effect</p>', unsafe_allow_html=True)
+    st.caption("Bars: senior population growth rate 2020–2024 (%). Line: antidepressant Rx per 1,000 seniors (right axis). Provinces where the line sits high but the bar is short reveal capacity strain independent of demographic growth.")
+
+    df_scissor = df_prov[df_prov['Province'].isin(filtered_provinces)].copy()
+    df_scissor = df_scissor.sort_values('Growth % (2020-24)', ascending=True)
+
+    fig_scissor = go.Figure()
+
+    # Background bars — population growth rate
+    fig_scissor.add_trace(go.Bar(
+        x=df_scissor['Province'],
+        y=df_scissor['Growth % (2020-24)'],
+        name='Senior Pop. Growth 2020–24 (%)',
+        marker_color=[PROVINCE_COLORS.get(p, '#4A5568') for p in df_scissor['Province']],
+        opacity=0.6,
+        yaxis='y1',
+    ))
+
+    # Overlay line — antidepressant Rx per 1,000
+    fig_scissor.add_trace(go.Scatter(
+        x=df_scissor['Province'],
+        y=df_scissor['Rx per 1,000 Seniors'],
+        name='Antidepressant Rx per 1,000 seniors',
+        mode='lines+markers+text',
+        line=dict(color='#D81B60', width=3),
+        marker=dict(size=9, color='#D81B60', symbol='circle'),
+        text=[f"{v:.0f}" for v in df_scissor['Rx per 1,000 Seniors']],
+        textposition='top center',
+        textfont=dict(color='#D81B60', size=9),
+        yaxis='y2',
+    ))
+
+    fig_scissor.update_layout(
+        height=420,
+        plot_bgcolor='rgba(15,27,45,0)', paper_bgcolor='rgba(15,27,45,0)',
+        font=dict(color='#CBD5E0'),
+        xaxis=dict(showgrid=False, showline=False, tickangle=-30),
+        yaxis=dict(
+            title=dict(text='Senior Pop. Growth 2020–24 (%)', font=dict(color='#63B3ED')),
+            tickfont=dict(color='#63B3ED'),
+            showgrid=True, gridcolor='rgba(99,179,237,0.06)',
+            showline=False,
+        ),
+        yaxis2=dict(
+            title=dict(text='Antidepressant Rx per 1,000 Seniors', font=dict(color='#D81B60')),
+            tickfont=dict(color='#D81B60'),
+            overlaying='y', side='right',
+            showgrid=False, showline=False,
+            range=[100, 300],
+        ),
+        legend=dict(
+            orientation='h', x=0, y=1.08,
+            font=dict(color='#CBD5E0', size=10),
+            bgcolor='rgba(0,0,0,0)'
+        ),
+        margin=dict(l=60, r=80, t=40, b=80),
+        barmode='group',
+    )
+    st.plotly_chart(fig_scissor, use_container_width=True)
+
+    st.markdown("""
+    <div class="highlight-box">
+    <b>Reading the scissor effect:</b> Alberta (far right) shows a tall bar (fastest growth +22.0%) but a mid-range line (207.3 Rx per 1,000) — its challenge is <i>demographic velocity</i>.
+    Prince Edward Island shows a short bar (modest +15.2% growth) but the highest line of any province (256.7 Rx per 1,000) — its challenge is existing <i>community-care capacity strain</i>, independent of growth.
+    The two curves "scissor apart" at these two provinces, revealing two fundamentally different policy problems within the same national picture.
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("---")
     st.markdown('<p class="section-header">Complete Provincial Summary Table</p>', unsafe_allow_html=True)
     st.dataframe(df_prov.set_index('Province'), use_container_width=True)
 
