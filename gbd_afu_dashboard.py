@@ -25,7 +25,7 @@ import os
 # ── PAGE CONFIG ──
 st.set_page_config(
     page_title="Disease Burden Among Aging Canadians",
-    page_icon="🏥",
+    page_icon="🍁",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -711,7 +711,7 @@ TOTAL_1995 = sum(v[0] for v in daly_data.values())
 TOTAL_GROWTH_PCT = (TOTAL_2023 - TOTAL_1995) / TOTAL_1995 * 100
 
 # ── SIDEBAR ──
-st.sidebar.markdown("## 🏥 Disease Burden Dashboard")
+st.sidebar.markdown("## 🍁 Disease Burden Dashboard")
 st.sidebar.markdown("**GBD 2023 · CIHI · Statistics Canada · CLSA**")
 st.sidebar.markdown("---")
 
