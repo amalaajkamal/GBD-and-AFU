@@ -1061,7 +1061,33 @@ elif page == "🗺️ Provincial Burden & Demographics":
                            labels={'Growth % (2020-24)': 'Senior population growth, 2020–2024 (%)',
                                    'Rx per 1,000 Seniors': 'Antidepressant Rx per 1,000 seniors'})
         fig2.update_traces(textposition='top center')
-        fig2.update_layout(showlegend=False, height=420, plot_bgcolor='rgba(15,27,45,0)',
+
+        # ── Quadrant dividers at national averages ──
+        avg_growth = prov_pharma_df['Growth % (2020-24)'].mean()
+        avg_rx = prov_pharma_df['Rx per 1,000 Seniors'].mean()
+        fig2.add_vline(x=avg_growth, line_dash='dash',
+                       line_color='rgba(99,179,237,0.25)', line_width=1.5)
+        fig2.add_hline(y=avg_rx, line_dash='dash',
+                       line_color='rgba(99,179,237,0.25)', line_width=1.5)
+        fig2.add_annotation(x=13.2, y=262, text="🔴 Clinical Strain",
+                            showarrow=False, font=dict(color='#FC814A', size=9))
+        fig2.add_annotation(x=21.5, y=262, text="💥 Critical Pressure Point",
+                            showarrow=False, font=dict(color='#D81B60', size=9, weight='bold'))
+        fig2.add_annotation(x=13.2, y=163, text="✅ Low Risk",
+                            showarrow=False, font=dict(color='#48BB78', size=9))
+        fig2.add_annotation(x=21.5, y=163, text="📈 Demographic Expansion",
+                            showarrow=False, font=dict(color='#63B3ED', size=9))
+        # National average labels on the divider lines
+        fig2.add_annotation(x=avg_growth, y=155,
+                            text=f"Natl avg growth: {avg_growth:.1f}%",
+                            showarrow=False, font=dict(color='rgba(99,179,237,0.5)', size=8),
+                            textangle=-90, xanchor='left')
+        fig2.add_annotation(x=12.8, y=avg_rx,
+                            text=f"Natl avg Rx: {avg_rx:.0f}",
+                            showarrow=False, font=dict(color='rgba(99,179,237,0.5)', size=8),
+                            xanchor='right')
+
+        fig2.update_layout(showlegend=False, height=480, plot_bgcolor='rgba(15,27,45,0)',
                             paper_bgcolor='rgba(15,27,45,0)', margin=dict(l=0, r=30, t=10, b=40))
         st.plotly_chart(fig2, use_container_width=True)
 
