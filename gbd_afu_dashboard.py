@@ -25,7 +25,7 @@ import os
 # ── PAGE CONFIG ──
 st.set_page_config(
     page_title="Disease Burden Among Aging Canadians",
-    page_icon="🍁",
+    page_icon="🏥",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -73,6 +73,12 @@ st.markdown("""
     section[data-testid="stSidebar"] > div {
         padding-top: 1rem;
         padding-bottom: 1rem;
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
+    }
+    section[data-testid="stSidebar"] .block-container {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
     }
     section[data-testid="stSidebar"] .stRadio > div {
         gap: 0rem;
@@ -115,6 +121,9 @@ st.markdown("""
         background: rgba(15, 27, 45, 0.0);
         color: #E2E8F0;
         padding-top: 1.5rem;
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
+        max-width: 100% !important;
     }
 
     /* ── Typography ── */
@@ -711,7 +720,7 @@ TOTAL_1995 = sum(v[0] for v in daly_data.values())
 TOTAL_GROWTH_PCT = (TOTAL_2023 - TOTAL_1995) / TOTAL_1995 * 100
 
 # ── SIDEBAR ──
-st.sidebar.markdown("## 🍁 Disease Burden Dashboard")
+st.sidebar.markdown("## 🏥 Disease Burden Dashboard")
 st.sidebar.markdown("**GBD 2023 · CIHI · Statistics Canada · CLSA**")
 st.sidebar.markdown("---")
 
