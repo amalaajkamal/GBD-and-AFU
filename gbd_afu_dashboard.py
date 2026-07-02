@@ -333,6 +333,61 @@ st.markdown("""
         font-size: 0.9rem !important;
     }
 
+    /* ── Multiselect dark styling ── */
+    .stMultiSelect > div > div {
+        background: rgba(15,27,45,0.95) !important;
+        border: 1px solid rgba(99,179,237,0.2) !important;
+        border-radius: 8px !important;
+        min-height: 42px !important;
+    }
+    .stMultiSelect label {
+        color: #A0AEC0 !important;
+        font-size: 0.78rem !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.04em !important;
+        text-transform: uppercase !important;
+    }
+    /* Selected tag pills */
+    .stMultiSelect [data-baseweb="tag"] {
+        background: linear-gradient(135deg, #1A3A5C 0%, #1A4A5C 100%) !important;
+        border: 1px solid rgba(99,179,237,0.3) !important;
+        border-radius: 6px !important;
+        color: #63B3ED !important;
+        font-size: 0.78rem !important;
+        padding: 2px 8px !important;
+        max-width: 150px !important;
+    }
+    .stMultiSelect [data-baseweb="tag"] span {
+        color: #63B3ED !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+    }
+    /* Tag close button */
+    .stMultiSelect [data-baseweb="tag"] [role="presentation"] {
+        color: rgba(99,179,237,0.6) !important;
+    }
+    /* Dropdown list background */
+    .stMultiSelect [data-baseweb="popover"] {
+        background: rgba(15,27,45,0.98) !important;
+        border: 1px solid rgba(99,179,237,0.15) !important;
+        border-radius: 8px !important;
+    }
+    .stMultiSelect [role="option"] {
+        background: rgba(15,27,45,0.98) !important;
+        color: #CBD5E0 !important;
+        font-size: 0.85rem !important;
+    }
+    .stMultiSelect [role="option"]:hover {
+        background: rgba(26,41,66,0.95) !important;
+        color: #63B3ED !important;
+    }
+    /* Input text inside multiselect */
+    .stMultiSelect input {
+        color: #CBD5E0 !important;
+        background: transparent !important;
+    }
+
     .stCaption {
         color: #718096 !important;
         font-size: 0.78rem !important;
