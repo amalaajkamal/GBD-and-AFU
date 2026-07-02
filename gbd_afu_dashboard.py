@@ -214,24 +214,50 @@ st.markdown("""
         border-radius: 8px;
         overflow: hidden;
     }
+    .stDataFrame [data-testid="stDataFrameResizable"] {
+        background: rgba(15,27,45,0.95) !important;
+    }
+    .stDataFrame table {
+        background: rgba(15,27,45,0.95) !important;
+        color: #CBD5E0 !important;
+    }
+    .stDataFrame th {
+        background: rgba(26,41,66,0.95) !important;
+        color: #63B3ED !important;
+        border-bottom: 1px solid rgba(99,179,237,0.2) !important;
+    }
+    .stDataFrame td {
+        background: rgba(15,27,45,0.95) !important;
+        color: #CBD5E0 !important;
+        border-color: rgba(99,179,237,0.08) !important;
+    }
 
     /* ── Tabs ── */
     .stTabs [data-baseweb="tab-list"] {
         background: rgba(15, 27, 45, 0.5);
         border-radius: 8px;
-        padding: 4px;
-        gap: 4px;
+        padding: 6px 8px;
+        gap: 8px;
+        border: 1px solid rgba(99,179,237,0.1);
     }
     .stTabs [data-baseweb="tab"] {
-        background: transparent;
+        background: rgba(99,179,237,0.04);
         color: #718096;
         border-radius: 6px;
         font-size: 0.85rem;
         font-weight: 500;
+        padding: 8px 18px;
+        border: 1px solid rgba(99,179,237,0.08);
+        white-space: nowrap;
+    }
+    .stTabs [data-baseweb="tab"]:hover {
+        color: #A0AEC0;
+        background: rgba(99,179,237,0.08);
     }
     .stTabs [aria-selected="true"] {
         background: linear-gradient(135deg, #1A3A5C 0%, #1A4A5C 100%) !important;
         color: #63B3ED !important;
+        border-color: rgba(99,179,237,0.3) !important;
     }
 
     /* ── Info / warning banners ── */
@@ -1395,7 +1421,12 @@ elif page == "🔗 Integrated Multi-Source Analysis":
                                   marker_color='#854F0B'))
         fig_div.add_trace(go.Bar(name='Hospitalization Rank (of 5)', x=df_div['Disease Category'], y=df_div['Hospitalization Rank (of 5)'],
                                   marker_color='#3B82F6'))
-        fig_div.update_layout(barmode='group', yaxis_title='Rank (1 = highest)', yaxis=dict(autorange='reversed'),
+        fig_div.update_layout(barmode='group', yaxis_title='Rank (1 = highest)',
+                               yaxis=dict(autorange='reversed', gridcolor='rgba(99,179,237,0.06)', showline=False),
+                               xaxis=dict(showgrid=False, showline=False),
+                               plot_bgcolor='rgba(15,27,45,0)', paper_bgcolor='rgba(15,27,45,0)',
+                               font=dict(color='#CBD5E0'),
+                               legend=dict(font=dict(color='#CBD5E0', size=10), bgcolor='rgba(15,27,45,0.6)'),
                                height=380, margin=dict(l=20, r=20, t=20, b=60))
         st.plotly_chart(fig_div, use_container_width=True)
 
