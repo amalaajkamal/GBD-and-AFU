@@ -913,7 +913,7 @@ elif page == "📉 Age-Standardized Rate Trends":
     st.caption("Source: GBD 2023 (IHME) | Canadians aged 60+ | Rates per 100,000 — population-adjusted, shows genuine disease risk change independent of demographics")
     st.markdown("Controls for population growth — shows the true burden trajectory")
 
-    col_left, col_right = st.columns([3, 2])
+    col_left, col_right = st.columns([2, 3])
 
     with col_left:
         st.markdown('<p class="section-header">Rate trends, 1995–2023</p>', unsafe_allow_html=True)
@@ -925,7 +925,7 @@ elif page == "📉 Age-Standardized Rate Trends":
                     name=disease, line=dict(color=DISEASE_COLORS[disease], width=2.5),
                     marker=dict(size=6)
                 ))
-        fig.update_layout(height=500, xaxis_title="Year",
+        fig.update_layout(height=600, xaxis_title="Year",
                            yaxis_title="Age-standardized rate per 100,000",
                            plot_bgcolor='rgba(15,27,45,0)', paper_bgcolor='rgba(15,27,45,0)',
                            xaxis=dict(showgrid=False, showline=False),
@@ -950,7 +950,7 @@ elif page == "📉 Age-Standardized Rate Trends":
         x_min = df_rate['Rate Change (%)'].min()
         x_max = df_rate['Rate Change (%)'].max()
         padding = (x_max - x_min) * 0.18
-        fig2.update_layout(showlegend=False, height=500,
+        fig2.update_layout(showlegend=False, height=600,
                             plot_bgcolor='rgba(15,27,45,0)', paper_bgcolor='rgba(15,27,45,0)',
                             xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)',
                                        ticksuffix='%', dtick=10, tick0=0,
