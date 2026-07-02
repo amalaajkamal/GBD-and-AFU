@@ -1362,11 +1362,12 @@ elif page == "🏥 Hospitalization Burden & ALC":
             textposition='outside'
         ))
         fig_alc.update_layout(title='Patient days in ALC (%), 2024–2025', xaxis_title='Patient Days in ALC (%)',
-                               height=420, margin=dict(l=160, r=60, t=10, b=10),
+                               height=420, margin=dict(l=160, r=80, t=40, b=50),
                                plot_bgcolor='rgba(15,27,45,0)', paper_bgcolor='rgba(15,27,45,0)',
                                xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)', showline=False),
                                yaxis=dict(showgrid=False, showline=False),
-                               font=dict(color='#CBD5E0'))
+                               font=dict(color='#CBD5E0'),
+                               title_font=dict(color='#CBD5E0', size=13))
         st.plotly_chart(fig_alc, use_container_width=True)
 
         st.markdown(f"Canada (excl. Quebec) overall: **{alc_canada_df['Patient Days in ALC (%)'].iloc[0]:.1f}%** "
