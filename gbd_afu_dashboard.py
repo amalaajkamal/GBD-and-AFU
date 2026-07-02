@@ -965,11 +965,11 @@ elif page == "📉 Age-Standardized Rate Trends":
         fig2.add_vline(x=0, line_color='rgba(99,179,237,0.3)', line_width=1)
         x_min = df_rate['Rate Change (%)'].min()
         x_max = df_rate['Rate Change (%)'].max()
-        padding = (x_max - x_min) * 0.18
+        padding = (x_max - x_min) * 0.25
         fig2.update_layout(showlegend=False, height=600,
                             plot_bgcolor='rgba(15,27,45,0)', paper_bgcolor='rgba(15,27,45,0)',
                             xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)',
-                                       ticksuffix='%', dtick=10, tick0=0,
+                                       ticksuffix='%', dtick=15, tick0=0,
                                        range=[x_min - padding, x_max + padding]),
                             yaxis=dict(showgrid=False),
                             margin=dict(l=0, r=70, t=5, b=40))
