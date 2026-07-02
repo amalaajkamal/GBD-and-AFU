@@ -248,6 +248,59 @@ st.markdown("""
     h1, h2, h3, h4 {
         color: #E2E8F0;
     }
+    .metric-card-custom {
+        background: linear-gradient(135deg, rgba(26,41,66,0.95) 0%, rgba(22,32,53,0.95) 100%);
+        border: 1px solid rgba(99,179,237,0.18);
+        border-radius: 10px;
+        padding: 1rem 1.2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+    .metric-card-custom .mc-label {
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #718096;
+        margin: 0;
+    }
+    .metric-card-custom .mc-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #E2E8F0;
+        margin: 0;
+        line-height: 1.2;
+    }
+    .metric-card-custom .mc-sublabel {
+        font-size: 0.78rem;
+        color: #718096;
+        margin: 0;
+    }
+    .metric-card-custom .mc-delta-pos {
+        font-size: 0.82rem;
+        color: #48BB78;
+        font-weight: 600;
+        margin: 0;
+    }
+    .metric-card-custom .mc-delta-neg {
+        font-size: 0.82rem;
+        color: #FC814A;
+        font-weight: 600;
+        margin: 0;
+    }
+    /* ── Selectbox / dropdown dark styling ── */
+    .stSelectbox > div > div {
+        background: rgba(26,41,66,0.95) !important;
+        border: 1px solid rgba(99,179,237,0.2) !important;
+        border-radius: 8px !important;
+        color: #E2E8F0 !important;
+    }
+    .stSelectbox label {
+        color: #CBD5E0 !important;
+        font-size: 0.9rem !important;
+    }
+
     .stCaption {
         color: #718096 !important;
         font-size: 0.78rem !important;
@@ -619,57 +672,6 @@ if page == "📊 Overall Disease Burden":
     st.markdown('<p class="sub-title">A multi-source analysis using GBD 2023, CIHI, Statistics Canada, and CLSA data</p>', unsafe_allow_html=True)
 
     # ── Metric cards — 2 rows x 3 columns ──
-    st.markdown("""
-    <style>
-    .metric-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 12px;
-        margin-bottom: 1.5rem;
-    }
-    .metric-card-custom {
-        background: linear-gradient(135deg, rgba(26,41,66,0.95) 0%, rgba(22,32,53,0.95) 100%);
-        border: 1px solid rgba(99,179,237,0.18);
-        border-radius: 10px;
-        padding: 1rem 1.2rem;
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-    }
-    .metric-card-custom .mc-label {
-        font-size: 0.72rem;
-        font-weight: 600;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        color: #718096;
-        margin: 0;
-    }
-    .metric-card-custom .mc-value {
-        font-size: 1.6rem;
-        font-weight: 700;
-        color: #E2E8F0;
-        margin: 0;
-        line-height: 1.1;
-    }
-    .metric-card-custom .mc-sublabel {
-        font-size: 0.78rem;
-        color: #718096;
-        margin: 0;
-    }
-    .metric-card-custom .mc-delta-pos {
-        font-size: 0.82rem;
-        color: #48BB78;
-        font-weight: 600;
-        margin: 0;
-    }
-    .metric-card-custom .mc-delta-neg {
-        font-size: 0.82rem;
-        color: #FC814A;
-        font-weight: 600;
-        margin: 0;
-    }
-    </style>
-    """, unsafe_allow_html=True)
 
     r1c1, r1c2, r1c3 = st.columns(3)
     r2c1, r2c2, r2c3 = st.columns(3)
@@ -1011,8 +1013,8 @@ elif page == "🗺️ Provincial Burden & Demographics":
                            labels={'Growth % (2020-24)': 'Senior population growth, 2020–2024 (%)',
                                    'Rx per 1,000 Seniors': 'Antidepressant Rx per 1,000 seniors'})
         fig2.update_traces(textposition='top center')
-        fig2.update_layout(showlegend=False, height=420, plot_bgcolor='rgba(0,0,0,0)',
-                            paper_bgcolor='rgba(0,0,0,0)', margin=dict(l=0, r=20, t=10, b=40))
+        fig2.update_layout(showlegend=False, height=420, plot_bgcolor='rgba(15,27,45,0)',
+                            paper_bgcolor='rgba(15,27,45,0)', margin=dict(l=0, r=30, t=10, b=40))
         st.plotly_chart(fig2, use_container_width=True)
 
     st.markdown("---")
