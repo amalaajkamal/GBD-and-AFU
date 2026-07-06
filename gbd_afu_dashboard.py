@@ -460,7 +460,7 @@ ALC_PROVINCES = [p for p in PROVINCES if p != 'Quebec']  # Quebec excluded from 
 
 
 # ── DATA LOADING: GBD (optional real files, else verified fallback) ──
-@st.cache_data
+@st.cache_data(show_spinner=False)
 def load_gbd_data():
     """Optionally load real GBD CSV/XLSX files if present alongside this script."""
     file_map = {
@@ -497,7 +497,7 @@ def load_gbd_data():
     return None, missing
 
 
-@st.cache_data
+@st.cache_data(show_spinner=False)
 def get_gbd_fallback():
     """Verified GBD 2023 data, Canadians 60+, twelve NCD Level 2 categories.
     Matches the paper's Tables 1-3 (12-category extension)."""
@@ -541,7 +541,7 @@ def get_gbd_fallback():
     return daly_data, rate_data, deaths_2023
 
 
-@st.cache_data
+@st.cache_data(show_spinner=False)
 def get_allcause_gbd():
     """All-cause GBD 2023 totals for Canadians 60+ — the broader denominator described in
     paper Section 3.1, distinct from the twelve categories analyzed in depth elsewhere."""
@@ -551,7 +551,7 @@ def get_allcause_gbd():
     }
 
 
-@st.cache_data
+@st.cache_data(show_spinner=False)
 def compute_forecasts(daly_data):
     """Polynomial regression (degree=2) forecasts, 2024-2040. Matches paper Table 8
     (12-category extension)."""
@@ -571,7 +571,7 @@ def compute_forecasts(daly_data):
     return forecasts, forecast_years, metrics
 
 
-@st.cache_data
+@st.cache_data(show_spinner=False)
 def get_provincial_pharma():
     """CIHI Pharmaceutical Data Tool — senior population, growth, antidepressant Rx, all ten
     provinces. Matches paper Table 4. (Unaffected by the 7->12 disease-category expansion.)"""
@@ -589,7 +589,7 @@ def get_provincial_pharma():
     ])
 
 
-@st.cache_data
+@st.cache_data(show_spinner=False)
 def get_statcan_population():
     """Statistics Canada Table 17-10-0057-01 — M2 scenario — 65+ population (thousands),
     annual 2025-2040, Canada and all ten provinces. Matches paper Table 5.
@@ -613,7 +613,7 @@ def get_statcan_population():
     return df
 
 
-@st.cache_data
+@st.cache_data(show_spinner=False)
 def get_cihi_hosp_65plus():
     """CIHI HMDB/OMHRS 2024-2025 — top 10 inpatient hospitalizations, age 65+. Matches paper
     Table 6. (Unaffected by the 7->12 disease-category expansion.)"""
@@ -631,7 +631,7 @@ def get_cihi_hosp_65plus():
     ])
 
 
-@st.cache_data
+@st.cache_data(show_spinner=False)
 def get_national_hosp_rate_trend():
     """CIHI HMDB Table 1 — national age-sex-standardized hospitalization rate, 2020-21 to
     2024-25. (Unaffected by the 7->12 disease-category expansion.)"""
@@ -644,7 +644,7 @@ def get_national_hosp_rate_trend():
     ])
 
 
-@st.cache_data
+@st.cache_data(show_spinner=False)
 def get_cihi_alc():
     """CIHI HMDB/OMHRS Table 7 — ALC patient-day proportions, 2024-2025, nine provinces
     (Quebec excluded; see paper Section 2.4) plus the Canada total. Matches paper Table 7.
