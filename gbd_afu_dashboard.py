@@ -25,7 +25,7 @@ import os
 # ── PAGE CONFIG ──
 st.set_page_config(
     page_title="Disease Burden Among Aging Canadians",
-    page_icon="🍁",
+    page_icon="🏥",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -720,7 +720,7 @@ TOTAL_1995 = sum(v[0] for v in daly_data.values())
 TOTAL_GROWTH_PCT = (TOTAL_2023 - TOTAL_1995) / TOTAL_1995 * 100
 
 # ── SIDEBAR ──
-st.sidebar.markdown("## 🍁 Disease Burden Dashboard")
+st.sidebar.markdown("## 🏥 Disease Burden Dashboard")
 st.sidebar.markdown("**GBD 2023 · CIHI · Statistics Canada · CLSA**")
 st.sidebar.markdown("---")
 
@@ -1225,7 +1225,7 @@ elif page == "🗺️ Provincial Burden & Demographics":
 # ============================================================
 elif page == "🔮 Forecasting Through 2040":
     st.markdown('<p class="main-title">Disease Burden Forecasting, 2024–2040</p>', unsafe_allow_html=True)
-    st.markdown("Polynomial regression (degree=2) with cubic spline interpolation | R² > 0.96 | MAPE < 3.1%")
+    st.markdown("Polynomial regression (degree=2) with cubic spline interpolation | R² > 0.96 | Mean LOO-CV MAPE: 3.23% (range: 0.52%–7.65%)")
 
     total_2040 = sum(forecasts[d][16] for d in DISEASES)
     total_forecast_growth = (total_2040 - TOTAL_2023) / TOTAL_2023 * 100
@@ -1253,7 +1253,7 @@ elif page == "🔮 Forecasting Through 2040":
         st.markdown("""<div class="metric-card-custom">
             <p class="mc-label">Model Performance</p>
             <p class="mc-value">R² &gt; 0.96</p>
-            <p class="mc-sublabel">MAPE &lt; 3.1% · All 12 diseases</p>
+            <p class="mc-sublabel">Mean LOO-CV MAPE: 3.23% · All 12 diseases</p>
         </div>""", unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
@@ -1326,7 +1326,7 @@ elif page == "🔮 Forecasting Through 2040":
     (+81.7%) and mental disorders (+80.8%). This reinforces the need for proactive expansion of
     substance use treatment, mental health, and musculoskeletal care capacity for older
     Canadians over the next two decades. Model: polynomial regression (degree=2), R² > 0.96,
-    MAPE < 3.1% for all disease categories.
+    Mean LOO-CV MAPE: 3.23% across all twelve categories (range: 0.52% for neurological disorders to 7.65% for diabetes and kidney diseases).
     </div>
     """, unsafe_allow_html=True)
 
