@@ -693,27 +693,13 @@ CLSA_FINDINGS = {
 
 
 # ── LOAD DATA ──
-gbd_raw, missing_files = load_gbd_data()
+# Always use verified fallback constants for cloud deployment.
+# Raw GBD files in the repo contain only the original 7 categories and
+# would corrupt the 12-category daly_data if loaded. All constants were
+# extracted from the raw files and verified — see data_verification.md.
+missing_files = list(DISEASES)  # shown in sidebar info only
 daly_data, rate_data, deaths_2023 = get_gbd_fallback()
 allcause = get_allcause_gbd()
-
-ORIGINAL_7 = [
-    'Neoplasms', 'Cardiovascular diseases', 'Neurological disorders',
-    'Musculoskeletal disorders', 'Chronic respiratory diseases',
-    'Diabetes and kidney diseases', 'Mental disorders'
-]
-
-if gbd_raw is not None:
-    daly_pivot = gbd_raw[
-        (gbd_raw['age_name'] == '60+ years') &
-        (gbd_raw['metric_name'] == 'Number') &
-        (gbd_raw['measure_name'] == 'DALYs (Disability-Adjusted Life Years)')
-    ].pivot_table(index='cause_name', columns='year', values='val')
-    for disease in ORIGINAL_7:  # only update original 7 — new 5 use verified fallback
-        if disease in daly_pivot.index:
-            vals = [daly_pivot.loc[disease, y] for y in OBS_YEARS if y in daly_pivot.columns]
-            if len(vals) == len(OBS_YEARS):  # only override if all 7 years present
-                daly_data[disease] = vals
 
 forecasts, forecast_years, forecast_metrics = compute_forecasts(daly_data)
 prov_pharma_df = get_provincial_pharma()
@@ -761,11 +747,7 @@ else:
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("### Data Files (optional)")
-st.sidebar.info("If present, real GBD CSV/XLSX files in this folder will be used instead of the embedded, verified dataset.")
-if missing_files:
-    st.sidebar.caption(f"Using embedded data for: {', '.join(sorted(set(missing_files))[:3])}{'…' if len(set(missing_files)) > 3 else ''}")
-else:
-    st.sidebar.success("✅ Real GBD files loaded")
+st.sidebar.info("All figures use verified constants extracted from the original GBD source files. See data_verification.md in the GitHub repo for the full audit trail.")
 
 
 # ============================================================
