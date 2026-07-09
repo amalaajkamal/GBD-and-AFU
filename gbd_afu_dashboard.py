@@ -34,6 +34,8 @@ st.set_page_config(
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    /* ── Hide Streamlit default header ── */
     header[data-testid="stHeader"] {
         background: rgba(15,27,45,0) !important;
         height: 0rem !important;
@@ -47,12 +49,18 @@ st.markdown("""
     .stDeployButton {display: none !important;}
     [data-testid="stToolbar"] {display: none !important;}
     [data-testid="stDecoration"] {display: none !important;}
+
+    /* ── Global ── */
     html, body, [class*="css"] {
         font-family: 'Inter', sans-serif;
     }
+
+    /* ── Main background ── */
     .stApp {
         background: linear-gradient(135deg, #0F1B2D 0%, #1A2942 50%, #0F1B2D 100%);
     }
+
+    /* ── Sidebar ── */
     section[data-testid="stSidebar"] {
         background: linear-gradient(180deg, #0A1628 0%, #162035 100%);
         border-right: 1px solid rgba(99, 179, 237, 0.15);
@@ -107,6 +115,8 @@ st.markdown("""
         margin-bottom: 0.1rem;
         color: #A0AEC0 !important;
     }
+
+    /* ── Main content area ── */
     .main .block-container {
         background: rgba(15, 27, 45, 0.0);
         color: #E2E8F0;
@@ -115,6 +125,8 @@ st.markdown("""
         padding-right: 1.5rem !important;
         max-width: 100% !important;
     }
+
+    /* ── Typography ── */
     .main-title {
         font-size: 1.9rem;
         font-weight: 700;
@@ -139,6 +151,8 @@ st.markdown("""
         margin-bottom: 1rem;
         letter-spacing: 0.01em;
     }
+
+    /* ── Metric cards ── */
     [data-testid="metric-container"] {
         background: linear-gradient(135deg, rgba(26, 41, 66, 0.9) 0%, rgba(22, 32, 53, 0.9) 100%);
         border: 1px solid rgba(99, 179, 237, 0.15);
@@ -161,6 +175,8 @@ st.markdown("""
     [data-testid="metric-container"] [data-testid="stMetricDelta"] {
         font-size: 0.8rem !important;
     }
+
+    /* ── Callout boxes ── */
     .highlight-box {
         background: linear-gradient(135deg, rgba(99, 179, 237, 0.08) 0%, rgba(79, 209, 197, 0.05) 100%);
         border-left: 3px solid #63B3ED;
@@ -200,6 +216,8 @@ st.markdown("""
         text-align: left;
         vertical-align: top;
     }
+
+    /* ── Dataframes ── */
     .stDataFrame {
         border: 1px solid rgba(99, 179, 237, 0.12);
         border-radius: 8px;
@@ -222,6 +240,8 @@ st.markdown("""
         color: #CBD5E0 !important;
         border-color: rgba(99,179,237,0.08) !important;
     }
+
+    /* ── Tabs ── */
     .stTabs [data-baseweb="tab-list"] {
         background: rgba(15, 27, 45, 0.5);
         border-radius: 8px;
@@ -248,15 +268,21 @@ st.markdown("""
         color: #63B3ED !important;
         border-color: rgba(99,179,237,0.3) !important;
     }
+
+    /* ── Info / warning banners ── */
     .stInfo {
         background: rgba(99, 179, 237, 0.08);
         border: 1px solid rgba(99, 179, 237, 0.2);
         border-radius: 8px;
         color: #CBD5E0;
     }
+
+    /* ── Dividers ── */
     hr {
         border-color: rgba(99, 179, 237, 0.1);
     }
+
+    /* ── General text ── */
     p, li, span {
         color: #CBD5E0;
     }
@@ -304,6 +330,7 @@ st.markdown("""
         font-weight: 600;
         margin: 0;
     }
+    /* ── Selectbox / dropdown dark styling ── */
     .stSelectbox > div > div {
         background: rgba(26,41,66,0.95) !important;
         border: 1px solid rgba(99,179,237,0.2) !important;
@@ -314,6 +341,8 @@ st.markdown("""
         color: #CBD5E0 !important;
         font-size: 0.9rem !important;
     }
+
+    /* ── Multiselect dark styling ── */
     .stMultiSelect > div > div {
         background: rgba(15,27,45,0.95) !important;
         border: 1px solid rgba(99,179,237,0.2) !important;
@@ -327,6 +356,7 @@ st.markdown("""
         letter-spacing: 0.04em !important;
         text-transform: uppercase !important;
     }
+    /* Selected tag pills */
     .stMultiSelect [data-baseweb="tag"] {
         background: linear-gradient(135deg, #1A3A5C 0%, #1A4A5C 100%) !important;
         border: 1px solid rgba(99,179,237,0.3) !important;
@@ -342,9 +372,11 @@ st.markdown("""
         text-overflow: ellipsis !important;
         white-space: nowrap !important;
     }
+    /* Tag close button */
     .stMultiSelect [data-baseweb="tag"] [role="presentation"] {
         color: rgba(99,179,237,0.6) !important;
     }
+    /* Dropdown list background */
     .stMultiSelect [data-baseweb="popover"] {
         background: rgba(15,27,45,0.98) !important;
         border: 1px solid rgba(99,179,237,0.15) !important;
@@ -359,14 +391,18 @@ st.markdown("""
         background: rgba(26,41,66,0.95) !important;
         color: #63B3ED !important;
     }
+    /* Input text inside multiselect */
     .stMultiSelect input {
         color: #CBD5E0 !important;
         background: transparent !important;
     }
+
     .stCaption {
         color: #718096 !important;
         font-size: 0.78rem !important;
     }
+
+    /* ── Section dividers ── */
     .section-divider {
         border: none;
         border-top: 1px solid rgba(99,179,237,0.12);
@@ -379,10 +415,13 @@ st.markdown("""
         padding: 1.2rem 1.2rem 0.5rem 1.2rem;
         margin-bottom: 1.2rem;
     }
+
 </style>
 """, unsafe_allow_html=True)
 
 # ── CONSTANTS ──
+# 12-category palette — same hex values used in the paper's rebuilt Figures 1-4,
+# so colors are consistent between the manuscript and this dashboard.
 DISEASE_COLORS = {
     'Neoplasms':                        '#185FA5',
     'Cardiovascular diseases':          '#993C1D',
@@ -417,32 +456,13 @@ PROVINCE_COLORS = {
     'Prince Edward Island':       '#D81B60',
 }
 
-ALC_PROVINCES = [p for p in PROVINCES if p != 'Quebec']  # Quebec excluded from ALC; see paper Limitations
+ALC_PROVINCES = [p for p in PROVINCES if p != 'Quebec']  # Quebec excluded from ALC; see paper Section 2.4
 
 
-# ── DATA LOADING: GBD (verified constants only — see note below) ──
-#
-# NOTE (fix applied): this dashboard previously supported loading raw GBD
-# CSV/XLSX export files from the deployed folder as an override for the
-# embedded, verified constants below. That override path is intentionally
-# disabled: raw exports left in the repository could silently diverge from
-# the values verified against the published paper (e.g. different years,
-# units, or partial category coverage), producing headline numbers that
-# contradict the manuscript with no visible warning. This happened in
-# practice on the Forecasting page and was traced back to stale raw files
-# in the deployed repo. The dashboard now always uses the verified
-# constants in get_gbd_fallback(), matching the Data Explorer page's
-# stated design ("constants are used for reliability and speed").
-USE_RAW_GBD_FILE_OVERRIDE = False  # keep False; see note above
-
-
+# ── DATA LOADING: GBD (optional real files, else verified fallback) ──
 @st.cache_data(show_spinner=False)
 def load_gbd_data():
-    """Optionally load real GBD CSV/XLSX files if present alongside this script.
-    Only used when USE_RAW_GBD_FILE_OVERRIDE is explicitly set to True (debug use)."""
-    if not USE_RAW_GBD_FILE_OVERRIDE:
-        return None, []
-
+    """Optionally load real GBD CSV/XLSX files if present alongside this script."""
     file_map = {
         'Chronic respiratory diseases':     'IHME-GBD_2023_DATA-5da954e9-1_respiratory.csv',
         'Mental disorders':                 'IHME-GBD_2023_DATA-4eb8814a-1_mental.csv',
@@ -451,6 +471,7 @@ def load_gbd_data():
         'Neurological disorders':           'IHME-GBD_2023_DATA-cd6c1a03-1_neuro.csv',
         'Neoplasms':                        'IHME-GBD_2023_DATA-1c9f46d3-1_neo.csv',
         'Cardiovascular diseases':          'IHME-GBD_2023_DATA-141409a9-1_cardio.xlsx',
+        # 5 categories added for the 12-category extension — all loaded from one combined export
         'Digestive diseases':               'IHME-GBD_2023_DATA-13912a7c-1_new_level2_csv.xlsx',
         'Substance use disorders':          'IHME-GBD_2023_DATA-13912a7c-1_new_level2_csv.xlsx',
         'Skin and subcutaneous diseases':   'IHME-GBD_2023_DATA-13912a7c-1_new_level2_csv.xlsx',
@@ -626,7 +647,7 @@ def get_national_hosp_rate_trend():
 @st.cache_data(show_spinner=False)
 def get_cihi_alc():
     """CIHI HMDB/OMHRS Table 7 — ALC patient-day proportions, 2024-2025, nine provinces
-    (Quebec excluded; see paper Limitations) plus the Canada total. Matches paper Table 7.
+    (Quebec excluded; see paper Section 2.4) plus the Canada total. Matches paper Table 7.
     (Unaffected by the 7->12 disease-category expansion.)"""
     rows = pd.DataFrame([
         {'Province': 'Prince Edward Island',        'Hospitalizations (2024-25)': 13245,   'Patient Days in ALC (%)': 28.0},
@@ -646,6 +667,9 @@ def get_cihi_alc():
 
 
 CLSA_FINDINGS = {
+    # All values computed directly from CLSA Tracking cohort (wave 3-4),
+    # n=21,220 participants aged 65+. Source: clsa_Baseline_StratifiedFrequencies_Amala_Jolly.xlsx
+    # Verified by 03_clsa_analysis.py
     'total_n': 21220,
     'stratified_n': 8830,
     'hypertension_pct': 38.2,
@@ -661,6 +685,8 @@ CLSA_FINDINGS = {
     'volunteering_monthly_pct': 38.5,
     'other_activities_monthly_pct': 53.6,
     'self_rated_health_good_pct': 86.5,
+    # Published-paper findings retained only for the social engagement protective role
+    # (longitudinal outcome, not computable from frequency data alone)
     'volunteer_uplift_pct': 17,   # Ho et al. 2023 IJERPH
     'recreational_uplift_pct': 15, # Ho et al. 2023 IJERPH
 }
@@ -711,6 +737,7 @@ st.sidebar.markdown("### Filters")
 selected_diseases = st.sidebar.multiselect("Select diseases", DISEASES, default=DISEASES)
 filtered_diseases = [d for d in selected_diseases if d in DISEASES] or DISEASES
 
+# Pages where the province filter actually affects the output
 PROVINCE_FILTER_PAGES = [
     "🗺️ Provincial Burden & Demographics",
     "👥 Population Projections (2025–2040)",
@@ -726,8 +753,11 @@ else:
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("### Data Files (optional)")
-st.sidebar.info("This dashboard uses embedded, verified constants (matching the published paper's Tables 1-8) for reliability. Raw-file override is disabled by design; see code comments.")
-st.sidebar.success("✅ Using verified embedded dataset")
+st.sidebar.info("If present, real GBD CSV/XLSX files in this folder will be used instead of the embedded, verified dataset.")
+if missing_files:
+    st.sidebar.caption(f"Using embedded data for: {', '.join(sorted(set(missing_files))[:3])}{'…' if len(set(missing_files)) > 3 else ''}")
+else:
+    st.sidebar.success("✅ Real GBD files loaded")
 
 
 # ============================================================
@@ -736,6 +766,8 @@ st.sidebar.success("✅ Using verified embedded dataset")
 if page == "📊 Overall Disease Burden":
     st.markdown('<p class="main-title">Disease Burden Among Aging Canadians</p>', unsafe_allow_html=True)
     st.markdown('<p class="sub-title">A multi-source analysis using GBD 2023, CIHI, Statistics Canada, and CLSA data</p>', unsafe_allow_html=True)
+
+    # ── Metric cards — 2 rows x 3 columns ──
 
     r1c1, r1c2, r1c3 = st.columns(3)
     r2c1, r2c2, r2c3 = st.columns(3)
@@ -850,6 +882,7 @@ if page == "📊 Overall Disease Burden":
         )
         st.plotly_chart(fig_pie, use_container_width=True)
 
+    # ── Key Findings as a bottom row ──
     st.markdown("---")
     st.markdown('<p class="section-header">Key Findings</p>', unsafe_allow_html=True)
     st.markdown("<br>", unsafe_allow_html=True)
@@ -972,6 +1005,7 @@ elif page == "📉 Age-Standardized Rate Trends":
                          for d in filtered_diseases if d in rate_data}
         df_rate = pd.DataFrame({'Disease': list(rate_changes.keys()), 'Rate Change (%)': list(rate_changes.values())})
         df_rate = df_rate.sort_values('Rate Change (%)')
+        # Shorten disease names for the bar chart y-axis so bars get more width
         name_map = {
             'Cardiovascular diseases': 'Cardiovascular',
             'Chronic respiratory diseases': 'Chr. respiratory',
@@ -1104,6 +1138,7 @@ elif page == "🗺️ Provincial Burden & Demographics":
 
     fig_scissor = go.Figure()
 
+    # Background bars — population growth rate
     fig_scissor.add_trace(go.Bar(
         x=df_scissor['Province'],
         y=df_scissor['Growth % (2020-24)'],
@@ -1113,6 +1148,7 @@ elif page == "🗺️ Provincial Burden & Demographics":
         yaxis='y1',
     ))
 
+    # Overlay line — antidepressant Rx per 1,000
     fig_scissor.add_trace(go.Scatter(
         x=df_scissor['Province'],
         y=df_scissor['Rx per 1,000 Seniors'],
@@ -1366,11 +1402,8 @@ elif page == "👥 Population Projections (2025–2040)":
     <div class="highlight-box">
     <b>Key Finding:</b> Alberta's 65+ population is projected to grow by <b>+47.8%</b> by 2040 — the
     fastest rate of any of the ten provinces, nearly double the next-fastest, Prince Edward Island
-    (+27.3%) and Saskatchewan (+25.7%). Three of the four Atlantic provinces (Nova Scotia, New
-    Brunswick, and Newfoundland and Labrador) show the slowest projected growth, ranging from
-    +16.8% to +18.5%; Prince Edward Island, the fourth Atlantic province, shows notably higher
-    projected growth (+27.3%), despite its existing community-care capacity pressures (see
-    Hospitalization Burden & ALC page).
+    (+27.3%) and Saskatchewan (+25.7%). The four Atlantic provinces show the slowest projected growth,
+    ranging from +16.8% to +27.3%.
     </div>
     """, unsafe_allow_html=True)
 
@@ -1489,7 +1522,7 @@ elif page == "🏥 Hospitalization Burden & ALC":
         st.markdown(f"Canada (excl. Quebec) overall: **{alc_canada_df['Patient Days in ALC (%)'].iloc[0]:.1f}%** "
                     f"across {alc_canada_df['Hospitalizations (2024-25)'].iloc[0]:,} hospitalizations. "
                     "Quebec is excluded — its ALC definition is structurally narrower than the one used "
-                    "in the other nine provinces (see paper Limitations). The Canada total also includes "
+                    "in the other nine provinces (see paper Section 2.4). The Canada total also includes "
                     "Yukon, Northwest Territories, and Nunavut, which are not shown as separate rows.")
 
         st.markdown("""
@@ -1655,12 +1688,10 @@ elif page == "📋 Data Explorer":
     st.info(
         "**About the data in this dashboard** — All figures are embedded as verified constants "
         "extracted programmatically from the original source files using the Python notebooks "
-        "in the accompanying GitHub repository. Raw-file override at runtime is intentionally "
-        "disabled (see `load_gbd_data()` in the source code) so that this dashboard's numbers "
-        "cannot silently drift from the verified constants used to produce the published paper's "
-        "Tables 1-8, regardless of what other files may exist in the deployed repository. Every "
-        "number traces back to a specific source file and notebook cell, documented in "
-        "`data_verification.md` in the GitHub repository. To verify any figure independently: "
+        "in the accompanying GitHub repository. The dashboard runs on Streamlit Cloud, which "
+        "does not have access to raw files at runtime — constants are used for reliability and "
+        "speed. Every number traces back to a specific source file and notebook cell, documented "
+        "in `data_verification.md` in the GitHub repository. To verify any figure independently: "
         "(1) run the notebooks in the repo against the original source files, or "
         "(2) query the GBD Results Tool directly at vizhub.healthdata.org/gbd-results using "
         "the parameters in paper Methods Section 2.1, or "
