@@ -729,7 +729,7 @@ st.sidebar.markdown("---")
 page = st.sidebar.radio(
     "Navigate to",
     ["📊 Overall Disease Burden", "📈 Absolute DALY Trends", "📉 Age-Standardized Rate Trends",
-     "🗺️ Provincial Burden & Demographics", "🔮 Forecasting Through 2040",
+     "🗺️ Provincial Burden & Demographics",
      "👥 Population Projections (2025–2040)", "🏥 Hospitalization Burden & ALC",
      "🔗 Integrated Multi-Source Analysis", "📋 Data Explorer"]
 )
@@ -1223,117 +1223,6 @@ elif page == "🗺️ Provincial Burden & Demographics":
 
 
 # ============================================================
-# PAGE 5: FORECASTING THROUGH 2040
-# ============================================================
-elif page == "🔮 Forecasting Through 2040":
-    st.markdown('<p class="main-title">Disease Burden Forecasting, 2024–2040</p>', unsafe_allow_html=True)
-    st.markdown("Polynomial regression (degree=2) with cubic spline interpolation | R² > 0.96 | Mean LOO-CV MAPE: 3.23% (range: 0.52%–7.65%)")
-
-    total_2040 = sum(forecasts[d][16] for d in DISEASES)
-    total_forecast_growth = (total_2040 - TOTAL_2023) / TOTAL_2023 * 100
-
-    fc1, fc2, fc3, fc4 = st.columns(4)
-    with fc1:
-        st.markdown(f"""<div class="metric-card-custom">
-            <p class="mc-label">Current Burden (2023)</p>
-            <p class="mc-value">{TOTAL_2023/1e6:.2f}M DALYs</p>
-            <p class="mc-sublabel">12 NCD disease categories</p>
-        </div>""", unsafe_allow_html=True)
-    with fc2:
-        st.markdown(f"""<div class="metric-card-custom">
-            <p class="mc-label">Projected Burden (2040)</p>
-            <p class="mc-value">{total_2040/1e6:.2f}M DALYs</p>
-            <p class="mc-delta-pos">▲ +{total_forecast_growth:.1f}% from 2023</p>
-        </div>""", unsafe_allow_html=True)
-    with fc3:
-        st.markdown("""<div class="metric-card-custom">
-            <p class="mc-label">Highest Projected Growth</p>
-            <p class="mc-value">Substance Use Disorders</p>
-            <p class="mc-delta-pos">▲ +123.6% by 2040</p>
-        </div>""", unsafe_allow_html=True)
-    with fc4:
-        st.markdown("""<div class="metric-card-custom">
-            <p class="mc-label">Model Performance</p>
-            <p class="mc-value">R² &gt; 0.96</p>
-            <p class="mc-sublabel">Mean LOO-CV MAPE: 3.23% · All 12 diseases</p>
-        </div>""", unsafe_allow_html=True)
-
-    st.markdown("<br>", unsafe_allow_html=True)
-    st.markdown("---")
-    disease_choice = st.selectbox("Select disease to view:", ['All diseases'] + DISEASES)
-    annual_years = np.arange(1995, 2024)
-
-    fig = go.Figure()
-    diseases_to_plot = DISEASES if disease_choice == 'All diseases' else [disease_choice]
-
-    for disease in diseases_to_plot:
-        if disease not in filtered_diseases and disease_choice == 'All diseases':
-            continue
-        color = DISEASE_COLORS[disease]
-        obs_vals = daly_data[disease]
-        cs = CubicSpline(OBS_YEARS, obs_vals)
-        annual_hist = np.maximum(cs(annual_years), 0)
-        forecast = forecasts[disease]
-
-        fig.add_trace(go.Scatter(
-            x=list(annual_years), y=list(annual_hist / 1_000_000),
-            mode='lines', name=f"{disease} (hist)",
-            line=dict(color=color, width=2.5), showlegend=True
-        ))
-        fig.add_trace(go.Scatter(
-            x=list(forecast_years), y=list(forecast / 1_000_000),
-            mode='lines', name=f"{disease} (forecast)",
-            line=dict(color=color, width=2.5, dash='dash'), showlegend=True
-        ))
-
-    fig.add_vline(x=2023, line_color='gray', line_dash='dot', line_width=1.5,
-                  annotation_text="← Historical | Forecast →", annotation_position="top right")
-    fig.update_layout(
-        height=480, xaxis_title="Year", yaxis_title="DALYs (Millions)",
-        plot_bgcolor='rgba(15,27,45,0)', paper_bgcolor='rgba(15,27,45,0)',
-        xaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)'),
-        yaxis=dict(showgrid=True, gridcolor='rgba(99,179,237,0.06)'),
-        legend=dict(orientation='v', x=1.01, y=1, font=dict(color='#CBD5E0', size=10), bgcolor='rgba(15,27,45,0.6)', bordercolor='rgba(99,179,237,0.15)', borderwidth=1),
-        margin=dict(l=0, r=220, t=5, b=30)
-    )
-    st.plotly_chart(fig, use_container_width=True)
-
-    st.markdown("---")
-    st.markdown('<p class="section-header">Forecast Table — DALYs, 2023–2040</p>', unsafe_allow_html=True)
-    forecast_table_data = {'Disease': [], '2023 (obs)': [], '2025': [], '2030': [], '2035': [], '2040': [], 'Growth 2023-2040': []}
-
-    diseases_sorted_by_growth = sorted(DISEASES, key=lambda d: forecast_metrics[d]['growth_2040'], reverse=True)
-    for disease in diseases_sorted_by_growth:
-        f = forecasts[disease]
-        obs = daly_data[disease][-1]
-        growth = forecast_metrics[disease]['growth_2040']
-        forecast_table_data['Disease'].append(disease)
-        forecast_table_data['2023 (obs)'].append(f"{obs:,.0f}")
-        forecast_table_data['2025'].append(f"{f[1]:,.0f}")
-        forecast_table_data['2030'].append(f"{f[6]:,.0f}")
-        forecast_table_data['2035'].append(f"{f[11]:,.0f}")
-        forecast_table_data['2040'].append(f"{f[16]:,.0f}")
-        forecast_table_data['Growth 2023-2040'].append(f"+{growth:.1f}%")
-
-    df_forecast = pd.DataFrame(forecast_table_data).set_index('Disease')
-    st.dataframe(df_forecast, use_container_width=True)
-
-    st.markdown(f"""
-    <div class="warning-box">
-    <b>🔮 2040 Projection Summary</b><br>
-    Total DALYs across 12 disease categories are projected to reach
-    <b>{total_2040/1e6:.2f} million by 2040</b> (+{total_forecast_growth:.1f}% from 2023).
-    Substance use disorders (+123.6%) shows by far the highest projected growth — more than
-    40 percentage points ahead of the next-highest category — followed by digestive diseases
-    (+81.7%) and mental disorders (+80.8%). This reinforces the need for proactive expansion of
-    substance use treatment, mental health, and musculoskeletal care capacity for older
-    Canadians over the next two decades. Model: polynomial regression (degree=2), R² > 0.96,
-    Mean LOO-CV MAPE: 3.23% across all twelve categories (range: 0.52% for neurological disorders to 7.65% for diabetes and kidney diseases).
-    </div>
-    """, unsafe_allow_html=True)
-
-
-# ============================================================
 # PAGE 6: POPULATION PROJECTIONS (2025-2040)
 # ============================================================
 elif page == "👥 Population Projections (2025–2040)":
@@ -1700,8 +1589,8 @@ elif page == "📋 Data Explorer":
         "(3) consult the data verification log at github.com/amalaajkamal/GBD-and-AFU."
     )
 
-    tab1, tab2, tab3, tab4, tab5 = st.tabs(
-        ["GBD: DALYs & Rates", "CIHI: Provincial & Hospitalization", "StatCan: Population", "Forecast", "Download"]
+    tab1, tab2, tab3, tab4 = st.tabs(
+        ["GBD: DALYs & Rates", "CIHI: Provincial & Hospitalization", "StatCan: Population", "Download"]
     )
 
     with tab1:
@@ -1735,17 +1624,6 @@ elif page == "📋 Data Explorer":
                             file_name='StatCan_65plus_Population_M2_2025_2040.csv', mime='text/csv')
 
     with tab4:
-        st.markdown("**Polynomial regression forecast — DALYs among Canadians 60+, 2023–2040 (12 categories)**")
-        f_rows = []
-        for disease in sorted(DISEASES, key=lambda d: forecast_metrics[d]['growth_2040'], reverse=True):
-            f = forecasts[disease]
-            f_rows.append({'Disease': disease, '2023': daly_data[disease][-1], '2025': f[1],
-                            '2030': f[6], '2035': f[11], '2040': f[16],
-                            'Growth 2023-2040': f"+{forecast_metrics[disease]['growth_2040']:.1f}%"})
-        st.dataframe(pd.DataFrame(f_rows).set_index('Disease').style.format({c: "{:,.0f}" for c in ['2023', '2025', '2030', '2035', '2040']}),
-                     use_container_width=True)
-
-    with tab5:
         st.markdown("**Download analysis data as CSV**")
         df_download = pd.DataFrame(daly_data, index=OBS_YEARS).T
         df_download.index.name = 'Disease'
