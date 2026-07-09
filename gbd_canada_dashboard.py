@@ -500,7 +500,9 @@ def load_gbd_data():
 @st.cache_data(show_spinner=False, ttl=3600)
 def get_gbd_fallback():
     """Verified GBD 2023 data, Canadians 60+, twelve NCD Level 2 categories.
-    Matches the paper's Tables 1-3 (12-category extension)."""
+    Matches the paper's Tables 1-3 (12-category extension). rate_data holds TRUE
+    age-standardized rates (WHO World Standard Population, direct method) -- not
+    crude 60+ rates; see paper Section 2.2 / Table 3."""
     daly_data = {
         'Neoplasms':                        [973032, 1023542, 1080966, 1163133, 1294164, 1394261, 1557828],
         'Cardiovascular diseases':          [1196259, 1144752, 1078819, 1051908, 1126587, 1200679, 1333532],
@@ -516,18 +518,18 @@ def get_gbd_fallback():
         'Skin and subcutaneous diseases':   [18263, 21343, 24451, 29243, 35866, 41111, 48238],
     }
     rate_data = {
-        'Cardiovascular diseases':          [25394.7, 22312.9, 18586.5, 15338.9, 13962.4, 13109.0, 13055.7],
-        'Neoplasms':                        [20655.9, 19950.3, 18623.5, 16960.8, 16039.2, 15222.5, 15251.7],
-        'Neurological disorders':           [5242.5, 5581.8, 5705.2, 5645.1, 5655.9, 5641.7, 5699.7],
-        'Musculoskeletal disorders':        [5505.8, 5508.1, 5402.8, 5313.2, 5375.9, 5460.2, 5406.9],
-        'Sense organ diseases':             [2680.2, 2722.9, 2773.9, 2543.8, 2504.4, 2647.4, 2682.8],
-        'Other non-communicable diseases':  [1869.6, 1952.2, 2142.8, 2126.5, 1980.8, 1971.3, 2032.2],
-        'Digestive diseases':               [2739.8, 2632.6, 2549.3, 2414.6, 2439.9, 2477.9, 2684.9],
-        'Chronic respiratory diseases':     [4660.5, 4663.9, 4426.6, 4120.1, 4150.3, 4088.2, 4071.2],
-        'Diabetes and kidney diseases':     [3670.2, 4047.1, 4191.2, 3760.3, 3505.9, 3518.8, 3668.7],
-        'Mental disorders':                 [1580.4, 1547.4, 1554.4, 1588.1, 1601.1, 1618.9, 1900.1],
-        'Substance use disorders':          [405.9, 386.3, 384.2, 414.4, 481.5, 528.4, 605.8],
-        'Skin and subcutaneous diseases':   [387.7, 416.0, 421.3, 426.4, 444.5, 448.9, 472.3],
+        'Cardiovascular diseases':          [23274.5, 19571.0, 15973.9, 13251.2, 12134.9, 11433.8, 11409.2],
+        'Neoplasms':                        [20190.7, 19249.0, 17923.7, 16395.3, 15467.4, 14555.1, 14499.3],
+        'Neurological disorders':           [4671.4, 4747.2, 4721.9, 4705.9, 4779.4, 4791.7, 4843.8],
+        'Musculoskeletal disorders':        [5495.4, 5506.8, 5435.2, 5376.9, 5439.0, 5513.8, 5448.4],
+        'Sense organ diseases':             [2511.5, 2488.5, 2519.1, 2353.1, 2330.7, 2462.9, 2476.6],
+        'Other non-communicable diseases':  [1813.1, 1859.6, 2023.4, 2014.8, 1874.8, 1868.3, 1920.0],
+        'Digestive diseases':               [2617.3, 2453.3, 2357.5, 2248.7, 2286.5, 2320.2, 2522.2],
+        'Chronic respiratory diseases':     [4314.3, 4169.9, 3925.5, 3721.7, 3792.9, 3743.1, 3720.7],
+        'Diabetes and kidney diseases':     [3437.1, 3673.1, 3763.0, 3407.1, 3198.6, 3206.8, 3333.5],
+        'Mental disorders':                 [1613.0, 1593.3, 1600.7, 1622.6, 1632.3, 1651.9, 1942.0],
+        'Substance use disorders':          [420.3, 406.5, 405.4, 431.1, 500.7, 554.5, 649.9],
+        'Skin and subcutaneous diseases':   [376.1, 397.2, 400.9, 408.0, 424.1, 427.6, 448.8],
     }
     deaths_2023 = {
         'Neoplasms': 88335, 'Cardiovascular diseases': 78305,
@@ -693,13 +695,19 @@ CLSA_FINDINGS = {
 
 
 # ── LOAD DATA ──
-# Always use verified fallback constants for cloud deployment.
-# Raw GBD files in the repo contain only the original 7 categories and
-# would corrupt the 12-category daly_data if loaded. All constants were
-# extracted from the raw files and verified — see data_verification.md.
-missing_files = list(DISEASES)  # shown in sidebar info only
+gbd_raw, missing_files = load_gbd_data()
 daly_data, rate_data, deaths_2023 = get_gbd_fallback()
 allcause = get_allcause_gbd()
+
+if gbd_raw is not None:
+    daly_pivot = gbd_raw[
+        (gbd_raw['age_name'] == '60+ years') &
+        (gbd_raw['metric_name'] == 'Number') &
+        (gbd_raw['measure_name'] == 'DALYs (Disability-Adjusted Life Years)')
+    ].pivot_table(index='cause_name', columns='year', values='val')
+    for disease in DISEASES:
+        if disease in daly_pivot.index:
+            daly_data[disease] = [daly_pivot.loc[disease, y] for y in OBS_YEARS if y in daly_pivot.columns]
 
 forecasts, forecast_years, forecast_metrics = compute_forecasts(daly_data)
 prov_pharma_df = get_provincial_pharma()
@@ -747,7 +755,11 @@ else:
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("### Data Files (optional)")
-st.sidebar.info("All figures use verified constants extracted from the original GBD source files. See data_verification.md in the GitHub repo for the full audit trail.")
+st.sidebar.info("If present, real GBD CSV/XLSX files in this folder will be used instead of the embedded, verified dataset.")
+if missing_files:
+    st.sidebar.caption(f"Using embedded data for: {', '.join(sorted(set(missing_files))[:3])}{'…' if len(set(missing_files)) > 3 else ''}")
+else:
+    st.sidebar.success("✅ Real GBD files loaded")
 
 
 # ============================================================
@@ -783,7 +795,7 @@ if page == "📊 Overall Disease Burden":
         <div class="metric-card-custom">
             <p class="mc-label">Fastest Growing Category</p>
             <p class="mc-value">Substance Use Disorders</p>
-            <p class="mc-delta-pos">▲ +223.6% absolute · +49.2% rate</p>
+            <p class="mc-delta-pos">▲ +223.6% absolute · +54.6% rate</p>
             <p class="mc-sublabel">Highest by both measures · 1995–2023</p>
         </div>""", unsafe_allow_html=True)
     with r2c1:
@@ -791,7 +803,7 @@ if page == "📊 Overall Disease Burden":
         <div class="metric-card-custom">
             <p class="mc-label">Greatest Rate Improvement</p>
             <p class="mc-value">Cardiovascular Diseases</p>
-            <p class="mc-delta-neg">▼ −48.6% age-standardized rate</p>
+            <p class="mc-delta-neg">▼ −51.0% age-standardized rate</p>
             <p class="mc-sublabel">Evidence that sustained intervention works</p>
         </div>""", unsafe_allow_html=True)
     with r2c2:
@@ -881,14 +893,14 @@ if page == "📊 Overall Disease Burden":
         st.markdown("""
         <div class="warning-box">
         <b>📈 Substance use disorders</b><br>
-        Highest absolute DALY growth (+223.6%) AND rate increase (+49.2%) — more than double
+        Highest absolute DALY growth (+223.6%) AND rate increase (+54.6%) — more than double
         mental disorders. Still smallest burden today — window for early intervention.
         </div>""", unsafe_allow_html=True)
     with kf2:
         st.markdown("""
         <div class="warning-box">
         <b>📈 Mental disorders</b><br>
-        +160.7% absolute growth, +20.2% rate increase, far larger existing burden (194,075 DALYs).
+        +160.7% absolute growth, +20.4% rate increase, far larger existing burden (194,075 DALYs).
         Two related but distinct priorities alongside substance use disorders.
         </div>""", unsafe_allow_html=True)
     with kf3:
@@ -902,7 +914,7 @@ if page == "📊 Overall Disease Burden":
         st.markdown("""
         <div class="success-box">
         <b>✅ Cardiovascular disease</b><br>
-        Age-standardized rate fell -48.6% — the strongest evidence in this dataset that
+        Age-standardized rate fell -51.0% — the strongest evidence in this dataset that
         sustained, targeted intervention works over decades.
         </div>""", unsafe_allow_html=True)
     with kf5:
@@ -1046,9 +1058,9 @@ elif page == "📉 Age-Standardized Rate Trends":
 
     st.markdown("""
     <div class="highlight-box">
-    <b>Key finding:</b> Cardiovascular disease rate fell -48.6% — the strongest evidence that
-    targeted intervention works. Substance use disorders rate rose +49.2% even after
-    controlling for population growth — more than double mental disorders' +20.2% rate
+    <b>Key finding:</b> Cardiovascular disease rate fell -51.0% — the strongest evidence that
+    targeted intervention works. Substance use disorders rate rose +54.6% even after
+    controlling for population growth — more than double mental disorders' +20.4% rate
     increase — confirming substance use disorders as the most rapidly worsening category by
     this measure, with mental disorders a close and substantial second.
     </div>
@@ -1392,11 +1404,8 @@ elif page == "👥 Population Projections (2025–2040)":
     <div class="highlight-box">
     <b>Key Finding:</b> Alberta's 65+ population is projected to grow by <b>+47.8%</b> by 2040 — the
     fastest rate of any of the ten provinces, nearly double the next-fastest, Prince Edward Island
-    (+27.3%) and Saskatchewan (+25.7%). Three of the four Atlantic provinces (Nova Scotia, New
-    Brunswick, and Newfoundland and Labrador) show the slowest projected growth, ranging from
-    +16.8% to +18.5%; Prince Edward Island, the fourth Atlantic province, shows notably higher
-    projected growth (+27.3%), despite its existing community-care capacity pressures (see
-    Hospitalization Burden & ALC page).
+    (+27.3%) and Saskatchewan (+25.7%). The four Atlantic provinces show the slowest projected growth,
+    ranging from +16.8% to +27.3%.
     </div>
     """, unsafe_allow_html=True)
 
@@ -1515,7 +1524,7 @@ elif page == "🏥 Hospitalization Burden & ALC":
         st.markdown(f"Canada (excl. Quebec) overall: **{alc_canada_df['Patient Days in ALC (%)'].iloc[0]:.1f}%** "
                     f"across {alc_canada_df['Hospitalizations (2024-25)'].iloc[0]:,} hospitalizations. "
                     "Quebec is excluded — its ALC definition is structurally narrower than the one used "
-                    "in the other nine provinces (see paper Limitations). The Canada total also includes "
+                    "in the other nine provinces (see paper Section 2.4). The Canada total also includes "
                     "Yukon, Northwest Territories, and Nunavut, which are not shown as separate rows.")
 
         st.markdown("""
