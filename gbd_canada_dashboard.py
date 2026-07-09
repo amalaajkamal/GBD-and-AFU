@@ -1392,8 +1392,11 @@ elif page == "👥 Population Projections (2025–2040)":
     <div class="highlight-box">
     <b>Key Finding:</b> Alberta's 65+ population is projected to grow by <b>+47.8%</b> by 2040 — the
     fastest rate of any of the ten provinces, nearly double the next-fastest, Prince Edward Island
-    (+27.3%) and Saskatchewan (+25.7%). The four Atlantic provinces show the slowest projected growth,
-    ranging from +16.8% to +27.3%.
+    (+27.3%) and Saskatchewan (+25.7%). Three of the four Atlantic provinces (Nova Scotia, New
+    Brunswick, and Newfoundland and Labrador) show the slowest projected growth, ranging from
+    +16.8% to +18.5%; Prince Edward Island, the fourth Atlantic province, shows notably higher
+    projected growth (+27.3%), despite its existing community-care capacity pressures (see
+    Hospitalization Burden & ALC page).
     </div>
     """, unsafe_allow_html=True)
 
@@ -1512,7 +1515,7 @@ elif page == "🏥 Hospitalization Burden & ALC":
         st.markdown(f"Canada (excl. Quebec) overall: **{alc_canada_df['Patient Days in ALC (%)'].iloc[0]:.1f}%** "
                     f"across {alc_canada_df['Hospitalizations (2024-25)'].iloc[0]:,} hospitalizations. "
                     "Quebec is excluded — its ALC definition is structurally narrower than the one used "
-                    "in the other nine provinces (see paper Section 2.4). The Canada total also includes "
+                    "in the other nine provinces (see paper Limitations). The Canada total also includes "
                     "Yukon, Northwest Territories, and Nunavut, which are not shown as separate rows.")
 
         st.markdown("""
